@@ -28,9 +28,11 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="2">
             <Button x:Name="Info"
-                    Content="О программе" />
+                    Content="О программе"
+                    Click="Info_Click" />
             <Button x:Name="Settings"
-                    Content="Настройки" />
+                    Content="Настройки"
+                    Click="Settings_Click" />
         </StackPanel>
 
         <StackPanel Orientation="Vertical"

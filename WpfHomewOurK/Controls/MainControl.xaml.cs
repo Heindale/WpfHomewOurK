@@ -53,5 +53,14 @@ namespace WpfHomewOurK
 		{
 			MainFrame.Navigate(new StatisticPage());
 		}
+
+		private void Info_Click(object sender, System.Windows.RoutedEventArgs e)
+		{
+		}
+
+		private void Settings_Click(object sender, System.Windows.RoutedEventArgs e)
+		{
+			MainFrame.Navigate(new SettingsPage());
+		}
 	}
 }
