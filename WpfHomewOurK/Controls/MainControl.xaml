@@ -57,10 +57,13 @@
                     Content="Статистика"
                     Click="Statistic_Click" />
         </StackPanel>
-        <Frame x:Name="MainFrame"
-               NavigationUIVisibility="Hidden"
-               Grid.Row="1"
-               Grid.Column="1"
-               Background="#E8E8E8" />
+        <ScrollViewer Grid.Column="1"
+                      Grid.Row="1">
+            <Frame x:Name="MainFrame"
+                   NavigationUIVisibility="Hidden"
+                   Grid.Row="1"
+                   Grid.Column="1"
+                   Background="#E8E8E8" />
+        </ScrollViewer>
     </Grid>
 </UserControl>

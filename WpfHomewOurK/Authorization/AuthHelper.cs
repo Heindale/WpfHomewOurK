@@ -1,6 +1,7 @@
 ﻿using HomewOurK.Domain.Entities;
 using Newtonsoft.Json;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Windows;
@@ -10,6 +11,7 @@ namespace WpfHomewOurK.Authorization
 	internal class AuthHelper
 	{
 		private readonly MainWindow _mainWindow;
+		private string _cookie;
 
 		public bool IsAuthorize { get; set; }
 
@@ -18,6 +20,17 @@ namespace WpfHomewOurK.Authorization
 			_mainWindow = mainWindow;
 			string jsonText = File.ReadAllText(_mainWindow.path);
 			DeserializeUser(jsonText);
+		}
+
+		public AuthUser? DeserializeAuthUser(string authUser)
+		{
+			AuthUser? desUser = JsonConvert.DeserializeObject<AuthUser>(authUser);
+			if (desUser == null)
+			{
+				IsAuthorize = false;
+				return null;
+			}
+			return desUser;
 		}
 
 		public User? DeserializeUser(string authUser)
@@ -45,7 +58,10 @@ namespace WpfHomewOurK.Authorization
 		{
 			try
 			{
-				using var client = new HttpClient();
+				var cookieContainer = new CookieContainer();
+				using var handler = new HttpClientHandler { CookieContainer = cookieContainer };
+
+				using var client = new HttpClient(handler);
 
 				var url = "https://localhost:7228/api/Users/Login";
 				var data = JsonConvert.SerializeObject(user); // JSON строка
@@ -56,6 +72,19 @@ namespace WpfHomewOurK.Authorization
 				if (response.IsSuccessStatusCode)
 				{
 					IsAuthorize = true;
+
+					// Получение cookie из ответа и сохранение их в CookieContainer
+					foreach (Cookie cookie in cookieContainer.GetCookies(new Uri("https://localhost:7228")))
+					{
+						if (cookie.Name == ".AspNetCore.Cookies")
+						{
+							string cookieValue = cookie.Value;
+							// Используйте значение cookie по вашему усмотрению
+							//Console.WriteLine($"Value of .AspNetCore.Cookies: {cookieValue}");
+							_cookie = cookieValue;
+						}
+					}
+
 					_mainWindow.MainContent.Content = new MainControl(_mainWindow);
 				}
 				else
@@ -76,7 +105,8 @@ namespace WpfHomewOurK.Authorization
 				{
 					Authorize = IsAuthorize,
 					Email = user.Email,
-					Password = user.Password
+					Password = user.Password,
+					Cookie = _cookie
 				};
 
 				var jsonUser = JsonConvert.SerializeObject(authUser);
@@ -91,6 +121,7 @@ namespace WpfHomewOurK.Authorization
 	{
 		public string? Email { get; set; }
 		public string? Password { get; set; }
+		public string? Cookie { get; set; }
 		public bool Authorize { get; set; }
 	}
 }

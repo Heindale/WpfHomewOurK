@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using WpfHomewOurK.Pages;
 
 namespace WpfHomewOurK
@@ -56,6 +55,7 @@ namespace WpfHomewOurK
 
 		private void Info_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
+			MainFrame.Navigate(new InfoPage());
 		}
 
 		private void Settings_Click(object sender, System.Windows.RoutedEventArgs e)
