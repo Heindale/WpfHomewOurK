@@ -1,6 +1,7 @@
 ﻿using HomewOurK.Domain.Entities;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Security.Policy;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +14,7 @@ namespace WpfHomewOurK
 	public partial class RegControl : UserControl
 	{
 		private readonly MainWindow _mainWindow;
+		private const string _urlPath = "api/Users/Register";
 
 		public RegControl(MainWindow mainWindow)
 		{
@@ -39,31 +41,16 @@ namespace WpfHomewOurK
 
 		private async void AddUserAsync(User user)
 		{
-			try
+			HttpHelper<User> httpHelper = new HttpHelper<User>(_mainWindow, _urlPath);
+
+			var response = await httpHelper.SendContentAsync(user);
+
+			if (response != null)
 			{
-				using var client = new HttpClient();
-
-				var url = "https://localhost:7228/api/Users/Register";
-				var data = JsonConvert.SerializeObject(user); // JSON строка
-				var reqContent = new StringContent(data, Encoding.UTF8, "application/json");
-
-				var response = await client.PostAsync(url, reqContent).ConfigureAwait(true);
-
-				if (response.IsSuccessStatusCode)
-				{
-					var authControl = new AuthControl(_mainWindow);
-					authControl.Login.Text = Login.Text;
-					authControl.Password.Password = Password.Password;
-					_mainWindow.MainContent.Content = authControl;
-				}
-				else
-				{
-					MessageBox.Show($"Error: {response}");
-				}
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show($"Exception: {ex.Message}");
+				var authControl = new AuthControl(_mainWindow);
+				authControl.Login.Text = Login.Text;
+				authControl.Password.Password = Password.Password;
+				_mainWindow.MainContent.Content = authControl;
 			}
 		}
 	}

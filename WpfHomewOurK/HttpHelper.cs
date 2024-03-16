@@ -27,6 +27,36 @@ namespace WpfHomewOurK
 			_urlPath = urlPath;
 		}
 
+		public async Task<HttpResponseMessage?> SendContentAsync(T entity)
+		{
+			try
+			{
+				_entity = entity;
+				using var client = new HttpClient();
+
+				var url = $"{_mainWindow.url}{_urlPath}";
+				var data = JsonConvert.SerializeObject(_entity); // JSON строка
+				var reqContent = new StringContent(data, Encoding.UTF8, "application/json");
+
+				var response = await client.PostAsync(url, reqContent).ConfigureAwait(true);
+
+				if (response.IsSuccessStatusCode)
+				{
+					return response;
+				}
+				else
+				{
+					MessageBox.Show($"Error: {response}");
+					return response;
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Exception: {ex.Message}");
+				return null;
+			}
+		}
+
 		public async Task<T?> GetContentAsync()
 		{
 			try
