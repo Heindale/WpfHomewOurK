@@ -97,6 +97,44 @@ namespace WpfHomewOurK
 			}
 		}
 
+		public async Task<HttpResponseMessage?> DeleteReqAsync()
+		{
+			try
+			{
+				var cookieContainer = new CookieContainer();
+				string jsonText = File.ReadAllText(_mainWindow.path);
+				var authHelper = new AuthHelper(_mainWindow);
+				var authUser = authHelper.DeserializeAuthUser(jsonText);
+
+				var cookieValue = authUser != null ? authUser.Cookie : "";
+
+				cookieContainer.Add(new Uri(_mainWindow.url), new Cookie(".AspNetCore.Cookies", cookieValue));
+				var handler = new HttpClientHandler() { CookieContainer = cookieContainer };
+				using var client = new HttpClient(handler);
+
+				var url = $"{_mainWindow.url}{_urlPath}";
+				var data = JsonConvert.SerializeObject(_entity); // JSON строка
+				var reqContent = new StringContent(data, Encoding.UTF8, "application/json");
+
+				var response = await client.DeleteAsync(url).ConfigureAwait(true);
+
+				if (response.IsSuccessStatusCode)
+				{
+					return response;
+				}
+				else
+				{
+					MessageBox.Show($"Error: {response}");
+					return response;
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Exception: {ex.Message}");
+				return null;
+			}
+		}
+
 		public async Task<T?> GetReqAsync()
 		{
 			try

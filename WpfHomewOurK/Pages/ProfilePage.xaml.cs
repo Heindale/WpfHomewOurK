@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -74,6 +75,8 @@ namespace WpfHomewOurK.Pages
 			{
 				LoadProfileInfoAsync();
 			}
+
+			MessageBox.Show("Данные были изменены", "Изменение данных", MessageBoxButton.OK, MessageBoxImage.Information);
 		}
 
 		private void Edit_Click(object sender, RoutedEventArgs e)
@@ -81,17 +84,26 @@ namespace WpfHomewOurK.Pages
 			EditUserAsync();
 		}
 
-		private void Delete_Click(object sender, RoutedEventArgs e)
+		private async void DeleteUserAsync(object sender, RoutedEventArgs e)
 		{
 			MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить аккаунт?", "Удаление аккаунта", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
 			if (result == MessageBoxResult.Yes)
 			{
-				MessageBox.Show("Аккаунт удален");
+				HttpHelper<User> httpHelper = new HttpHelper<User>(_mainWindow, _baseUsersUrl);
+				var response = await httpHelper.DeleteReqAsync();
+				if (response != null)
+				{
+					MessageBox.Show("Аккаунт удален", "Удаление аккаунта", MessageBoxButton.OK, MessageBoxImage.Information);
+					Logout_Click(sender, e);
+				}
+				else
+					MessageBox.Show("Аккаунт не был удален", "Удаление аккаунта", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 			}
-			else
-			{
-				MessageBox.Show("Аккаунт не удален");
-			}
+		}
+
+		private void Delete_Click(object sender, RoutedEventArgs e)
+		{
+			DeleteUserAsync(sender, e);
 		}
 	}
 }
