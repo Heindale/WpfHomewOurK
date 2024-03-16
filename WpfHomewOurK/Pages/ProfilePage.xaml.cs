@@ -27,12 +27,12 @@ namespace WpfHomewOurK.Pages
 	public partial class ProfilePage : Page
 	{
 		private readonly MainWindow _mainWindow;
+		private const string _urlPath = "api/Users/GetUser";
 
 		public ProfilePage(MainWindow mainWindow)
 		{
 			InitializeComponent();
 			_mainWindow = mainWindow;
-
 			LoadProfileInfoAsync();
 		}
 
@@ -43,47 +43,17 @@ namespace WpfHomewOurK.Pages
 
 		private async void LoadProfileInfoAsync()
 		{
-			try
+			HttpHelper<User> httpHelper = new HttpHelper<User>(_mainWindow, _urlPath);
+			var userTask = httpHelper.GetContentAsync();
+
+			User? user = await userTask;
+
+			if (user != null)
 			{
-				var cookieContainer = new CookieContainer();
-				string jsonText = File.ReadAllText(_mainWindow.path);
-				var authHelper = new AuthHelper(_mainWindow);
-				var authUser = authHelper.DeserializeAuthUser(jsonText);
-
-				var cookieValue = authUser != null ? authUser.Cookie : "";
-
-				cookieContainer.Add(new Uri("https://localhost:7228/"), new Cookie(".AspNetCore.Cookies", cookieValue));
-				var handler = new HttpClientHandler() { CookieContainer = cookieContainer };
-				using var client = new HttpClient(handler);
-
-				var response = await client.GetAsync("https://localhost:7228/api/Groups").ConfigureAwait(true);
-
-				if (response.IsSuccessStatusCode)
-				{
-					var content = await response.Content.ReadAsStringAsync().ConfigureAwait(true);
-
-					// Десериализация JSON в объект Groups
-					var groups = JsonConvert.DeserializeObject<List<Group>>(content);
-
-					// Добавьте свой код для работы с полученными данными (groups)
-					string gs = "";
-					if (groups != null)
-					{
-						foreach (var group in groups)
-						{
-							gs += "\n" + group.Name + "\n" + group.Id + "\n" + group.GroupType + "\n" + group.Grade + "\n----------------------------------\n";
-						}
-					}
-					TestTextBlock.Text = gs;
-				}
-				else
-				{
-					MessageBox.Show($"Error: {response}");
-				}
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show($"Exception: {ex.Message}");
+				Firstname.Text = user.Firstname;
+				Surname.Text = user.Surname;
+				Username.Text = user.Username;
+				Email.Text = user.Email;
 			}
 		}
 	}

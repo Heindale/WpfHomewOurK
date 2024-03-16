@@ -21,6 +21,7 @@ namespace WpfHomewOurK
 	{
 		public bool isAuthorize = false;
 		public readonly string path = "..\\..\\..\\Authorization\\User.json";
+		public readonly string url = "https://localhost:7228/";
 
 		public MainWindow()
 		{
