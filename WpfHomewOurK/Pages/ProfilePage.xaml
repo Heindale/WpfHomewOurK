@@ -30,15 +30,18 @@
             <StackPanel Orientation="Horizontal">
                 <Label Content="Электронная почта" />
                 <TextBox x:Name="Email"
+                         IsReadOnly="True"
                          Text="Ваша почта" />
             </StackPanel>
             <Button x:Name="Edit"
-                    Content="Изменить данные" />
+                    Content="Изменить данные"
+                    Click="Edit_Click" />
             <Button x:Name="Logout"
                     Content="Выйти"
                     Click="Logout_Click" />
             <Button x:Name="Delete"
-                    Content="Удалить аккаунт" />
+                    Content="Удалить аккаунт"
+                    Click="Delete_Click" />
         </StackPanel>
     </Grid>
 </Page>

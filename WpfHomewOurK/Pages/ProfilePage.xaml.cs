@@ -27,7 +27,8 @@ namespace WpfHomewOurK.Pages
 	public partial class ProfilePage : Page
 	{
 		private readonly MainWindow _mainWindow;
-		private const string _urlPath = "api/Users/GetUser";
+		private const string _getUserUrl = "api/Users/GetUser";
+		private const string _baseUsersUrl = "api/Users";
 
 		public ProfilePage(MainWindow mainWindow)
 		{
@@ -38,13 +39,14 @@ namespace WpfHomewOurK.Pages
 
 		private void Logout_Click(object sender, RoutedEventArgs e)
 		{
+			File.WriteAllText(_mainWindow.path, string.Empty);
 			_mainWindow.MainContent.Content = new AuthControl(_mainWindow);
 		}
 
 		private async void LoadProfileInfoAsync()
 		{
-			HttpHelper<User> httpHelper = new HttpHelper<User>(_mainWindow, _urlPath);
-			var userTask = httpHelper.GetContentAsync();
+			HttpHelper<User> httpHelper = new HttpHelper<User>(_mainWindow, _getUserUrl);
+			var userTask = httpHelper.GetReqAsync();
 
 			User? user = await userTask;
 
@@ -54,6 +56,41 @@ namespace WpfHomewOurK.Pages
 				Surname.Text = user.Surname;
 				Username.Text = user.Username;
 				Email.Text = user.Email;
+			}
+		}
+
+		private async void EditUserAsync()
+		{
+			HttpHelper<User> httpHelper = new HttpHelper<User>(_mainWindow, _baseUsersUrl);
+			var response = await httpHelper.PatchReqAsync(new User
+			{
+				Email = Email.Text,
+				Firstname = Firstname.Text,
+				Surname = Surname.Text,
+				Username = Username.Text,
+			});
+
+			if (response != null)
+			{
+				LoadProfileInfoAsync();
+			}
+		}
+
+		private void Edit_Click(object sender, RoutedEventArgs e)
+		{
+			EditUserAsync();
+		}
+
+		private void Delete_Click(object sender, RoutedEventArgs e)
+		{
+			MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить аккаунт?", "Удаление аккаунта", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+			if (result == MessageBoxResult.Yes)
+			{
+				MessageBox.Show("Аккаунт удален");
+			}
+			else
+			{
+				MessageBox.Show("Аккаунт не удален");
 			}
 		}
 	}

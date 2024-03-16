@@ -43,7 +43,7 @@ namespace WpfHomewOurK
 		{
 			HttpHelper<User> httpHelper = new HttpHelper<User>(_mainWindow, _urlPath);
 
-			var response = await httpHelper.SendContentAsync(user);
+			var response = await httpHelper.PostReqAsync(user);
 
 			if (response != null)
 			{
