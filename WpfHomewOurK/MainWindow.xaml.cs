@@ -57,74 +57,80 @@ namespace WpfHomewOurK
 
 		private async void LoadGroupsAsync()
 		{
+			User? user;
+
 			using (ApplicationContext context = new ApplicationContext())
 			{
 				HttpHelper<User> httpUserHelper = new HttpHelper<User>(this, _getUserUrl);
 				var userTask = httpUserHelper.GetReqAsync();
-				User? user = await userTask;
-
-				if (user != null)
-				{
-					userId = user.Id;
-
-					var httpGroupHelper = new HttpHelper<List<Group>>(this, _getGroupsUrl + userId.ToString());
-					var groupsTask = httpGroupHelper.GetReqAsync();
-					List<Group>? groups = await groupsTask;
-
-					if (groups != null)
-					{
-						var localGroups = context.Groups.ToList();
-
-						foreach (var group in groups)
-						{
-							if (localGroups.FirstOrDefault(g => g.Id == group.Id) == null)
-							{
-								context.Groups.Add(group);
-								addedNewPost = true;
-							}
-						}
-					}
-
-					var httpTeacherHelper = new HttpHelper<List<Teacher>>(this, _getTeachersUrl + userId.ToString());
-					var teachersTask = httpTeacherHelper.GetReqAsync();
-					List<Teacher>? teachers = await teachersTask;
-
-					if (teachers != null)
-					{
-						var localTeachers = context.Teachers.ToList();
-
-						foreach (var teacher in teachers)
-						{
-							if (localTeachers.FirstOrDefault(t => t.Id == teacher.Id && t.GroupId == teacher.GroupId) == null)
-							{
-								context.Teachers.Add(teacher);
-								addedNewPost = true;
-							}
-						}
-					}
-
-					var httpSubjectHelper = new HttpHelper<List<Subject>>(this, _getSubjectsUrl + userId.ToString());
-					var subjectsTask = httpSubjectHelper.GetReqAsync();
-					List<Subject>? subjects = await subjectsTask;
-
-					if (subjects != null)
-					{
-						var localSubjects = context.Subjects.ToList();
-
-						foreach (var subject in subjects)
-						{
-							if (localSubjects.FirstOrDefault(t => t.Id == subject.Id && t.GroupId == subject.GroupId) == null)
-							{
-								context.Subjects.Add(subject);
-								addedNewPost = true;
-							}
-						}
-					}
-				}
-				if (addedNewPost)
-					context.SaveChanges();
+				user = await userTask;
 			}
-			addedNewPost = false;
+
+			if (user != null)
+			{
+				userId = user.Id;
+
+				LoadDataFromDb loadDataFromDb = new LoadDataFromDb(this);
+
+				loadDataFromDb.LoadBaseEntityAsync<Group>(_getGroupsUrl, userId.ToString());
+				//var httpGroupHelper = new HttpHelper<List<Group>>(this, _getGroupsUrl + userId.ToString());
+				//var groupsTask = httpGroupHelper.GetReqAsync();
+				//List<Group>? groups = await groupsTask;
+
+				//if (groups != null)
+				//{
+				//	var localGroups = context.Groups.ToList();
+
+				//	foreach (var group in groups)
+				//	{
+				//		if (localGroups.FirstOrDefault(g => g.Id == group.Id) == null)
+				//		{
+				//			context.Groups.Add(group);
+				//			addedNewPost = true;
+				//		}
+				//	}
+				//}
+
+				//var httpTeacherHelper = new HttpHelper<List<Teacher>>(this, _getTeachersUrl + userId.ToString());
+				//var teachersTask = httpTeacherHelper.GetReqAsync();
+				//List<Teacher>? teachers = await teachersTask;
+
+				//if (teachers != null)
+				//{
+				//	var localTeachers = context.Teachers.ToList();
+
+				//	foreach (var teacher in teachers)
+				//	{
+				//		if (localTeachers.FirstOrDefault(t => t.Id == teacher.Id && t.GroupId == teacher.GroupId) == null)
+				//		{
+				//			context.Teachers.Add(teacher);
+				//			addedNewPost = true;
+				//		}
+				//	}
+				//}
+
+				//var httpSubjectHelper = new HttpHelper<List<Subject>>(this, _getSubjectsUrl + userId.ToString());
+				//var subjectsTask = httpSubjectHelper.GetReqAsync();
+				//List<Subject>? subjects = await subjectsTask;
+
+				//if (subjects != null)
+				//{
+				//	var localSubjects = context.Subjects.ToList();
+
+				//	foreach (var subject in subjects)
+				//	{
+				//		if (localSubjects.FirstOrDefault(t => t.Id == subject.Id && t.GroupId == subject.GroupId) == null)
+				//		{
+				//			context.Subjects.Add(subject);
+				//			addedNewPost = true;
+				//		}
+				//	}
+				//}
+			}
+			//if (addedNewPost)
+			//	context.SaveChanges();
+
+			//addedNewPost = false;
 		}
 
 		//Тестовый метод получения списка групп
