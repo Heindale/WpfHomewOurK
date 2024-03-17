@@ -1,4 +1,9 @@
-﻿using System.Windows.Controls;
+﻿using HomewOurK.Domain.Entities;
+using Newtonsoft.Json;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using WpfHomewOurK.Authorization;
 using WpfHomewOurK.Pages;
 
 namespace WpfHomewOurK
@@ -10,10 +15,26 @@ namespace WpfHomewOurK
 	{
 		private readonly MainWindow _mainWindow;
 
+		private List<Group> _groups;
+
 		public MainControl(MainWindow mainWindow)
 		{
 			InitializeComponent();
 			_mainWindow = mainWindow;
+
+			using (var context = new ApplicationContext())
+			{
+				_groups = context.Groups.ToList();
+			}
+			Groups.ItemsSource = _groups;
+
+			string jsonText = File.ReadAllText(_mainWindow.path);
+			AuthUser? desUser = JsonConvert.DeserializeObject<AuthUser>(jsonText);
+
+			if (desUser != null && desUser.LastGroupId > 0)
+			{
+				Groups.SelectedItem = _groups.First(g => g.Id == desUser.LastGroupId);
+			}
 
 			MainFrame.Navigate(new MainPage());
 		}
@@ -66,6 +87,26 @@ namespace WpfHomewOurK
 		private void AddHomework_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
 			MainFrame.Navigate(new AddHomeworkPage());
+		}
+
+		private void Groups_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (Groups.SelectedItem != null)
+			{
+				string jsonText = File.ReadAllText(_mainWindow.path);
+				AuthUser? desUser = JsonConvert.DeserializeObject<AuthUser>(jsonText);
+
+				if (desUser != null)
+				{
+					Group selectedObject = (Group)Groups.SelectedItem;
+
+					desUser.LastGroupId = selectedObject.Id;
+				}
+
+				var jsonUser = JsonConvert.SerializeObject(desUser);
+				using var sw = new StreamWriter(_mainWindow.path);
+				sw.Write(jsonUser);
+			}
 		}
 	}
 }

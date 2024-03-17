@@ -123,5 +123,6 @@ namespace WpfHomewOurK.Authorization
 		public string? Password { get; set; }
 		public string? Cookie { get; set; }
 		public bool Authorize { get; set; }
+		public int LastGroupId { get; set; }
 	}
 }

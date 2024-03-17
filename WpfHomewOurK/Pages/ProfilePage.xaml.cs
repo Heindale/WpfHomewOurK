@@ -41,6 +41,13 @@ namespace WpfHomewOurK.Pages
 		private void Logout_Click(object sender, RoutedEventArgs e)
 		{
 			File.WriteAllText(_mainWindow.path, string.Empty);
+
+			using (var context = new ApplicationContext())
+			{
+				context.Groups.RemoveRange(context.Groups);
+				context.SaveChanges();
+			}
+
 			_mainWindow.MainContent.Content = new AuthControl(_mainWindow);
 		}
 
