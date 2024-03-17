@@ -20,8 +20,11 @@ namespace WpfHomewOurK
 	public partial class MainWindow : Window
 	{
 		public bool isAuthorize = false;
+		private const string _getUserUrl = "api/Users/GetUser";
+		private const string _getGroupsUrl = "api/Groups/GetGroups?userId=";
 		public readonly string path = "..\\..\\..\\Authorization\\User.json";
 		public readonly string url = "https://localhost:7228/";
+		public int userId;
 
 		public MainWindow()
 		{
@@ -44,9 +47,34 @@ namespace WpfHomewOurK
 				{
 					authHelper.AuthUserAsync(user);
 					MainContent.Content = new MainControl(this);
+					LoadGroupsAsync();
 				}
 			}
-			//LoadGroupsAsync();
+		}
+
+		private async void LoadGroupsAsync()
+		{
+			using (ApplicationContext context = new ApplicationContext())
+			{
+				HttpHelper<User> httpHelper = new HttpHelper<User>(this, _getUserUrl);
+				var userTask = httpHelper.GetReqAsync();
+				User? user = await userTask;
+
+				if (user != null)
+				{
+					userId = user.Id;
+
+					var httpHelper2 = new HttpHelper<List<Group>>(this, _getGroupsUrl + userId.ToString());
+					var groupsTask = httpHelper2.GetReqAsync();
+					List<Group>? groups = await groupsTask;
+
+					if (groups != null)
+					{
+						context.Groups.AddRange(groups);
+						context.SaveChanges();
+					}
+				}
+			}
 		}
 
 		//Тестовый метод получения списка групп

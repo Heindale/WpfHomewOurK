@@ -1,5 +1,6 @@
 ﻿using HomewOurK.Domain.Common;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace HomewOurK.Domain.Entities
@@ -18,6 +19,7 @@ namespace HomewOurK.Domain.Entities
 
 		[JsonIgnore]
 		public List<User> Users { get; set; } = [];
+
 		[JsonIgnore]
 		public List<GroupsUsers> GroupsUsers { get; set; } = [];
 	}

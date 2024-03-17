@@ -62,5 +62,10 @@ namespace WpfHomewOurK
 		{
 			MainFrame.Navigate(new SettingsPage());
 		}
+
+		private void AddHomework_Click(object sender, System.Windows.RoutedEventArgs e)
+		{
+			MainFrame.Navigate(new AddHomeworkPage());
+		}
 	}
 }

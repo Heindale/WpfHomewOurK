@@ -22,6 +22,15 @@
                 HorizontalAlignment="Left"
                 Click="Profile_Click" />
 
+        <StackPanel HorizontalAlignment="Left"
+                    Orientation="Horizontal"
+                    Grid.Column="1">
+            <Label Content="Текущая группа" />
+            <ComboBox x:Name="Groups">
+                <ComboBoxItem Content="Локальная группа" />
+            </ComboBox>
+        </StackPanel>
+
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Right"
                     Grid.Row="0"
@@ -53,6 +62,9 @@
             <Button x:Name="Oral"
                     Content="Устное"
                     Click="Oral_Click" />
+            <Button x:Name="AddHomework"
+                    Content="Добавить задание"
+                    Click="AddHomework_Click" />
             <Button x:Name="Statistic"
                     Content="Статистика"
                     Click="Statistic_Click" />
