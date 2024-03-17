@@ -16,11 +16,5 @@ namespace HomewOurK.Domain.Entities
 
 		[StringLength(25)]
 		public string? GroupType { get; set; }
-
-		[JsonIgnore]
-		public List<User> Users { get; set; } = [];
-
-		[JsonIgnore]
-		public List<GroupsUsers> GroupsUsers { get; set; } = [];
 	}
 }

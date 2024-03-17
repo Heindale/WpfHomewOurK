@@ -28,11 +28,5 @@ namespace HomewOurK.Domain.Entities
 		public int GroupsCount { get; protected set; }
 
 		public DateOnly RegistrationDate { get; protected set; } = DateOnly.FromDateTime(DateTime.UtcNow);
-
-		[JsonIgnore]
-		public List<Group> Groups { get; set; } = [];
-
-		[JsonIgnore]
-		public List<GroupsUsers> GroupsUsers { get; set; } = [];
 	}
 }
