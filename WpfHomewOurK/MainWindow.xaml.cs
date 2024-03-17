@@ -56,21 +56,28 @@ namespace WpfHomewOurK
 		{
 			using (ApplicationContext context = new ApplicationContext())
 			{
-				HttpHelper<User> httpHelper = new HttpHelper<User>(this, _getUserUrl);
-				var userTask = httpHelper.GetReqAsync();
+				HttpHelper<User> httpUserHelper = new HttpHelper<User>(this, _getUserUrl);
+				var userTask = httpUserHelper.GetReqAsync();
 				User? user = await userTask;
 
 				if (user != null)
 				{
 					userId = user.Id;
 
-					var httpHelper2 = new HttpHelper<List<Group>>(this, _getGroupsUrl + userId.ToString());
-					var groupsTask = httpHelper2.GetReqAsync();
+					var httpGroupHelper = new HttpHelper<List<Group>>(this, _getGroupsUrl + userId.ToString());
+					var groupsTask = httpGroupHelper.GetReqAsync();
 					List<Group>? groups = await groupsTask;
 
 					if (groups != null)
 					{
-						context.Groups.AddRange(groups);
+						var localGroups = context.Groups.ToList();
+
+						foreach (var group in groups)
+						{
+							if (localGroups.FirstOrDefault(g => g.Id == group.Id) == null)
+								context.Groups.Add(group);
+						}
+
 						context.SaveChanges();
 					}
 				}
