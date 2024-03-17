@@ -23,5 +23,12 @@ namespace WpfHomewOurK
 
 			optionsBuilder.UseSqlite($"Data Source={filePath}");
 		}
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			//modelBuilder.Entity<Teacher>()
+			//	.HasMany(c => c.Subjects)
+			//	.WithMany(s => s.Teachers);
+		}
 	}
 }

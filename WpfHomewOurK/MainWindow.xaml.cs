@@ -1,15 +1,6 @@
 ﻿using HomewOurK.Domain.Entities;
 using System.IO;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WpfHomewOurK.Authorization;
 
 namespace WpfHomewOurK
@@ -71,43 +62,11 @@ namespace WpfHomewOurK
 				userId = user.Id;
 
 				LoadDataFromDb loadDataFromDb = new LoadDataFromDb(this);
-
 				loadDataFromDb.LoadBaseEntityAsync<Group>(_getGroupsUrl, userId.ToString());
-				//var httpGroupHelper = new HttpHelper<List<Group>>(this, _getGroupsUrl + userId.ToString());
-				//var groupsTask = httpGroupHelper.GetReqAsync();
-				//List<Group>? groups = await groupsTask;
 
-				//if (groups != null)
-				//{
-				//	var localGroups = context.Groups.ToList();
+				loadDataFromDb.LoadGroupElementEntityAsync<Teacher>(_getTeachersUrl, 1.ToString());
 
-				//	foreach (var group in groups)
-				//	{
-				//		if (localGroups.FirstOrDefault(g => g.Id == group.Id) == null)
-				//		{
-				//			context.Groups.Add(group);
-				//			addedNewPost = true;
-				//		}
-				//	}
-				//}
-
-				//var httpTeacherHelper = new HttpHelper<List<Teacher>>(this, _getTeachersUrl + userId.ToString());
-				//var teachersTask = httpTeacherHelper.GetReqAsync();
-				//List<Teacher>? teachers = await teachersTask;
-
-				//if (teachers != null)
-				//{
-				//	var localTeachers = context.Teachers.ToList();
-
-				//	foreach (var teacher in teachers)
-				//	{
-				//		if (localTeachers.FirstOrDefault(t => t.Id == teacher.Id && t.GroupId == teacher.GroupId) == null)
-				//		{
-				//			context.Teachers.Add(teacher);
-				//			addedNewPost = true;
-				//		}
-				//	}
-				//}
+				loadDataFromDb.LoadGroupElementEntityAsync<Subject>(_getSubjectsUrl, 1.ToString());
 
 				//var httpSubjectHelper = new HttpHelper<List<Subject>>(this, _getSubjectsUrl + userId.ToString());
 				//var subjectsTask = httpSubjectHelper.GetReqAsync();
@@ -127,47 +86,6 @@ namespace WpfHomewOurK
 				//	}
 				//}
 			}
-			//if (addedNewPost)
-			//	context.SaveChanges();
-
-			//addedNewPost = false;
 		}
-
-		//Тестовый метод получения списка групп
-		//private  async void LoadGroupsAsync()
-		//{
-		//	try
-		//	{
-		//		using var client = new HttpClient();
-		//		var response = await client.GetAsync("https://localhost:7228/api/Groups").ConfigureAwait(true);
-
-		//		if (response.IsSuccessStatusCode)
-		//		{
-		//			var content = await response.Content.ReadAsStringAsync().ConfigureAwait(true);
-
-		//			// Десериализация JSON в объект Groups
-		//			var groups = JsonConvert.DeserializeObject<List<Group>>(content);
-
-		//			// Добавьте свой код для работы с полученными данными (groups)
-		//			string gs = "";
-		//			if (groups != null)
-		//			{
-		//				foreach (var group in groups)
-		//				{
-		//					gs += "\n" + group.Name + "\n" + group.Id + "\n" + group.GroupType + "\n" + group.Grade + "\n----------------------------------\n";
-		//				}
-		//			}
-		//			//TestTextBlock.Text = gs;
-		//		}
-		//		else
-		//		{
-		//			MessageBox.Show($"Error: {response.StatusCode}");
-		//		}
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		MessageBox.Show($"Exception: {ex.Message}");
-		//	}
-		//}
 	}
 }
