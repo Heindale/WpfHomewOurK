@@ -1,4 +1,5 @@
 ﻿using HomewOurK.Domain.Entities;
+using Newtonsoft.Json;
 using System.IO;
 using System.Windows;
 using WpfHomewOurK.Authorization;
@@ -15,10 +16,20 @@ namespace WpfHomewOurK
 		private const string _getGroupsUrl = "api/Groups/GetGroups?userId=";
 		private const string _getTeachersUrl = "api/Teachers/GetTeachers?groupId=";
 		private const string _getSubjectsUrl = "api/Subjects/GetSubjects?groupId=";
+		private const string _getAttachmentsUrl = "api/Attachments/GetAttachments?groupId=";
+		private const string _getHomeworksUrl = "api/Homeworks/GetHomeworks?groupId=";
+		public string[] paths =
+					{
+						_getUserUrl,
+						_getGroupsUrl,
+						_getTeachersUrl,
+						_getSubjectsUrl,
+						_getAttachmentsUrl,
+						_getHomeworksUrl
+					};
 		public readonly string path = "..\\..\\..\\Authorization\\User.json";
 		public readonly string url = "https://localhost:7228/";
 		public int userId;
-		private bool addedNewPost = false;
 
 		public MainWindow()
 		{
@@ -40,8 +51,19 @@ namespace WpfHomewOurK
 				else
 				{
 					authHelper.AuthUserAsync(user);
-					MainContent.Content = new MainControl(this);
-					LoadGroupsAsync();
+					var mainControl = new MainControl(this);
+					MainContent.Content = mainControl;
+
+					string jsonText1 = File.ReadAllText(path);
+					AuthUser? desUser = JsonConvert.DeserializeObject<AuthUser>(jsonText1);
+					if (desUser != null && desUser.LastGroupId > 0)
+					{
+						mainControl.Groups.SelectedItem = mainControl._groups.First(g => g.Id == desUser.LastGroupId);
+					}					
+
+					LoadDataFromDb loadDataFromDb = new LoadDataFromDb(this);
+					loadDataFromDb.LoadDataAsync(paths);
+					//LoadGroupsAsync();
 				}
 			}
 		}
@@ -64,26 +86,15 @@ namespace WpfHomewOurK
 				LoadDataFromDb loadDataFromDb = new LoadDataFromDb(this);
 				loadDataFromDb.LoadBaseEntityAsync<Group>(_getGroupsUrl, userId.ToString());
 
-				loadDataFromDb.LoadGroupElementEntityAsync<Teacher>(_getTeachersUrl, 1.ToString());
-
-				loadDataFromDb.LoadGroupElementEntityAsync<Subject>(_getSubjectsUrl, 1.ToString());
-
-				//var httpSubjectHelper = new HttpHelper<List<Subject>>(this, _getSubjectsUrl + userId.ToString());
-				//var subjectsTask = httpSubjectHelper.GetReqAsync();
-				//List<Subject>? subjects = await subjectsTask;
-
-				//if (subjects != null)
+				//var groups = loadDataFromDb.Groups;
+				//int groupId;
+				//foreach (var group in groups)
 				//{
-				//	var localSubjects = context.Subjects.ToList();
-
-				//	foreach (var subject in subjects)
-				//	{
-				//		if (localSubjects.FirstOrDefault(t => t.Id == subject.Id && t.GroupId == subject.GroupId) == null)
-				//		{
-				//			context.Subjects.Add(subject);
-				//			addedNewPost = true;
-				//		}
-				//	}
+				//	groupId = group.Id;
+				//	loadDataFromDb.LoadGroupElementEntityAsync<Teacher>(_getTeachersUrl, groupId.ToString());
+				//	loadDataFromDb.LoadGroupElementEntityAsync<Subject>(_getSubjectsUrl, groupId.ToString());
+				//	loadDataFromDb.LoadGroupElementEntityAsync<Attachment>(_getAttachmentsUrl, groupId.ToString());
+				//	loadDataFromDb.LoadGroupElementEntityAsync<Homework>(_getHomeworksUrl, groupId.ToString());
 				//}
 			}
 		}

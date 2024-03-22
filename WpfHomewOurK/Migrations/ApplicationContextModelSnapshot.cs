@@ -46,7 +46,7 @@ namespace WpfHomewOurK.Migrations
 
                     b.HasIndex("SubjectId", "SubjectGroupId");
 
-                    b.ToTable("Attachments");
+                    b.ToTable("Attachments", (string)null);
                 });
 
             modelBuilder.Entity("HomewOurK.Domain.Entities.Group", b =>
@@ -68,7 +68,7 @@ namespace WpfHomewOurK.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Groups", (string)null);
                 });
 
             modelBuilder.Entity("HomewOurK.Domain.Entities.Homework", b =>
@@ -111,7 +111,7 @@ namespace WpfHomewOurK.Migrations
 
                     b.HasIndex("SubjectId", "SubjectGroupId");
 
-                    b.ToTable("Homeworks");
+                    b.ToTable("Homeworks", (string)null);
                 });
 
             modelBuilder.Entity("HomewOurK.Domain.Entities.Subject", b =>
@@ -131,7 +131,7 @@ namespace WpfHomewOurK.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("Subjects");
+                    b.ToTable("Subjects", (string)null);
                 });
 
             modelBuilder.Entity("HomewOurK.Domain.Entities.Teacher", b =>
@@ -151,7 +151,7 @@ namespace WpfHomewOurK.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("Teachers");
+                    b.ToTable("Teachers", (string)null);
                 });
 
             modelBuilder.Entity("SubjectTeacher", b =>
@@ -172,7 +172,7 @@ namespace WpfHomewOurK.Migrations
 
                     b.HasIndex("TeachersId", "TeachersGroupId");
 
-                    b.ToTable("SubjectTeacher");
+                    b.ToTable("SubjectTeacher", (string)null);
                 });
 
             modelBuilder.Entity("HomewOurK.Domain.Entities.Attachment", b =>

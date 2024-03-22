@@ -15,7 +15,7 @@ namespace WpfHomewOurK
 	{
 		private readonly MainWindow _mainWindow;
 
-		private List<Group> _groups;
+		public List<Group> _groups;
 
 		public MainControl(MainWindow mainWindow)
 		{
@@ -30,7 +30,6 @@ namespace WpfHomewOurK
 
 			string jsonText = File.ReadAllText(_mainWindow.path);
 			AuthUser? desUser = JsonConvert.DeserializeObject<AuthUser>(jsonText);
-
 			if (desUser != null && desUser.LastGroupId > 0)
 			{
 				Groups.SelectedItem = _groups.First(g => g.Id == desUser.LastGroupId);
