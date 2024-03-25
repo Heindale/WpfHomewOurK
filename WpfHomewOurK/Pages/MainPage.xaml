@@ -10,8 +10,10 @@
       Title="MainPage">
 
     <Grid>
-        <Label Content="Список домашек главной страницы"
-               Grid.Column="1"
-               Grid.Row="1" />
+        <StackPanel x:Name="HomeworksStackPanel">
+            <Label Content="Список домашек главной страницы"
+                   Grid.Column="1"
+                   Grid.Row="1" />
+        </StackPanel>
     </Grid>
 </Page>

@@ -13,7 +13,8 @@
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Предмет" />
-                <ComboBox x:Name="Subjects">
+                <ComboBox x:Name="Subjects"
+                          SelectionChanged="Subjects_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}" />
@@ -21,7 +22,6 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </StackPanel>
-
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Категория" />
                 <ComboBox x:Name="Importances"
@@ -32,8 +32,15 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-
             </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Задание" />
+                <TextBox x:Name="Description"
+                         Width="113" />
+            </StackPanel>
+            <Button x:Name="Create"
+                    Content="Создать"
+                    Click="Create_Click" />
         </StackPanel>
     </Grid>
 </Page>

@@ -25,12 +25,17 @@ namespace WpfHomewOurK.Pages
 		public List<Subject> subjects;
 		public Dictionary<string, Importance> importances;
 
+		private MainWindow _mainWindow;
 		private int _groupId;
+		private int _subjectId;
+		private int _homeworkId;
+		private Importance _importance;
 
-		public EditAddHomeworkPage(int groupId)
+		public EditAddHomeworkPage(MainWindow mainWindow, int groupId)
 		{
 			InitializeComponent();
 			_groupId = groupId;
+			_mainWindow = mainWindow;
 
 			using (var context = new ApplicationContext())
 			{
@@ -40,7 +45,7 @@ namespace WpfHomewOurK.Pages
 
 			importances = new Dictionary<string, Importance>
 			{
-				{ "Без категории", Importance.Undefined},
+				{"Без категории", Importance.Undefined},
 				{"Устное", Importance.Oral },
 				{"Письменное", Importance.Written },
 				{"Важное", Importance.Important }
@@ -58,9 +63,36 @@ namespace WpfHomewOurK.Pages
 			// Получаем соответствующее значение из словаря, если ключ был выбран
 			if (selectedKey != null && importances.TryGetValue(selectedKey, out Importance importance))
 			{
-				// Делаем что-то с полученным значением
-				MessageBox.Show($"Выбранное значение: {importance}, GroupId: {_groupId}");
+				_importance = importance;
 			}
+		}
+
+		private void Create_Click(object sender, RoutedEventArgs e)
+		{
+			var homework = new Homework
+			{
+				Description = Description.Text,
+				GroupId = _groupId,
+				SubjectId = _subjectId,
+				Importance = _importance
+			};
+
+			AddHomework(homework);
+		}
+
+		private void Subjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (Subjects.SelectedItem != null)
+			{
+				Subject selectedSubject = (Subject)Subjects.SelectedItem;
+				_subjectId = selectedSubject.Id;
+			}
+		}
+
+		private async void AddHomework(Homework homework)
+		{
+			var httpHelper = new HttpHelper<Homework>(_mainWindow, "api/Homeworks");
+			await httpHelper.PostReqAuthAsync(homework);
 		}
 	}
 }

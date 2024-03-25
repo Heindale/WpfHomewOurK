@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using WpfHomewOurK.Authorization;
+using WpfHomewOurK.Controls;
 using WpfHomewOurK.Pages;
 
 namespace WpfHomewOurK
@@ -35,7 +36,7 @@ namespace WpfHomewOurK
 				Groups.SelectedItem = _groups.First(g => g.Id == desUser.LastGroupId);
 			}
 
-			MainFrame.Navigate(new MainPage());
+			LoadMainPage();
 		}
 
 		private void Groups_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -58,21 +59,39 @@ namespace WpfHomewOurK
 			}
 		}
 
+		private void Main_Click(object sender, System.Windows.RoutedEventArgs e)
+		{
+			LoadMainPage();
+		}
+
+		private void LoadMainPage()
+		{
+			MainPage mainPage = new MainPage();
+
+			using (ApplicationContext context = new ApplicationContext())
+			{
+				List<Homework> homeworks = context.Homeworks.ToList();
+
+				foreach (Homework homework in homeworks)
+				{
+					HomeworkControl homeworkControl = new HomeworkControl(homework.Description);
+					mainPage.HomeworksStackPanel.Children.Add(homeworkControl);
+				}
+			}
+
+			MainFrame.Navigate(mainPage);
+		}
+
 		private void AddHomework_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
 			Group selectedObject = (Group)Groups.SelectedItem;
 
-			MainFrame.Navigate(new EditAddHomeworkPage(selectedObject.Id));
+			MainFrame.Navigate(new EditAddHomeworkPage(_mainWindow, selectedObject.Id));
 		}
 
 		private void Profile_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
 			MainFrame.Navigate(new ProfilePage(_mainWindow));
-		}
-
-		private void Main_Click(object sender, System.Windows.RoutedEventArgs e)
-		{
-			MainFrame.Navigate(new MainPage());
 		}
 
 		private void Urgent_Click(object sender, System.Windows.RoutedEventArgs e)
