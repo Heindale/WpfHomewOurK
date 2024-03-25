@@ -58,6 +58,13 @@ namespace WpfHomewOurK
 			}
 		}
 
+		private void AddHomework_Click(object sender, System.Windows.RoutedEventArgs e)
+		{
+			Group selectedObject = (Group)Groups.SelectedItem;
+
+			MainFrame.Navigate(new EditAddHomeworkPage(selectedObject.Id));
+		}
+
 		private void Profile_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
 			MainFrame.Navigate(new ProfilePage(_mainWindow));
@@ -101,11 +108,6 @@ namespace WpfHomewOurK
 		private void Settings_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
 			MainFrame.Navigate(new SettingsPage());
-		}
-
-		private void AddHomework_Click(object sender, System.Windows.RoutedEventArgs e)
-		{
-			MainFrame.Navigate(new AddHomeworkPage());
 		}
 	}
 }
