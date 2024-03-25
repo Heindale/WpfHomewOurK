@@ -16,10 +16,10 @@ namespace WpfHomewOurK
 		public LoadDataFromDb(MainWindow mainWindow)
 		{
 			_mainWindow = mainWindow;
-			
+
 		}
 
-		public async void LoadDataAsync(string[] paths)
+		public async Task LoadDataAsync(string[] paths)
 		{
 			User? user;
 
@@ -28,20 +28,21 @@ namespace WpfHomewOurK
 				HttpHelper<User> httpUserHelper = new HttpHelper<User>(_mainWindow, paths[0]);
 				var userTask = httpUserHelper.GetReqAsync();
 				user = await userTask;
-				
+
 			}
-				
+
 			if (user != null)
 			{
 				await LoadBaseEntityAsync<Group>(paths[1], user.Id.ToString());
 
-				foreach (var groupId in GroupsId)
-				{
-					LoadGroupElementEntityAsync<Teacher>(paths[2], groupId.ToString());
-					LoadGroupElementEntityAsync<Subject>(paths[3], groupId.ToString());
-					LoadGroupElementEntityAsync<Attachment>(paths[4], groupId.ToString());
-					LoadGroupElementEntityAsync<Homework>(paths[5], groupId.ToString());
-				};
+				if (GroupsId != null && GroupsId.Count > 0)
+					foreach (var groupId in GroupsId)
+					{
+						LoadGroupElementEntityAsync<Teacher>(paths[2], groupId.ToString());
+						LoadGroupElementEntityAsync<Subject>(paths[3], groupId.ToString());
+						LoadGroupElementEntityAsync<Attachment>(paths[4], groupId.ToString());
+						LoadGroupElementEntityAsync<Homework>(paths[5], groupId.ToString());
+					};
 			}
 		}
 

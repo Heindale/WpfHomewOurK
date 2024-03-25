@@ -1,10 +1,12 @@
 ﻿using HomewOurK.Domain.Entities;
 using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Windows;
+using System.Windows.Shapes;
 
 namespace WpfHomewOurK.Authorization
 {
@@ -54,7 +56,7 @@ namespace WpfHomewOurK.Authorization
 			return user;
 		}
 
-		public async void AuthUserAsync(User user)
+		public async Task<bool> AuthUserAsync(User user)
 		{
 			try
 			{
@@ -85,34 +87,44 @@ namespace WpfHomewOurK.Authorization
 						}
 					}
 
-					_mainWindow.MainContent.Content = new MainControl(_mainWindow);
+					//_mainWindow.MainContent.Content = new MainControl(_mainWindow);
 				}
 				else
 				{
 					MessageBox.Show($"Error: {response} \n  {data}");
 					IsAuthorize = false;
 				}
+				return IsAuthorize;
 			}
 			catch (Exception ex)
 			{
 				MessageBox.Show($"Exception: {ex.Message}");
 				IsAuthorize = false;
+				return IsAuthorize;
 			}
 			finally
 			{
 				_mainWindow.isAuthorize = IsAuthorize;
+
+				string jsonText1 = File.ReadAllText(_mainWindow.path);
+				AuthUser? desUser = JsonConvert.DeserializeObject<AuthUser>(jsonText1);
+
+				int lastGroupId = desUser != null ? desUser.LastGroupId : 0;
+
 				var authUser = new AuthUser
 				{
 					Authorize = IsAuthorize,
 					Email = user.Email,
 					Password = user.Password,
-					Cookie = _cookie
+					Cookie = _cookie,
+					LastGroupId = lastGroupId
 				};
 
 				var jsonUser = JsonConvert.SerializeObject(authUser);
 
 				using var sw = new StreamWriter(_mainWindow.path);
 				sw.Write(jsonUser);
+
 			}
 		}
 	}

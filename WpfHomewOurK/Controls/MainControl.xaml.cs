@@ -38,6 +38,26 @@ namespace WpfHomewOurK
 			MainFrame.Navigate(new MainPage());
 		}
 
+		private void Groups_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (Groups.SelectedItem != null)
+			{
+				string jsonText = File.ReadAllText(_mainWindow.path);
+				AuthUser? desUser = JsonConvert.DeserializeObject<AuthUser>(jsonText);
+
+				if (desUser != null)
+				{
+					Group selectedObject = (Group)Groups.SelectedItem;
+
+					desUser.LastGroupId = selectedObject.Id;
+				}
+
+				var jsonUser = JsonConvert.SerializeObject(desUser);
+				using var sw = new StreamWriter(_mainWindow.path);
+				sw.Write(jsonUser);
+			}
+		}
+
 		private void Profile_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
 			MainFrame.Navigate(new ProfilePage(_mainWindow));
@@ -86,26 +106,6 @@ namespace WpfHomewOurK
 		private void AddHomework_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
 			MainFrame.Navigate(new AddHomeworkPage());
-		}
-
-		private void Groups_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			if (Groups.SelectedItem != null)
-			{
-				string jsonText = File.ReadAllText(_mainWindow.path);
-				AuthUser? desUser = JsonConvert.DeserializeObject<AuthUser>(jsonText);
-
-				if (desUser != null)
-				{
-					Group selectedObject = (Group)Groups.SelectedItem;
-
-					desUser.LastGroupId = selectedObject.Id;
-				}
-
-				var jsonUser = JsonConvert.SerializeObject(desUser);
-				using var sw = new StreamWriter(_mainWindow.path);
-				sw.Write(jsonUser);
-			}
 		}
 	}
 }

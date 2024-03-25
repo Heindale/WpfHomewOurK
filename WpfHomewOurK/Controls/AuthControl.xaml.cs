@@ -20,8 +20,16 @@ namespace WpfHomewOurK
 
 		private void LoginButton_Click(object sender, RoutedEventArgs e)
 		{
+			LoginAsync();
+		}
+
+		private async void LoginAsync()
+		{
+			LoadDataFromDb loadDataFromDb = new LoadDataFromDb(_mainWindow);
+			await loadDataFromDb.LoadDataAsync(_mainWindow.paths);
+
 			var authHelper = new AuthHelper(_mainWindow);
-			authHelper.AuthUserAsync(new User
+			bool isAuth = await authHelper.AuthUserAsync(new User
 			{
 				Email = Login.Text,
 				Password = Password.Password,
@@ -29,6 +37,18 @@ namespace WpfHomewOurK
 				Firstname = "qwerty",
 				Surname = "qwerty"
 			});
+			if (isAuth)
+			{
+				MainWindow mainWindow = new MainWindow();
+				mainWindow.Top = _mainWindow.Top;
+				mainWindow.Left = _mainWindow.Left;
+				mainWindow.Width = _mainWindow.Width;
+				mainWindow.Height = _mainWindow.Height;
+				mainWindow.WindowState = _mainWindow.WindowState;
+				mainWindow.MainContent.Content = new MainControl(_mainWindow);
+				mainWindow.Show();
+				_mainWindow.Close();
+			}
 		}
 
 		private void RegisterButton_Click(object sender, RoutedEventArgs e)

@@ -35,11 +35,16 @@ namespace WpfHomewOurK
 		{
 			InitializeComponent();
 
-			var authHelper = new AuthHelper(this);
+			UpdateDataFromLocalDb(this);
+		}
+
+		public void UpdateDataFromLocalDb(MainWindow mainWindow)
+		{
+			var authHelper = new AuthHelper(mainWindow);
 			isAuthorize = authHelper.IsAuthorize;
 
 			if (!isAuthorize)
-				MainContent.Content = new AuthControl(this);
+				MainContent.Content = new AuthControl(mainWindow);
 			else
 			{
 				string jsonText = File.ReadAllText(path);
@@ -47,24 +52,27 @@ namespace WpfHomewOurK
 				User? user = authHelper.DeserializeUser(jsonText);
 
 				if (user == null || !authHelper.IsAuthorize)
-					MainContent.Content = new AuthControl(this);
+					MainContent.Content = new AuthControl(mainWindow);
 				else
 				{
-					authHelper.AuthUserAsync(user);
-					var mainControl = new MainControl(this);
-					MainContent.Content = mainControl;
-
-					string jsonText1 = File.ReadAllText(path);
-					AuthUser? desUser = JsonConvert.DeserializeObject<AuthUser>(jsonText1);
-					if (desUser != null && desUser.LastGroupId > 0)
-					{
-						mainControl.Groups.SelectedItem = mainControl._groups.First(g => g.Id == desUser.LastGroupId);
-					}					
-
-					LoadDataFromDb loadDataFromDb = new LoadDataFromDb(this);
-					loadDataFromDb.LoadDataAsync(paths);
-					//LoadGroupsAsync();
+					UserIsAuthorized(authHelper, user);
 				}
+			}
+		}
+
+		private async void UserIsAuthorized(AuthHelper authHelper, User user)
+		{
+
+			LoadDataFromDb loadDataFromDb = new LoadDataFromDb(this);
+			await loadDataFromDb.LoadDataAsync(paths);
+			string jsonText1 = File.ReadAllText(path);
+			AuthUser? desUser = JsonConvert.DeserializeObject<AuthUser>(jsonText1);
+			await authHelper.AuthUserAsync(user);
+			var mainControl = new MainControl(this);
+			MainContent.Content = mainControl;
+			if (desUser != null && desUser.LastGroupId > 0)
+			{
+				mainControl.Groups.SelectedItem = mainControl._groups.First(g => g.Id == desUser.LastGroupId);
 			}
 		}
 
