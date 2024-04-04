@@ -11,6 +11,7 @@
         <StackPanel Orientation="Horizontal">
             <TextBlock x:Name="HomeworkDescription"
                        FontSize="30" />
+            <TextBlock x:Name="Deadline" />
         </StackPanel>
     </Grid>
 </UserControl>

@@ -26,16 +26,19 @@ namespace WpfHomewOurK.Pages
 		public Dictionary<string, Importance> importances;
 
 		private MainWindow _mainWindow;
+		private MainControl _mainControl;
 		private int _groupId;
 		private int _subjectId;
 		private int _homeworkId;
 		private Importance _importance;
+		private DateTime? _deadline;
 
-		public EditAddHomeworkPage(MainWindow mainWindow, int groupId)
+		public EditAddHomeworkPage(MainWindow mainWindow, MainControl mainControl, int groupId)
 		{
 			InitializeComponent();
 			_groupId = groupId;
 			_mainWindow = mainWindow;
+			_mainControl = mainControl;
 
 			using (var context = new ApplicationContext())
 			{
@@ -69,13 +72,15 @@ namespace WpfHomewOurK.Pages
 
 		private void Create_Click(object sender, RoutedEventArgs e)
 		{
+
 			var homework = new Homework
 			{
 				Description = Description.Text,
 				GroupId = _groupId,
 				SubjectId = _subjectId,
-				Importance = _importance
-			};
+				Importance = _importance,
+				Deadline = _deadline != null ? DateTime.SpecifyKind((DateTime)_deadline, DateTimeKind.Utc) : null
+		};
 
 			AddHomework(homework);
 		}
@@ -93,6 +98,13 @@ namespace WpfHomewOurK.Pages
 		{
 			var httpHelper = new HttpHelper<Homework>(_mainWindow, "api/Homeworks");
 			await httpHelper.PostReqAuthAsync(homework);
+			_mainWindow.UpdateDataFromLocalDb(_mainWindow);
+			_mainControl.LoadMainPage();
+		}
+
+		private void DeadlineDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+		{
+			_deadline = DeadlineDatePicker.SelectedDate;
 		}
 	}
 }

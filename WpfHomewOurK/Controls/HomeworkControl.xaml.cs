@@ -21,12 +21,20 @@ namespace WpfHomewOurK.Controls
 	public partial class HomeworkControl : UserControl
 	{
 		public string Title { get; set; }
+		public string DeadlineTitle { get; set; }
+		private bool expired = false;
 
-		public HomeworkControl(string title)
+		public HomeworkControl(string title, DateTime deadline)
 		{
 			InitializeComponent();
 			Title = title;
 			HomeworkDescription.Text = Title;
+			if (deadline < DateTime.UtcNow)
+				expired = true;
+			DeadlineTitle = deadline != new DateTime() ? "до " + deadline.ToShortDateString() : "";
+			Deadline.Text = DeadlineTitle;
+			if (expired)
+				Deadline.Foreground = Brushes.Red;
 		}
 	}
 }

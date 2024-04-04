@@ -1,4 +1,5 @@
 ﻿using HomewOurK.Domain.Entities;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 using Newtonsoft.Json;
 using System.IO;
 using System.Windows;
@@ -64,18 +65,32 @@ namespace WpfHomewOurK
 			LoadMainPage();
 		}
 
-		private void LoadMainPage()
+		public void LoadMainPage()
 		{
 			MainPage mainPage = new MainPage();
 
 			using (ApplicationContext context = new ApplicationContext())
 			{
-				List<Homework> homeworks = context.Homeworks.ToList();
+				var groupingHomeworks = context.Homeworks.Where(h => !h.Done).GroupBy(h => h.SubjectId);
 
-				foreach (Homework homework in homeworks)
+				foreach (var homeworks in groupingHomeworks)
 				{
-					HomeworkControl homeworkControl = new HomeworkControl(homework.Description);
-					mainPage.HomeworksStackPanel.Children.Add(homeworkControl);
+					if (homeworks.Any())
+					{
+						var subject = context.Subjects
+							.FirstOrDefault(s => s.Id == homeworks.First().SubjectId);
+
+						mainPage.HomeworksStackPanel.Children.Add(new TextBlock()
+						{
+							Text = subject != null ? subject.Name : ""
+						});
+
+						foreach (Homework homework in homeworks)
+						{
+							HomeworkControl homeworkControl = new HomeworkControl(homework.Description, homework.Deadline ?? new DateTime());
+							mainPage.HomeworksStackPanel.Children.Add(homeworkControl);
+						}
+					}
 				}
 			}
 
@@ -86,7 +101,7 @@ namespace WpfHomewOurK
 		{
 			Group selectedObject = (Group)Groups.SelectedItem;
 
-			MainFrame.Navigate(new EditAddHomeworkPage(_mainWindow, selectedObject.Id));
+			MainFrame.Navigate(new EditAddHomeworkPage(_mainWindow, this, selectedObject.Id));
 		}
 
 		private void Profile_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -96,22 +111,102 @@ namespace WpfHomewOurK
 
 		private void Urgent_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
-			MainFrame.Navigate(new UrgentPage());
+			LoadUrgentPage();
+		}
+
+		public void LoadUrgentPage()
+		{
+			UrgentPage urgentPage = new UrgentPage();
+
+			using (ApplicationContext context = new ApplicationContext())
+			{
+				List<Homework> homeworks = context.Homeworks
+					.Where(h => !h.Done && h.Deadline != null)
+					.OrderBy(h => h.Deadline).ToList();
+
+				foreach (Homework homework in homeworks)
+				{
+					HomeworkControl homeworkControl = new HomeworkControl(homework.Description, homework.Deadline ?? new DateTime());
+					urgentPage.HomeworksStackPanel.Children.Add(homeworkControl);
+
+				}
+			}
+
+			MainFrame.Navigate(urgentPage);
 		}
 
 		private void Important_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
-			MainFrame.Navigate(new ImportantPage());
+			LoadImportantPage();
+		}
+
+		public void LoadImportantPage()
+		{
+			ImportantPage importantPage = new ImportantPage();
+
+			using (ApplicationContext context = new ApplicationContext())
+			{
+				List<Homework> homeworks = context.Homeworks
+					.Where(h => !h.Done && h.Importance == Importance.Important).ToList();
+
+				foreach (Homework homework in homeworks)
+				{
+					HomeworkControl homeworkControl = new HomeworkControl(homework.Description, homework.Deadline ?? new DateTime());
+					importantPage.HomeworksStackPanel.Children.Add(homeworkControl);
+
+				}
+			}
+
+			MainFrame.Navigate(importantPage);
 		}
 
 		private void Written_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
-			MainFrame.Navigate(new WrittenPage());
+			LoadWrittenPage();
+		}
+
+		public void LoadWrittenPage()
+		{
+			WrittenPage writtenPage = new WrittenPage();
+
+			using (ApplicationContext context = new ApplicationContext())
+			{
+				List<Homework> homeworks = context.Homeworks
+					.Where(h => !h.Done && h.Importance == Importance.Written).ToList();
+
+				foreach (Homework homework in homeworks)
+				{
+					HomeworkControl homeworkControl = new HomeworkControl(homework.Description, homework.Deadline ?? new DateTime());
+					writtenPage.HomeworksStackPanel.Children.Add(homeworkControl);
+
+				}
+			}
+
+			MainFrame.Navigate(writtenPage);
 		}
 
 		private void Oral_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
-			MainFrame.Navigate(new OralPage());
+			LoadOralPage();
+		}
+
+		public void LoadOralPage()
+		{
+			OralPage oralPage = new OralPage();
+
+			using (ApplicationContext context = new ApplicationContext())
+			{
+				List<Homework> homeworks = context.Homeworks
+					.Where(h => !h.Done && h.Importance == Importance.Oral).ToList();
+
+				foreach (Homework homework in homeworks)
+				{
+					HomeworkControl homeworkControl = new HomeworkControl(homework.Description, homework.Deadline ?? new DateTime());
+					oralPage.HomeworksStackPanel.Children.Add(homeworkControl);
+				}
+			}
+
+			MainFrame.Navigate(oralPage);
 		}
 
 		private void Statistic_Click(object sender, System.Windows.RoutedEventArgs e)

@@ -10,6 +10,10 @@
       Title="ImportantPage">
 
     <Grid>
-        <Label>список важной домашки</Label>
+        <StackPanel x:Name="HomeworksStackPanel">
+            <Label Content="Список важной домашки"
+                   Grid.Column="1"
+                   Grid.Row="1" />
+        </StackPanel>
     </Grid>
 </Page>

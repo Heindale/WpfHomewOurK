@@ -38,6 +38,13 @@
                 <TextBox x:Name="Description"
                          Width="113" />
             </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Конечная дата" />
+                <DatePicker Name="DeadlineDatePicker"
+                            IsDropDownOpen="True"
+                            SelectedDateFormat="Short"
+                            SelectedDateChanged="DeadlineDatePicker_SelectedDateChanged" />
+            </StackPanel>
             <Button x:Name="Create"
                     Content="Создать"
                     Click="Create_Click" />
