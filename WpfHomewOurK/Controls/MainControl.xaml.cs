@@ -36,7 +36,7 @@ namespace WpfHomewOurK
 			if (desUser != null && desUser.LastGroupId > 0)
 			{
 				Groups.SelectedItem = _groups.First(g => g.Id == desUser.LastGroupId);
-			}
+			}			
 
 			LoadMainPage();
 		}
@@ -89,7 +89,8 @@ namespace WpfHomewOurK
 
 						foreach (Homework homework in homeworks)
 						{
-							HomeworkControl homeworkControl = new HomeworkControl(homework.Description, homework.Deadline ?? new DateTime());
+							HomeworkControl homeworkControl = new HomeworkControl(homework, this);
+							homeworkControl.Category = 0;
 							mainPage.HomeworksStackPanel.Children.Add(homeworkControl);
 						}
 					}
@@ -104,6 +105,14 @@ namespace WpfHomewOurK
 			Group selectedObject = (Group)Groups.SelectedItem;
 
 			MainFrame.Navigate(new EditAddHomeworkPage(_mainWindow, this, selectedObject.Id));
+		}
+
+		public void EditHomework(Homework homework)
+		{
+			Group selectedObject = (Group)Groups.SelectedItem;
+			var editPage = new EditAddHomeworkPage(_mainWindow, this, selectedObject.Id);
+			editPage.Edit(homework);
+			MainFrame.Navigate(editPage);
 		}
 
 		private void Profile_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -128,9 +137,9 @@ namespace WpfHomewOurK
 
 				foreach (Homework homework in homeworks)
 				{
-					HomeworkControl homeworkControl = new HomeworkControl(homework.Description, homework.Deadline ?? new DateTime());
+					HomeworkControl homeworkControl = new HomeworkControl(homework, this);
+					homeworkControl.Category = 1;
 					urgentPage.HomeworksStackPanel.Children.Add(homeworkControl);
-
 				}
 			}
 
@@ -153,9 +162,9 @@ namespace WpfHomewOurK
 
 				foreach (Homework homework in homeworks)
 				{
-					HomeworkControl homeworkControl = new HomeworkControl(homework.Description, homework.Deadline ?? new DateTime());
+					HomeworkControl homeworkControl = new HomeworkControl(homework, this);
+					homeworkControl.Category = 2;
 					importantPage.HomeworksStackPanel.Children.Add(homeworkControl);
-
 				}
 			}
 
@@ -178,9 +187,9 @@ namespace WpfHomewOurK
 
 				foreach (Homework homework in homeworks)
 				{
-					HomeworkControl homeworkControl = new HomeworkControl(homework.Description, homework.Deadline ?? new DateTime());
+					HomeworkControl homeworkControl = new HomeworkControl(homework, this);
+					homeworkControl.Category = 3;
 					writtenPage.HomeworksStackPanel.Children.Add(homeworkControl);
-
 				}
 			}
 
@@ -203,7 +212,8 @@ namespace WpfHomewOurK
 
 				foreach (Homework homework in homeworks)
 				{
-					HomeworkControl homeworkControl = new HomeworkControl(homework.Description, homework.Deadline ?? new DateTime());
+					HomeworkControl homeworkControl = new HomeworkControl(homework, this);
+					homeworkControl.Category = 4;
 					oralPage.HomeworksStackPanel.Children.Add(homeworkControl);
 				}
 			}

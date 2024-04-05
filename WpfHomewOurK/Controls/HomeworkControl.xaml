@@ -11,6 +11,12 @@
         <StackPanel Orientation="Horizontal">
             <TextBlock x:Name="HomeworkDescription" />
             <TextBlock x:Name="Deadline" />
+            <Button x:Name="DoneButton" 
+                    Content="Сделано"
+                    Click="DoneButton_Click" />
+            <Button x:Name="ChangeButton" 
+                    Content="Редактировать"
+                    Click="ChangeButton_Click" />
         </StackPanel>
     </Grid>
 </UserControl>

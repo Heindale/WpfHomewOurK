@@ -33,6 +33,8 @@ namespace WpfHomewOurK.Pages
 		private Importance _importance;
 		private DateTime? _deadline;
 
+		public Homework Homework { get; set; }
+
 		public EditAddHomeworkPage(MainWindow mainWindow, MainControl mainControl, int groupId)
 		{
 			InitializeComponent();
@@ -58,6 +60,27 @@ namespace WpfHomewOurK.Pages
 			_groupId = groupId;
 		}
 
+		public void Edit(Homework homework)
+		{
+			Description.Text = homework.Description;
+			_groupId = homework.GroupId;
+			_subjectId = homework.SubjectId;
+			_importance = homework.Importance;
+			_deadline = homework.Deadline;
+			var comboSubjects = Subjects.Items;
+			var subjects = new List<Subject>();
+
+			foreach (var subject in comboSubjects)
+			{
+				subjects.Add(subject as Subject);
+			}
+
+			string selectedKey = importances.FirstOrDefault(x => x.Value == _importance).Key;
+			Importances.SelectedItem = selectedKey; 
+			Subjects.SelectedItem = subjects.FirstOrDefault(s => s.Id == _subjectId);			
+			DeadlineDatePicker.Text = _deadline != null ? _deadline.Value.ToShortDateString() : "";
+		}
+
 		private void Importances_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			// Получаем выбранный ключ
@@ -80,7 +103,7 @@ namespace WpfHomewOurK.Pages
 				SubjectId = _subjectId,
 				Importance = _importance,
 				Deadline = _deadline != null ? DateTime.SpecifyKind((DateTime)_deadline, DateTimeKind.Utc) : null
-		};
+			};
 
 			AddHomework(homework);
 		}

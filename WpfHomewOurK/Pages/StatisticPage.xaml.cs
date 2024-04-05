@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Linq;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using HomewOurK.Domain.Entities;
 
 namespace WpfHomewOurK.Pages
 {
@@ -20,9 +9,30 @@ namespace WpfHomewOurK.Pages
 	/// </summary>
 	public partial class StatisticPage : Page
 	{
-		public StatisticPage()
+        public int AllHomeworksCount { get; set; }	
+        public int ImportantHomeworksCount { get; set; }	
+        public int WrittenHomeworksCount { get; set; }	
+        public int OralHomeworksCount { get; set; }	
+        public int UndefindHomeworksCount { get; set; }	
+        public int AllDoneHomeworksCount { get; set; }	
+        public StatisticPage()
 		{
 			InitializeComponent();
+
+			using (var context = new ApplicationContext())
+			{
+				AllHomeworksCount = context.Homeworks.Count(h => h.Done == false);
+				ImportantHomeworksCount = context.Homeworks
+					.Count(h => h.Importance == Importance.Important && h.Done == false);
+				WrittenHomeworksCount = context.Homeworks
+					.Count(h => h.Importance == Importance.Written && h.Done == false);
+				OralHomeworksCount = context.Homeworks
+					.Count(h => h.Importance == Importance.Oral && h.Done == false);
+				UndefindHomeworksCount = context.Homeworks
+					.Count(h => h.Importance == Importance.Undefined && h.Done == false);
+				AllDoneHomeworksCount = context.Homeworks
+					.Count(h => h.Done == true);
+			}
 		}
 	}
 }
