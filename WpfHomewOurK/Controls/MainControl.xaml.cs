@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using WpfHomewOurK.Authorization;
 using WpfHomewOurK.Controls;
 using WpfHomewOurK.Pages;
@@ -82,7 +83,8 @@ namespace WpfHomewOurK
 
 						mainPage.HomeworksStackPanel.Children.Add(new TextBlock()
 						{
-							Text = subject != null ? subject.Name : ""
+							Text = subject != null ? subject.Name : "",
+							FontSize = 25
 						});
 
 						foreach (Homework homework in homeworks)

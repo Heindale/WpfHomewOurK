@@ -41,7 +41,13 @@ namespace WpfHomewOurK
 						LoadGroupElementEntityAsync<Teacher>(paths[2], groupId.ToString());
 						LoadGroupElementEntityAsync<Subject>(paths[3], groupId.ToString());
 						LoadGroupElementEntityAsync<Attachment>(paths[4], groupId.ToString());
-						LoadGroupElementEntityAsync<Homework>(paths[5], groupId.ToString());
+						using (ApplicationContext context = new ApplicationContext())
+						{
+							foreach (var subject in context.Subjects)
+							{
+								LoadSubjectElementEntityAsync<Homework>(paths[5], groupId.ToString(), subject.Id.ToString());
+							}
+						}
 					};
 			}
 		}

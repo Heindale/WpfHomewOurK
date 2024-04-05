@@ -29,9 +29,9 @@ namespace WpfHomewOurK.Controls
 			InitializeComponent();
 			Title = title;
 			HomeworkDescription.Text = Title;
-			if (deadline < DateTime.UtcNow)
+			if (deadline + TimeSpan.FromDays(1) < DateTime.UtcNow)
 				expired = true;
-			DeadlineTitle = deadline != new DateTime() ? "до " + deadline.ToShortDateString() : "";
+			DeadlineTitle = deadline != new DateTime() ? " до " + deadline.ToShortDateString() : "";
 			Deadline.Text = DeadlineTitle;
 			if (expired)
 				Deadline.Foreground = Brushes.Red;

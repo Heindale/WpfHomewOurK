@@ -94,16 +94,15 @@ namespace WpfHomewOurK
 				LoadDataFromDb loadDataFromDb = new LoadDataFromDb(this);
 				loadDataFromDb.LoadBaseEntityAsync<Group>(_getGroupsUrl, userId.ToString());
 
-				//var groups = loadDataFromDb.Groups;
-				//int groupId;
-				//foreach (var group in groups)
-				//{
-				//	groupId = group.Id;
-				//	loadDataFromDb.LoadGroupElementEntityAsync<Teacher>(_getTeachersUrl, groupId.ToString());
-				//	loadDataFromDb.LoadGroupElementEntityAsync<Subject>(_getSubjectsUrl, groupId.ToString());
-				//	loadDataFromDb.LoadGroupElementEntityAsync<Attachment>(_getAttachmentsUrl, groupId.ToString());
-				//	loadDataFromDb.LoadGroupElementEntityAsync<Homework>(_getHomeworksUrl, groupId.ToString());
-				//}
+				var groupsIds = loadDataFromDb.GroupsId;
+				for (int i = 0; i < groupsIds.Count; i++)
+				{
+					var groupId = groupsIds[i];
+					loadDataFromDb.LoadGroupElementEntityAsync<Teacher>(_getTeachersUrl, groupId.ToString());
+					loadDataFromDb.LoadGroupElementEntityAsync<Subject>(_getSubjectsUrl, groupId.ToString());
+					loadDataFromDb.LoadGroupElementEntityAsync<Attachment>(_getAttachmentsUrl, groupId.ToString());
+					loadDataFromDb.LoadGroupElementEntityAsync<Homework>(_getHomeworksUrl, groupId.ToString());
+				}
 			}
 		}
 	}
