@@ -1,7 +1,9 @@
 ﻿using HomewOurK.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -32,8 +34,7 @@ namespace WpfHomewOurK.Pages
 		private int _homeworkId;
 		private Importance _importance;
 		private DateTime? _deadline;
-
-		public Homework Homework { get; set; }
+		public int Category { get; set; }
 
 		public EditAddHomeworkPage(MainWindow mainWindow, MainControl mainControl, int groupId)
 		{
@@ -63,6 +64,7 @@ namespace WpfHomewOurK.Pages
 		public void Edit(Homework homework)
 		{
 			Description.Text = homework.Description;
+			_homeworkId = homework.Id;
 			_groupId = homework.GroupId;
 			_subjectId = homework.SubjectId;
 			_importance = homework.Importance;
@@ -76,8 +78,8 @@ namespace WpfHomewOurK.Pages
 			}
 
 			string selectedKey = importances.FirstOrDefault(x => x.Value == _importance).Key;
-			Importances.SelectedItem = selectedKey; 
-			Subjects.SelectedItem = subjects.FirstOrDefault(s => s.Id == _subjectId);			
+			Importances.SelectedItem = selectedKey;
+			Subjects.SelectedItem = subjects.FirstOrDefault(s => s.Id == _subjectId);
 			DeadlineDatePicker.Text = _deadline != null ? _deadline.Value.ToShortDateString() : "";
 		}
 
@@ -95,7 +97,6 @@ namespace WpfHomewOurK.Pages
 
 		private void Create_Click(object sender, RoutedEventArgs e)
 		{
-
 			var homework = new Homework
 			{
 				Description = Description.Text,
@@ -108,6 +109,43 @@ namespace WpfHomewOurK.Pages
 			AddHomework(homework);
 		}
 
+		private async void AddHomework(Homework homework)
+		{
+			var httpHelper = new HttpHelper<Homework>(_mainWindow, "api/Homeworks");
+			await httpHelper.PostReqAuthAsync(homework);
+			_mainWindow.UpdateDataFromLocalDb(_mainWindow);
+			_mainControl.LoadMainPage();
+		}
+
+		private void Update_Click(object sender, RoutedEventArgs e)
+		{
+			var homework = new Homework
+			{
+				Id = _homeworkId,
+				Description = Description.Text,
+				GroupId = _groupId,
+				SubjectId = _subjectId,
+				Importance = _importance,
+				Deadline = _deadline != null ? DateTime.SpecifyKind((DateTime)_deadline, DateTimeKind.Utc) : null
+			};
+			UpdateHomework(homework);
+		}
+
+		private async void UpdateHomework(Homework homework)
+		{
+			var httpHelper = new HttpHelper<Homework>(_mainWindow, "api/Homeworks");
+			await httpHelper.PatchReqAsync(homework);
+			using (var context = new ApplicationContext())
+			{
+				context.Homeworks.Remove(homework);
+				context.SaveChanges();
+			}
+
+			LoadDataFromDb loadDataFromDb = new LoadDataFromDb(_mainWindow);
+			await loadDataFromDb.LoadDataAsync(_mainWindow.paths);
+			Gobck();
+		}
+
 		private void Subjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (Subjects.SelectedItem != null)
@@ -117,17 +155,32 @@ namespace WpfHomewOurK.Pages
 			}
 		}
 
-		private async void AddHomework(Homework homework)
-		{
-			var httpHelper = new HttpHelper<Homework>(_mainWindow, "api/Homeworks");
-			await httpHelper.PostReqAuthAsync(homework);
-			_mainWindow.UpdateDataFromLocalDb(_mainWindow);
-			_mainControl.LoadMainPage();
-		}
-
 		private void DeadlineDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
 		{
 			_deadline = DeadlineDatePicker.SelectedDate;
+		}
+
+		private void Goback_Click(object sender, RoutedEventArgs e)
+		{
+			Gobck();
+		}
+
+		private void Gobck()
+		{
+			if (NavigationService.CanGoBack)
+			{
+				NavigationService.GoBack();
+			}
+		}
+
+		private void Refrsh()
+		{
+			// Проверяем, доступен ли стек навигации
+			if (NavigationService.CanGoBack)
+			{
+				// Переходим на предыдущий экран
+				NavigationService.Refresh();
+			}
 		}
 	}
 }

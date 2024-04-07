@@ -41,13 +41,19 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Конечная дата" />
                 <DatePicker Name="DeadlineDatePicker"
-                            IsDropDownOpen="True"
+                            IsDropDownOpen="False"
                             SelectedDateFormat="Short"
                             SelectedDateChanged="DeadlineDatePicker_SelectedDateChanged" />
             </StackPanel>
             <Button x:Name="Create"
                     Content="Создать"
                     Click="Create_Click" />
+            <Button x:Name="Update"
+                    Content="Сохранить изменения"
+                    Click="Update_Click" />
+            <Button x:Name="Goback"
+                    Content="Вернуться назад"
+                    Click="Goback_Click" />
         </StackPanel>
     </Grid>
 </Page>

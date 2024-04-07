@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 using Newtonsoft.Json;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -36,7 +37,7 @@ namespace WpfHomewOurK
 			if (desUser != null && desUser.LastGroupId > 0)
 			{
 				Groups.SelectedItem = _groups.First(g => g.Id == desUser.LastGroupId);
-			}			
+			}
 
 			LoadMainPage();
 		}
@@ -72,12 +73,18 @@ namespace WpfHomewOurK
 
 			using (ApplicationContext context = new ApplicationContext())
 			{
-				var groupingHomeworks = context.Homeworks.Where(h => !h.Done).GroupBy(h => h.SubjectId);
+				var contextHomeworks = context.Homeworks
+					.Where(h => !h.Done).OrderByDescending(h => h.CreationDate);
+				var groupingHomeworks = contextHomeworks
+					.GroupBy(h => h.SubjectId)
+					.ToList() // Выполняем запрос и получаем список групп
+					.OrderByDescending(group => group.Max(h => h.CreationDate));
 
-				foreach (var homeworks in groupingHomeworks)
+				foreach (var ghomeworks in groupingHomeworks)
 				{
-					if (homeworks.Any())
+					if (ghomeworks.Any())
 					{
+						var homeworks = ghomeworks.OrderByDescending(h => h.CreationDate);
 						var subject = context.Subjects
 							.FirstOrDefault(s => s.Id == homeworks.First().SubjectId);
 
@@ -107,10 +114,11 @@ namespace WpfHomewOurK
 			MainFrame.Navigate(new EditAddHomeworkPage(_mainWindow, this, selectedObject.Id));
 		}
 
-		public void EditHomework(Homework homework)
+		public void EditHomework(Homework homework, int category)
 		{
 			Group selectedObject = (Group)Groups.SelectedItem;
 			var editPage = new EditAddHomeworkPage(_mainWindow, this, selectedObject.Id);
+			editPage.Category = category;
 			editPage.Edit(homework);
 			MainFrame.Navigate(editPage);
 		}

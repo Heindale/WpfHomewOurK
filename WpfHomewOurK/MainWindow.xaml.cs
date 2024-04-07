@@ -69,7 +69,7 @@ namespace WpfHomewOurK
 			AuthUser? desUser = JsonConvert.DeserializeObject<AuthUser>(jsonText1);
 			await authHelper.AuthUserAsync(user);
 			var mainControl = new MainControl(this);
-			MainContent.Content = mainControl;
+				MainContent.Content = mainControl;
 			if (desUser != null && desUser.LastGroupId > 0)
 			{
 				mainControl.Groups.SelectedItem = mainControl._groups.First(g => g.Id == desUser.LastGroupId);

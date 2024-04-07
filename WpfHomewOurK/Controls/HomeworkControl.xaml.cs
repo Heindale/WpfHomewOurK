@@ -53,6 +53,7 @@ namespace WpfHomewOurK.Controls
 				if (homework != null)
 				{
 					homework.Done = true;
+					homework.CompletedDate = DateTime.UtcNow;
 					context.Homeworks.Update(homework);
 					context.SaveChanges();
 				}
@@ -84,7 +85,7 @@ namespace WpfHomewOurK.Controls
 
 		private void ChangeButton_Click(object sender, RoutedEventArgs e)
 		{
-			_mainControl.EditHomework(Homework);
+			_mainControl.EditHomework(Homework, Category);
 		}
 	}
 }
