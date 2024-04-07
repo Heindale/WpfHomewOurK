@@ -14,5 +14,6 @@
             <Label Content="Список устной домашки"
                    Grid.Column="1"
                    Grid.Row="1" />
-        </StackPanel>    </Grid>
+        </StackPanel>
+    </Grid>
 </Page>

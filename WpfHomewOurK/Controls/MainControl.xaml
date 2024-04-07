@@ -71,7 +71,8 @@
                     Content="Добавить задание"
                     Click="AddHomework_Click" />
             <Button x:Name="Subjects"
-                    Content="Предметы" />
+                    Content="Предметы"
+                    Click="Subjects_Click" />
             <Button x:Name="Teachers"
                     Content="Учителя" />
             <Button x:Name="Statistic"

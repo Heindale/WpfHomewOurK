@@ -243,5 +243,27 @@ namespace WpfHomewOurK
 		{
 			MainFrame.Navigate(new SettingsPage());
 		}
+
+		private void Subjects_Click(object sender, RoutedEventArgs e)
+		{
+			LoadSubjectsPage();
+		}
+		public void LoadSubjectsPage()
+		{
+			SubjectsPage subjectsPage = new SubjectsPage();
+
+			using (ApplicationContext context = new ApplicationContext())
+			{
+				List<Subject> subjects = context.Subjects.ToList();
+
+				foreach (Subject subject in subjects)
+				{
+					SubjectControl subjectControl = new SubjectControl(subject, this);
+					subjectsPage.SubjectsStackPanel.Children.Add(subjectControl);
+				}
+			}
+
+			MainFrame.Navigate(subjectsPage);
+		}
 	}
 }
