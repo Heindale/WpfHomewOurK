@@ -9,6 +9,8 @@ using System.Windows.Documents;
 using WpfHomewOurK.Authorization;
 using WpfHomewOurK.Controls;
 using WpfHomewOurK.Pages;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
 
 namespace WpfHomewOurK
 {
@@ -94,12 +96,25 @@ namespace WpfHomewOurK
 							FontSize = 25
 						});
 
+						var groupSubjStack = new StackPanel()
+						{
+							Background = Brushes.White,
+							Effect = new DropShadowEffect()
+							{
+								 BlurRadius = 10,
+								 ShadowDepth = 3,
+								 Direction = 135+180,
+								 Color = Color.FromRgb(100, 100, 100)
+							}
+						};
+
 						foreach (Homework homework in homeworks)
 						{
 							HomeworkControl homeworkControl = new HomeworkControl(homework, this);
 							homeworkControl.Category = 0;
-							mainPage.HomeworksStackPanel.Children.Add(homeworkControl);
+							groupSubjStack.Children.Add(homeworkControl);
 						}
+						mainPage.HomeworksStackPanel.Children.Add(groupSubjStack);
 					}
 				}
 			}

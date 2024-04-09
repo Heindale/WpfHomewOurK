@@ -1,8 +1,11 @@
 ﻿using HomewOurK.Domain.Entities;
+using MaterialDesignColors;
+using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
 using System.IO;
 using System.Windows;
 using WpfHomewOurK.Authorization;
+using WpfHomewOurK.Controls;
 
 namespace WpfHomewOurK
 {
@@ -30,15 +33,22 @@ namespace WpfHomewOurK
 		public readonly string path = "..\\..\\..\\Authorization\\User.json";
 		public readonly string url = "https://localhost:7228/";
 		public int userId;
+		private bool isLoading = true;
 
 		public MainWindow()
 		{
 			InitializeComponent();
 
-			UpdateDataFromLocalDb(this);
+			InitializeAsync();
 		}
 
-		public void UpdateDataFromLocalDb(MainWindow mainWindow)
+		private async void InitializeAsync()
+		{
+			await UpdateDataFromLocalDb(this);
+			loadingControl.Visibility = Visibility.Collapsed; // Скрываем контрол загрузки после завершения загрузки данных
+		}
+
+		public async Task UpdateDataFromLocalDb(MainWindow mainWindow)
 		{
 			var authHelper = new AuthHelper(mainWindow);
 			isAuthorize = authHelper.IsAuthorize;
@@ -55,12 +65,13 @@ namespace WpfHomewOurK
 					MainContent.Content = new AuthControl(mainWindow);
 				else
 				{
-					UserIsAuthorized(authHelper, user);
+					await UserIsAuthorized(authHelper, user);
 				}
 			}
+			isLoading = false;
 		}
 
-		private async void UserIsAuthorized(AuthHelper authHelper, User user)
+		private async Task UserIsAuthorized(AuthHelper authHelper, User user)
 		{
 
 			LoadDataFromDb loadDataFromDb = new LoadDataFromDb(this);
@@ -69,7 +80,7 @@ namespace WpfHomewOurK
 			AuthUser? desUser = JsonConvert.DeserializeObject<AuthUser>(jsonText1);
 			await authHelper.AuthUserAsync(user);
 			var mainControl = new MainControl(this);
-				MainContent.Content = mainControl;
+			MainContent.Content = mainControl;
 			if (desUser != null && desUser.LastGroupId > 0)
 			{
 				mainControl.Groups.SelectedItem = mainControl._groups.First(g => g.Id == desUser.LastGroupId);

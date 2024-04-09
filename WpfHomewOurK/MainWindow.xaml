@@ -5,11 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfHomewOurK"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:controls="clr-namespace:WpfHomewOurK.Controls"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="HomewOurK"
+        Icon="Images\homework-planing.ico"
+        MinHeight="375"
+        MinWidth="600"
         Height="450"
         Width="800">
     <Grid>
+        <controls:LoadingControl x:Name="loadingControl" />
         <ContentControl x:Name="MainContent" />
     </Grid>
 </Window>

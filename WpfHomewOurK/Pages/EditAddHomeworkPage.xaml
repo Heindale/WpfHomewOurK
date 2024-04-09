@@ -12,7 +12,8 @@
     <Grid>
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Предмет" />
+                <TextBlock Text="Предмет"
+                           VerticalAlignment="Center" />
                 <ComboBox x:Name="Subjects"
                           SelectionChanged="Subjects_SelectionChanged">
                     <ComboBox.ItemTemplate>
@@ -23,7 +24,8 @@
                 </ComboBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Категория" />
+                <TextBlock Text="Категория" 
+                           VerticalAlignment="Center"/>
                 <ComboBox x:Name="Importances"
                           SelectionChanged="Importances_SelectionChanged">
                     <ComboBox.ItemTemplate>
@@ -34,12 +36,14 @@
                 </ComboBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Задание" />
+                <TextBlock Text="Задание"
+                           VerticalAlignment="Center" />
                 <TextBox x:Name="Description"
                          Width="113" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Конечная дата" />
+                <TextBlock Text="Конечная дата"
+                           VerticalAlignment="Center" />
                 <DatePicker Name="DeadlineDatePicker"
                             IsDropDownOpen="False"
                             SelectedDateFormat="Short"

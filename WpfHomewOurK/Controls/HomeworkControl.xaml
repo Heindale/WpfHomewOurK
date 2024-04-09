@@ -8,14 +8,19 @@
              d:DesignHeight="450"
              d:DesignWidth="800">
     <Grid>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock x:Name="HomeworkDescription" />
-            <TextBlock x:Name="Deadline" />
-            <Button x:Name="DoneButton" 
+        <StackPanel Orientation="Horizontal"
+                    Margin="10 0">
+            <TextBlock x:Name="HomeworkDescription"
+                       VerticalAlignment="Center" />
+            <TextBlock x:Name="Deadline"
+                       VerticalAlignment="Center" />
+            <Button x:Name="DoneButton"
                     Content="Сделано"
+                    VerticalAlignment="Center"
                     Click="DoneButton_Click" />
-            <Button x:Name="ChangeButton" 
+            <Button x:Name="ChangeButton"
                     Content="Редактировать"
+                    VerticalAlignment="Center"
                     Click="ChangeButton_Click" />
         </StackPanel>
     </Grid>

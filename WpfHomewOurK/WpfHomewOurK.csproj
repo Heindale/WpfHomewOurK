@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\homework-planing.ico" />
+    <None Remove="Images\homework-planing.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.3">
@@ -21,6 +26,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HomewOurK.Domain\HomewOurK.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\homework-planing.ico" />
+    <Resource Include="Images\homework-planing.png" />
   </ItemGroup>
 
 </Project>
