@@ -8,20 +8,29 @@
              d:DesignHeight="450"
              d:DesignWidth="800">
     <Grid>
-        <StackPanel Orientation="Horizontal"
-                    Margin="10 0">
-            <TextBlock x:Name="HomeworkDescription"
-                       VerticalAlignment="Center" />
-            <TextBlock x:Name="Deadline"
-                       VerticalAlignment="Center" />
-            <Button x:Name="DoneButton"
-                    Content="Сделано"
-                    VerticalAlignment="Center"
-                    Click="DoneButton_Click" />
-            <Button x:Name="ChangeButton"
-                    Content="Редактировать"
-                    VerticalAlignment="Center"
-                    Click="ChangeButton_Click" />
+        <StackPanel Orientation="Vertical">
+            <StackPanel  x:Name="HeaderStackPanel"
+                         Orientation="Horizontal"
+                         Margin="10 0">
+                <TextBlock x:Name="HomeworkDescription"
+                           VerticalAlignment="Center" />
+                <TextBlock x:Name="Deadline"
+                           VerticalAlignment="Center" />
+                <Button x:Name="DoneButton"
+                        Content="Сделано"
+                        VerticalAlignment="Center"
+                        Click="DoneButton_Click" />
+                <Button x:Name="ChangeButton"
+                        Content="Редактировать"
+                        VerticalAlignment="Center"
+                        Click="ChangeButton_Click" />
+            </StackPanel>
+            <Line X1="10"
+                  X2="{Binding ActualWidth, ElementName=HeaderStackPanel}"
+                  StrokeThickness="1"
+                  Stroke="#565656" 
+                  Margin="0 0 0 -10"
+                  x:Name="ButtomLine"/>
         </StackPanel>
     </Grid>
 </UserControl>

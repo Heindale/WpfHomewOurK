@@ -10,8 +10,15 @@
       Title="EditAddHomeworkPage">
 
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Vertical"
+                    Background="White">
+            <StackPanel.Effect>
+                <DropShadowEffect ShadowDepth="3"
+                                  BlurRadius="4"
+                                  Opacity="0.3" />
+            </StackPanel.Effect>
+            <StackPanel Orientation="Horizontal"
+                        Margin="10">
                 <TextBlock Text="Предмет"
                            VerticalAlignment="Center" />
                 <ComboBox x:Name="Subjects"
@@ -23,9 +30,10 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Категория" 
-                           VerticalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal"
+                        Margin="10">
+                <TextBlock Text="Категория"
+                           VerticalAlignment="Center" />
                 <ComboBox x:Name="Importances"
                           SelectionChanged="Importances_SelectionChanged">
                     <ComboBox.ItemTemplate>
@@ -35,13 +43,15 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal"
+                        Margin="10">
                 <TextBlock Text="Задание"
                            VerticalAlignment="Center" />
                 <TextBox x:Name="Description"
                          Width="113" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal"
+                        Margin="10">
                 <TextBlock Text="Конечная дата"
                            VerticalAlignment="Center" />
                 <DatePicker Name="DeadlineDatePicker"
@@ -51,10 +61,24 @@
             </StackPanel>
             <Button x:Name="Create"
                     Content="Создать"
-                    Click="Create_Click" />
+                    Click="Create_Click">
+                <Button.Style>
+                    <Style TargetType="Button"
+                           BasedOn="{StaticResource MaterialDesignRaisedButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
             <Button x:Name="Update"
                     Content="Сохранить изменения"
-                    Click="Update_Click" />
+                    Click="Update_Click">
+                <Button.Style>
+                    <Style TargetType="Button"
+                           BasedOn="{StaticResource MaterialDesignRaisedButton}">
+
+                    </Style>
+                </Button.Style>
+            </Button>
             <Button x:Name="Goback"
                     Content="Вернуться назад"
                     Click="Goback_Click" />

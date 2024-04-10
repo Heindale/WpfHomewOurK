@@ -11,6 +11,7 @@ using WpfHomewOurK.Controls;
 using WpfHomewOurK.Pages;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using System.Windows.Shapes;
 
 namespace WpfHomewOurK
 {
@@ -71,6 +72,7 @@ namespace WpfHomewOurK
 
 		public void LoadMainPage()
 		{
+			PaintActiveButton(Main);
 			MainPage mainPage = new MainPage();
 
 			using (ApplicationContext context = new ApplicationContext())
@@ -101,16 +103,21 @@ namespace WpfHomewOurK
 							Background = Brushes.White,
 							Effect = new DropShadowEffect()
 							{
-								 BlurRadius = 10,
+								 BlurRadius = 4,
 								 ShadowDepth = 3,
-								 Direction = 135+180,
-								 Color = Color.FromRgb(100, 100, 100)
+								 Direction = 315,
+								 Opacity = 0.3,								
+								 Color = Color.FromRgb(0, 0, 0)
 							}
 						};
 
-						foreach (Homework homework in homeworks)
+						for (int i = 0; i < homeworks.Count(); i++)
 						{
-							HomeworkControl homeworkControl = new HomeworkControl(homework, this);
+							HomeworkControl homeworkControl = new HomeworkControl(homeworks.ElementAt(i), this);
+							if (i == homeworks.Count() - 1)
+							{
+								homeworkControl.ButtomLine.Visibility = Visibility.Collapsed;
+							}
 							homeworkControl.Category = 0;
 							groupSubjStack.Children.Add(homeworkControl);
 						}
@@ -124,15 +131,19 @@ namespace WpfHomewOurK
 
 		private void AddHomework_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
+			PaintActiveButton(AddHomework);
 			Group selectedObject = (Group)Groups.SelectedItem;
-
-			MainFrame.Navigate(new EditAddHomeworkPage(_mainWindow, this, selectedObject.Id));
+			var addHomeworkPage = new EditAddHomeworkPage(_mainWindow, this, selectedObject.Id);
+			addHomeworkPage.Update.Visibility = Visibility.Collapsed;
+			addHomeworkPage.Goback.Visibility = Visibility.Collapsed;
+			MainFrame.Navigate(addHomeworkPage);
 		}
 
 		public void EditHomework(Homework homework, int category)
 		{
 			Group selectedObject = (Group)Groups.SelectedItem;
 			var editPage = new EditAddHomeworkPage(_mainWindow, this, selectedObject.Id);
+			editPage.Create.Visibility = Visibility.Collapsed;
 			editPage.Category = category;
 			editPage.Edit(homework);
 			MainFrame.Navigate(editPage);
@@ -140,6 +151,7 @@ namespace WpfHomewOurK
 
 		private void Profile_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
+			PaintAllButtonsToWhite();
 			MainFrame.Navigate(new ProfilePage(_mainWindow));
 		}
 
@@ -150,6 +162,7 @@ namespace WpfHomewOurK
 
 		public void LoadUrgentPage()
 		{
+			PaintActiveButton(Urgent);
 			UrgentPage urgentPage = new UrgentPage();
 
 			using (ApplicationContext context = new ApplicationContext())
@@ -176,6 +189,7 @@ namespace WpfHomewOurK
 
 		public void LoadImportantPage()
 		{
+			PaintActiveButton(Important);
 			ImportantPage importantPage = new ImportantPage();
 
 			using (ApplicationContext context = new ApplicationContext())
@@ -201,6 +215,7 @@ namespace WpfHomewOurK
 
 		public void LoadWrittenPage()
 		{
+			PaintActiveButton(Written);
 			WrittenPage writtenPage = new WrittenPage();
 
 			using (ApplicationContext context = new ApplicationContext())
@@ -226,6 +241,7 @@ namespace WpfHomewOurK
 
 		public void LoadOralPage()
 		{
+			PaintActiveButton(Oral);
 			OralPage oralPage = new OralPage();
 
 			using (ApplicationContext context = new ApplicationContext())
@@ -246,16 +262,19 @@ namespace WpfHomewOurK
 
 		private void Statistic_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
+			PaintActiveButton(Statistic);
 			MainFrame.Navigate(new StatisticPage());
 		}
 
 		private void Info_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
+			PaintAllButtonsToWhite();
 			MainFrame.Navigate(new InfoPage());
 		}
 
 		private void Settings_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
+			PaintAllButtonsToWhite();
 			MainFrame.Navigate(new SettingsPage());
 		}
 
@@ -265,6 +284,7 @@ namespace WpfHomewOurK
 		}
 		public void LoadSubjectsPage()
 		{
+			PaintActiveButton(Subjects);
 			SubjectsPage subjectsPage = new SubjectsPage();
 
 			using (ApplicationContext context = new ApplicationContext())
@@ -279,6 +299,25 @@ namespace WpfHomewOurK
 			}
 
 			MainFrame.Navigate(subjectsPage);
+		}
+
+		public void PaintActiveButton(Button button)
+		{
+			PaintAllButtonsToWhite();
+			button.Background = new SolidColorBrush(Color.FromRgb(232, 232, 232));
+		}
+
+		public void PaintAllButtonsToWhite()
+		{
+			Main.Background = Brushes.White;
+			Urgent.Background = Brushes.White;
+			Important.Background = Brushes.White;
+			Written.Background = Brushes.White;
+			Oral.Background = Brushes.White;
+			Subjects.Background = Brushes.White;
+			Teachers.Background = Brushes.White;
+			Statistic.Background = Brushes.White;
+			AddHomework.Background = Brushes.White;
 		}
 	}
 }
