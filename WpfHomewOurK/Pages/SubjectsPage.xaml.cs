@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HomewOurK.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,14 +21,50 @@ namespace WpfHomewOurK.Pages
 	/// </summary>
 	public partial class SubjectsPage : Page
 	{
-		public SubjectsPage()
+		private MainControl _mainControl;
+		private MainWindow _mainWindow;
+		private int _groupId;
+
+		public SubjectsPage(MainWindow mainWindow, MainControl mainControl, int groupId)
 		{
 			InitializeComponent();
+			_groupId = groupId;
+			_mainWindow = mainWindow;
+			_mainControl = mainControl;
 		}
 
 		private void NewSubjectButton_Click(object sender, RoutedEventArgs e)
 		{
+			if (SubjectName.Text == "")
+			{
+				MessageBox.Show("Заполните название предмета");
+				return;
+			}
 
-        }
-    }
+			AddSubject(new Subject
+			{
+				GroupId = _groupId,
+				Name = SubjectName.Text
+			});
+			SubjectName.Text = "";
+		}
+
+
+		private async void AddSubject(Subject subject)
+		{
+			var httpHelper = new HttpHelper<Subject>(_mainWindow, "api/Subjects");
+			await httpHelper.PostReqAuthAsync(subject);
+
+			LoadDataFromDb loadDataFromDb = new LoadDataFromDb(_mainWindow);
+			await loadDataFromDb.LoadDataAsync(_mainWindow.paths);
+		}
+
+		private void Gobck()
+		{
+			if (NavigationService.CanGoBack)
+			{
+				NavigationService.GoBack();
+			}
+		}
+	}
 }

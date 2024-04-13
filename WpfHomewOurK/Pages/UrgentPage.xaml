@@ -11,9 +11,7 @@
 
     <Grid>
         <StackPanel x:Name="HomeworksStackPanel">
-            <Label Content="Список срочной домашки"
-                   Grid.Column="1"
-                   Grid.Row="1" />
+
         </StackPanel>
     </Grid>
 </Page>

@@ -103,11 +103,11 @@ namespace WpfHomewOurK
 							Background = Brushes.White,
 							Effect = new DropShadowEffect()
 							{
-								 BlurRadius = 4,
-								 ShadowDepth = 3,
-								 Direction = 315,
-								 Opacity = 0.3,								
-								 Color = Color.FromRgb(0, 0, 0)
+								BlurRadius = 4,
+								ShadowDepth = 3,
+								Direction = 315,
+								Opacity = 0.3,
+								Color = Color.FromRgb(0, 0, 0)
 							}
 						};
 
@@ -282,20 +282,27 @@ namespace WpfHomewOurK
 		{
 			LoadSubjectsPage();
 		}
-		public void LoadSubjectsPage()
+		public async void LoadSubjectsPage()
 		{
 			PaintActiveButton(Subjects);
-			SubjectsPage subjectsPage = new SubjectsPage();
+			Group selectedObject = (Group)Groups.SelectedItem;
+			SubjectsPage subjectsPage = new SubjectsPage(_mainWindow, this, selectedObject.Id);
 
 			using (ApplicationContext context = new ApplicationContext())
 			{
 				List<Subject> subjects = context.Subjects.ToList();
-
+				context.Subjects.RemoveRange(subjects);
+				HttpHelper<List<Subject>> httpHelper = new HttpHelper<List<Subject>>(_mainWindow, "api/Subjects/GetSubjects?groupId=" + selectedObject.Id);
+				var subjectsHttp = await httpHelper.GetReqAsync();
+				if (subjectsHttp != null)
+					context.AddRange(subjectsHttp);
+				subjects = context.Subjects.ToList();
 				foreach (Subject subject in subjects)
 				{
 					SubjectControl subjectControl = new SubjectControl(subject, this);
 					subjectsPage.SubjectsStackPanel.Children.Add(subjectControl);
 				}
+				context.SaveChanges();
 			}
 
 			MainFrame.Navigate(subjectsPage);

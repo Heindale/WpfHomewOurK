@@ -38,7 +38,9 @@ namespace WpfHomewOurK
 		public MainWindow()
 		{
 			InitializeComponent();
-
+			WindowStyle = WindowStyle.None;
+			Height = 375;
+			Width = 375;
 			InitializeAsync();
 		}
 
@@ -46,6 +48,9 @@ namespace WpfHomewOurK
 		{
 			await UpdateDataFromLocalDb(this);
 			loadingControl.Visibility = Visibility.Collapsed; // Скрываем контрол загрузки после завершения загрузки данных
+			WindowStyle = WindowStyle.SingleBorderWindow;
+			Height = 450;
+			Width = 800;
 		}
 
 		public async Task UpdateDataFromLocalDb(MainWindow mainWindow)
