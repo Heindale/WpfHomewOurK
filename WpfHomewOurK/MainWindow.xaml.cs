@@ -3,6 +3,7 @@ using MaterialDesignColors;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
 using System.IO;
+using System.Net.Http;
 using System.Windows;
 using WpfHomewOurK.Authorization;
 using WpfHomewOurK.Controls;
@@ -15,6 +16,7 @@ namespace WpfHomewOurK
 	public partial class MainWindow : Window
 	{
 		public bool isAuthorize = false;
+		private const string _connectionUrl = "api/Connection";
 		private const string _getUserUrl = "api/Users/GetUser";
 		private const string _getGroupsUrl = "api/Groups/GetGroups?userId=";
 		private const string _getTeachersUrl = "api/Teachers/GetTeachers?groupId=";
@@ -46,12 +48,39 @@ namespace WpfHomewOurK
 
 		private async void InitializeAsync()
 		{
+			if (!await CheckServerConnectionAsync())
+			{
+				MessageBox.Show("Соединение с сервером не было установлено :( \nПроверьте подключение к сети и повторите попытку.");
+				Close(); // закрыть приложение или выполнить другие действия
+				return;
+			}
+
 			await UpdateDataFromLocalDb(this);
 			loadingControl.Visibility = Visibility.Collapsed; // Скрываем контрол загрузки после завершения загрузки данных
-			WindowStyle = WindowStyle.SingleBorderWindow;
 			Height = 450;
 			Width = 800;
+			MinWidth = 600;
+			Left = (SystemParameters.PrimaryScreenWidth - this.Width) / 2;
+			Top = (SystemParameters.PrimaryScreenHeight - this.Height) / 2;
+
 		}
+
+		private async Task<bool> CheckServerConnectionAsync()
+		{
+			try
+			{
+				using (var client = new HttpClient())
+				{
+					var response = await client.GetAsync(url + _connectionUrl);
+					return response.IsSuccessStatusCode;
+				}
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
 
 		public async Task UpdateDataFromLocalDb(MainWindow mainWindow)
 		{

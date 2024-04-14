@@ -92,15 +92,31 @@ namespace WpfHomewOurK
 						var subject = context.Subjects
 							.FirstOrDefault(s => s.Id == homeworks.First().SubjectId);
 
-						mainPage.HomeworksStackPanel.Children.Add(new TextBlock()
+						var subjText = new TextBlock
 						{
 							Text = subject != null ? subject.Name : "",
-							FontSize = 25
-						});
+							FontSize = 25,
+						};
 
-						var groupSubjStack = new StackPanel()
+						// Создаем стиль для TextBlock
+						Style textBlockStyle = new Style(typeof(TextBlock));
+
+						// Устанавливаем BasedOn для стиля
+						textBlockStyle.BasedOn = (Style)Application.Current.FindResource("MaterialDesignTextBlock"); // Используйте ресурс из вашего XAML
+
+						// Устанавливаем остальные свойства
+						textBlockStyle.Setters.Add(new Setter(TextBlock.FontFamilyProperty, new FontFamily("Verdana")));
+						textBlockStyle.Setters.Add(new Setter(TextBlock.ForegroundProperty, new SolidColorBrush(Color.FromArgb(127, 255, 255, 255))));
+
+						// Применяем стиль к TextBlock
+						subjText.Style = textBlockStyle;
+
+						mainPage.HomeworksStackPanel.Children.Add(subjText);
+
+						var groupSubjBorder = new Border
 						{
-							Background = Brushes.White,
+							Background = new SolidColorBrush(Color.FromArgb(127, 255, 255, 255)),
+							CornerRadius = new CornerRadius(10),
 							Effect = new DropShadowEffect()
 							{
 								BlurRadius = 4,
@@ -109,6 +125,10 @@ namespace WpfHomewOurK
 								Opacity = 0.3,
 								Color = Color.FromRgb(0, 0, 0)
 							}
+						};
+
+						var groupSubjStack = new StackPanel
+						{
 						};
 
 						for (int i = 0; i < homeworks.Count(); i++)
@@ -120,8 +140,9 @@ namespace WpfHomewOurK
 							}
 							homeworkControl.Category = 0;
 							groupSubjStack.Children.Add(homeworkControl);
+							groupSubjBorder.Child = groupSubjStack;
 						}
-						mainPage.HomeworksStackPanel.Children.Add(groupSubjStack);
+						mainPage.HomeworksStackPanel.Children.Add(groupSubjBorder);
 					}
 				}
 			}
@@ -311,20 +332,58 @@ namespace WpfHomewOurK
 		public void PaintActiveButton(Button button)
 		{
 			PaintAllButtonsToWhite();
-			button.Background = new SolidColorBrush(Color.FromRgb(232, 232, 232));
+			button.Background = new SolidColorBrush(Color.FromRgb(255, 175, 0));
 		}
 
 		public void PaintAllButtonsToWhite()
 		{
-			Main.Background = Brushes.White;
-			Urgent.Background = Brushes.White;
-			Important.Background = Brushes.White;
-			Written.Background = Brushes.White;
-			Oral.Background = Brushes.White;
-			Subjects.Background = Brushes.White;
-			Teachers.Background = Brushes.White;
-			Statistic.Background = Brushes.White;
-			AddHomework.Background = Brushes.White;
+			var btnbckgrnds = Brushes.Transparent;
+			Main.Background = btnbckgrnds;
+			Urgent.Background = btnbckgrnds;
+			Important.Background = btnbckgrnds;
+			Written.Background = btnbckgrnds;
+			Oral.Background = btnbckgrnds;
+			Subjects.Background = btnbckgrnds;
+			Teachers.Background = btnbckgrnds;
+			Statistic.Background = btnbckgrnds;
+			AddHomework.Background = btnbckgrnds;
+			Group.Background = btnbckgrnds;
+		}
+
+		private void Group_Click(object sender, RoutedEventArgs e)
+		{
+			PaintActiveButton(Group);
+			MainFrame.Navigate(new GroupPage());
+		}
+
+		private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+		{
+			_mainWindow.Left += e.HorizontalChange;
+			_mainWindow.Top += e.VerticalChange;
+		}
+
+		private void Hide_Click(object sender, RoutedEventArgs e)
+		{
+			_mainWindow.WindowState = WindowState.Minimized;
+		}
+
+		private void Close_Click(object sender, RoutedEventArgs e)
+		{
+			_mainWindow.Close();
+		}
+
+		private void Maximize_Click(object sender, RoutedEventArgs e)
+		{
+			_mainWindow.WindowState = WindowState.Maximized;
+			Minimize.Visibility = Visibility.Visible;
+			Maximize.Visibility = Visibility.Collapsed;
+		}
+
+		private void Minimize_Click(object sender, RoutedEventArgs e)
+		{
+			_mainWindow.WindowState = WindowState.Normal;
+			Maximize.Visibility = Visibility.Visible;
+			Minimize.Visibility = Visibility.Collapsed;
 		}
 	}
 }

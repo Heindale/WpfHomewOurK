@@ -10,8 +10,9 @@
       Title="MainPage">
 
     <Grid>
+        
         <StackPanel x:Name="HomeworksStackPanel">
 
-        </StackPanel>
+            </StackPanel>
     </Grid>
 </Page>

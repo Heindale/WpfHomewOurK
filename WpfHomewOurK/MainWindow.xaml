@@ -8,11 +8,14 @@
         xmlns:controls="clr-namespace:WpfHomewOurK.Controls"
         mc:Ignorable="d"
         Title="HomewOurK"        
-        Icon="Images\homework-planing.ico"
         MinHeight="375"
-        MinWidth="600"
-        Height="450"
-        Width="800">
+        MinWidth="375"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        Height="375"
+        Width="375">
     <Grid>
         <controls:LoadingControl x:Name="loadingControl" />
         <ContentControl x:Name="MainContent" />

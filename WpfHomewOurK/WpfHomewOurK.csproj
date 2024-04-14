@@ -9,8 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Background.bmp" />
+    <None Remove="Images\Background.png" />
+    <None Remove="Images\gradientgreenLight.png" />
     <None Remove="Images\homework-planing.ico" />
     <None Remove="Images\homework-planing.png" />
+    <None Remove="Images\icons8-close-window-96.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,8 +33,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\Background.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Background.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\homework-planing.ico" />
-    <Resource Include="Images\homework-planing.png" />
   </ItemGroup>
 
 </Project>
