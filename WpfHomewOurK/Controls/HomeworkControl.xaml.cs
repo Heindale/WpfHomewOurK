@@ -40,7 +40,7 @@ namespace WpfHomewOurK.Controls
 			DeadlineTitle = homework.Deadline != null ? " до " + homework.Deadline.Value.ToShortDateString() : "";
 			Deadline.Text = DeadlineTitle;
 			if (expired)
-				Deadline.Foreground = Brushes.Red;
+				Deadline.Foreground = new SolidColorBrush(Color.FromRgb(155, 0, 0));
 		}
 
 		private void Complete()

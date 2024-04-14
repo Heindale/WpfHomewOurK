@@ -43,6 +43,20 @@ namespace WpfHomewOurK
 			}
 
 			LoadMainPage();
+			RestyleLeftMenu();
+		}
+
+		private void RestyleLeftMenu()
+		{
+			bool firstBtn = true;
+			foreach (var menuBtn in LeftMenu.Children )
+			{
+				var btn = menuBtn as Button;
+				btn.Margin = new Thickness(5, 0, 5, 0);
+				if (firstBtn)
+					btn.Margin = new Thickness(5, 5, 5, 0);
+				firstBtn = false;
+			}
 		}
 
 		private void Groups_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -127,9 +141,7 @@ namespace WpfHomewOurK
 							}
 						};
 
-						var groupSubjStack = new StackPanel
-						{
-						};
+						var groupSubjStack = new StackPanel();
 
 						for (int i = 0; i < homeworks.Count(); i++)
 						{
@@ -332,7 +344,8 @@ namespace WpfHomewOurK
 		public void PaintActiveButton(Button button)
 		{
 			PaintAllButtonsToWhite();
-			button.Background = new SolidColorBrush(Color.FromRgb(255, 175, 0));
+			//button.Background = new SolidColorBrush(Color.FromRgb(0, 150, 136));
+			button.Background = new SolidColorBrush(Color.FromArgb(75, 255, 255, 255));
 		}
 
 		public void PaintAllButtonsToWhite()
@@ -353,7 +366,7 @@ namespace WpfHomewOurK
 		private void Group_Click(object sender, RoutedEventArgs e)
 		{
 			PaintActiveButton(Group);
-			MainFrame.Navigate(new GroupPage());
+			MainFrame.Navigate(new GroupPage(this, _mainWindow));
 		}
 
 		private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)

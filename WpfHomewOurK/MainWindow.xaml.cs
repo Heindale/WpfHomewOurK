@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Net.Http;
 using System.Windows;
+using System.Windows.Media;
 using WpfHomewOurK.Authorization;
 using WpfHomewOurK.Controls;
 
@@ -56,8 +57,9 @@ namespace WpfHomewOurK
 			}
 
 			await UpdateDataFromLocalDb(this);
+			Background = Brushes.Transparent;
 			loadingControl.Visibility = Visibility.Collapsed; // Скрываем контрол загрузки после завершения загрузки данных
-			Height = 450;
+			Height = 500;
 			Width = 800;
 			MinWidth = 600;
 			Left = (SystemParameters.PrimaryScreenWidth - this.Width) / 2;

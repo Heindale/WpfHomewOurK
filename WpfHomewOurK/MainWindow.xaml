@@ -7,15 +7,17 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:controls="clr-namespace:WpfHomewOurK.Controls"
         mc:Ignorable="d"
-        Title="HomewOurK"        
+        Title="HomewOurK"
         MinHeight="375"
         MinWidth="375"
         AllowsTransparency="True"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
-        Background="Transparent"
         Height="375"
         Width="375">
+    <Window.Background>
+        <ImageBrush ImageSource="/Images/Background.bmp" />
+    </Window.Background>
     <Grid>
         <controls:LoadingControl x:Name="loadingControl" />
         <ContentControl x:Name="MainContent" />
