@@ -21,6 +21,7 @@ namespace WpfHomewOurK.Controls
 	/// </summary>
 	public partial class HomeworkControl : UserControl
 	{
+		public string SubjName { get; set; }
 		public string Title { get; set; }
 		public string DeadlineTitle { get; set; }
 		public Homework Homework { get; set; }
@@ -31,16 +32,36 @@ namespace WpfHomewOurK.Controls
 		public HomeworkControl(Homework homework, MainControl mainControl)
 		{
 			InitializeComponent();
-			Homework = homework;
+
 			_mainControl = mainControl;
+			Homework = homework;
 			Title = homework.Description;
 			HomeworkDescription.Text = Title;
+
 			if (homework.Deadline + TimeSpan.FromDays(1) < DateTime.UtcNow)
 				expired = true;
+
 			DeadlineTitle = homework.Deadline != null ? " до " + homework.Deadline.Value.ToShortDateString() : "";
 			Deadline.Text = DeadlineTitle;
+
 			if (expired)
 				Deadline.Foreground = new SolidColorBrush(Color.FromRgb(155, 0, 0));
+
+			var subjName = GetSubjName(homework.SubjectId);
+			if (subjName != null)
+				SubjName = subjName;
+			SubjectName.Text = SubjName;
+		}
+
+		private string? GetSubjName(int id)
+		{
+			using (var context = new ApplicationContext())
+			{
+				var subjects = context.Subjects;
+				if (subjects != null)
+					return subjects.FirstOrDefault(x => x.Id == id).Name;
+				return null;
+			}
 		}
 
 		private void Complete()

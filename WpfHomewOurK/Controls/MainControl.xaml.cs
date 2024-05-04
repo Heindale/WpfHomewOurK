@@ -110,6 +110,7 @@ namespace WpfHomewOurK
 						{
 							Text = subject != null ? subject.Name : "",
 							FontSize = 25,
+							Padding = new Thickness(5)
 						};
 
 						// Создаем стиль для TextBlock
@@ -150,6 +151,7 @@ namespace WpfHomewOurK
 							{
 								homeworkControl.BorderButtom.BorderThickness = new Thickness(0);
 							}
+							homeworkControl.SubjectName.Visibility = Visibility.Collapsed;
 							homeworkControl.Category = 0;
 							groupSubjStack.Children.Add(homeworkControl);
 							groupSubjBorder.Child = groupSubjStack;

@@ -10,82 +10,92 @@
       Title="EditAddHomeworkPage">
 
     <Grid>
-        <StackPanel Orientation="Vertical"
-                    Background="White">
-            <StackPanel.Effect>
+        <Border Background="#7FFFFFFF"
+                CornerRadius="10">
+            <Border.Effect>
                 <DropShadowEffect ShadowDepth="3"
                                   BlurRadius="4"
+                                  Direction="315"
                                   Opacity="0.3" />
-            </StackPanel.Effect>
-            <StackPanel Orientation="Horizontal"
-                        Margin="10">
-                <TextBlock Text="Предмет"
-                           VerticalAlignment="Center" />
-                <ComboBox x:Name="Subjects"
-                          SelectionChanged="Subjects_SelectionChanged">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal"
-                        Margin="10">
-                <TextBlock Text="Категория"
-                           VerticalAlignment="Center" />
-                <ComboBox x:Name="Importances"
-                          SelectionChanged="Importances_SelectionChanged">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal"
-                        Margin="10">
-                <TextBlock Text="Задание"
-                           VerticalAlignment="Center" />
-                <TextBox x:Name="Description"
-                         TextWrapping="Wrap"
-                         MaxLength="100"
-                         Width="400"
-                         AcceptsReturn="True"
-                         VerticalScrollBarVisibility="Auto" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal"
-                        Margin="10">
-                <TextBlock Text="Конечная дата"
-                           VerticalAlignment="Center" />
-                <DatePicker Name="DeadlineDatePicker"
-                            IsDropDownOpen="False"
-                            SelectedDateFormat="Short"
-                            SelectedDateChanged="DeadlineDatePicker_SelectedDateChanged" />
-            </StackPanel>
-            <Button x:Name="Create"
-                    Content="Создать"
-                    Click="Create_Click">
-                <Button.Style>
-                    <Style TargetType="Button"
-                           BasedOn="{StaticResource MaterialDesignRaisedButton}">
+            </Border.Effect>
 
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button x:Name="Update"
-                    Content="Сохранить изменения"
-                    Click="Update_Click">
-                <Button.Style>
-                    <Style TargetType="Button"
-                           BasedOn="{StaticResource MaterialDesignRaisedButton}">
-
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button x:Name="Goback"
-                    Content="Вернуться назад"
-                    Click="Goback_Click" />
-        </StackPanel>
+            <StackPanel Orientation="Vertical"
+                        Margin="5">
+                <StackPanel Orientation="Horizontal"
+                            Margin="10">
+                    <TextBlock Text="Предмет"
+                               VerticalAlignment="Center" />
+                    <ComboBox x:Name="Subjects"
+                              SelectionChanged="Subjects_SelectionChanged">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="10">
+                    <TextBlock Text="Категория"
+                               VerticalAlignment="Center" />
+                    <ComboBox x:Name="Importances"
+                              SelectionChanged="Importances_SelectionChanged">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="10">
+                    <TextBlock Text="Задание"
+                               VerticalAlignment="Center" />
+                    <TextBox x:Name="Description"
+                             TextWrapping="Wrap"
+                             MaxLength="100"
+                             Width="400"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="10">
+                    <TextBlock Text="Конечная дата"
+                               VerticalAlignment="Center" />
+                    <DatePicker Name="DeadlineDatePicker"
+                                IsDropDownOpen="False"
+                                SelectedDateFormat="Short"
+                                SelectedDateChanged="DeadlineDatePicker_SelectedDateChanged" />
+                </StackPanel>
+                <Button x:Name="Create"
+                        Click="Create_Click">
+                    <Button.Style>
+                        <Style TargetType="Button"
+                               BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                        </Style>
+                    </Button.Style>
+                    <Button.Content>
+                        <TextBlock Text="Создать"
+                                   Foreground="LightGray" />
+                    </Button.Content>
+                </Button>
+                <Button x:Name="Update"
+                        Click="Update_Click">
+                    <Button.Style>
+                        <Style TargetType="Button"
+                               BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                        </Style>
+                    </Button.Style>
+                    <Button.Content>
+                        <TextBlock Text="Сохранить изменения"
+                                   Foreground="LightGray" />
+                    </Button.Content>
+                </Button>
+                <Button x:Name="Goback"
+                        Content="Вернуться назад"
+                        Click="Goback_Click">
+                </Button>
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>

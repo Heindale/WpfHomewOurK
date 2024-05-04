@@ -10,6 +10,31 @@
       Title="StatisticPage">
 
     <Grid>
-        <Label>Статистика</Label>
+        <StackPanel>
+            <TextBlock Text="Статистика"
+                       Padding="5">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock"
+                           BasedOn="{StaticResource MaterialDesignTextBlock}">
+                        <Setter Property="FontFamily"
+                                Value="Verdana" />
+                        <Setter Property="Foreground"
+                                Value="#7FFFFFFF" />
+                        <Setter Property="FontSize"
+                                Value="25" />
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <Border Background="#7FFFFFFF"
+                CornerRadius="10">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="3"
+                                  BlurRadius="4"
+                                  Direction="315"
+                                  Opacity="0.3" />
+            </Border.Effect>
+            <Label>Статистика</Label>
+        </Border>
+        </StackPanel>
     </Grid>
 </Page>

@@ -11,45 +11,74 @@
 
     <Grid>
         <StackPanel>
-            <Label>Профиль</Label>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Имя" />
-                <TextBox x:Name="Firstname"
-                         Text="Ваше имя" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Фамилия" />
-                <TextBox x:Name="Surname"
-                         Text="Ваша фамилия" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Никнейм" />
-                <TextBox x:Name="Username"
-                         Text="Ваш ник" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Электронная почта" />
-                <TextBox x:Name="Email"
-                         IsReadOnly="True"
-                         Text="Ваша почта" />
-            </StackPanel>
-            <Button x:Name="Edit"
-                    Content="Изменить данные"
-                    Click="Edit_Click">
-                <Button.Style>
-                    <Style TargetType="Button"
-                           BasedOn="{StaticResource MaterialDesignRaisedButton}">
-
+            <TextBlock Text="Профиль"
+                       Padding="5">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock"
+                           BasedOn="{StaticResource MaterialDesignTextBlock}">
+                        <Setter Property="FontFamily"
+                                Value="Verdana" />
+                        <Setter Property="Foreground"
+                                Value="#7FFFFFFF" />
+                        <Setter Property="FontSize"
+                                Value="25" />
                     </Style>
-                </Button.Style>
-            </Button>
-            <Button x:Name="Logout"
-                    Content="Выйти"
-                    Click="Logout_Click" />
-            <Button x:Name="Delete"
-                    Content="Удалить аккаунт"
-                    Click="Delete_Click">
-            </Button>
+                </TextBlock.Style>
+            </TextBlock>
+            <Border Background="#7FFFFFFF"
+                    CornerRadius="10">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="3"
+                                      BlurRadius="4"
+                                      Direction="315"
+                                      Opacity="0.3" />
+                </Border.Effect>
+                <StackPanel Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Имя" />
+                        <TextBox x:Name="Firstname"
+                                 Text="Ваше имя" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Фамилия" />
+                        <TextBox x:Name="Surname"
+                                 Text="Ваша фамилия" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Никнейм" />
+                        <TextBox x:Name="Username"
+                                 Text="Ваш ник" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Электронная почта" />
+                        <TextBox x:Name="Email"
+                                 IsReadOnly="True"
+                                 Text="Ваша почта" />
+                    </StackPanel>
+                    <Button x:Name="Edit"
+                            Click="Edit_Click">
+                        <Button.Style>
+                            <Style TargetType="Button"
+                                   BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                            </Style>
+                        </Button.Style>
+                        <Button.Content>
+                            <TextBlock Text="Изменить данные"
+                                       Foreground="LightGray" />
+                        </Button.Content>
+                    </Button>
+                    <Button x:Name="Logout"
+                            Content="Выйти"
+                            Click="Logout_Click" />
+                    <Button x:Name="Delete"
+                            Click="Delete_Click">
+                        <Button.Content>
+                            <TextBlock Text="Удалить аккаунт"
+                                       Foreground="#9b0000" />
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+            </Border>
         </StackPanel>
     </Grid>
 </Page>

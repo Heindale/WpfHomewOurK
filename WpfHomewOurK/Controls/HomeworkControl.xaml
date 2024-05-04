@@ -74,12 +74,18 @@
                         </Button.Content>
                     </Button>
                 </StackPanel>
-                <TextBlock x:Name="HomeworkDescription"
-                           DockPanel.Dock="Left"
-                           Margin="10 0 0 0"
-                           Width="Auto"
-                           TextWrapping="Wrap"
-                           VerticalAlignment="Center" />
+
+                <StackPanel Orientation="Vertical"
+                            Width="Auto"
+                            DockPanel.Dock="Left"
+                               VerticalAlignment="Center"
+                            Margin="10 0 0 0">
+                    <TextBlock x:Name="SubjectName"
+                               FontSize="11"
+                               Opacity="0.75" />
+                    <TextBlock x:Name="HomeworkDescription"
+                               TextWrapping="Wrap" />
+                </StackPanel>
                 <Line X1="10"
                       Visibility="Collapsed"
                       X2="{Binding ActualWidth, ElementName=HeaderStackPanel}"
