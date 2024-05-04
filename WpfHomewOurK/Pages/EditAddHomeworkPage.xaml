@@ -48,7 +48,11 @@
                 <TextBlock Text="Задание"
                            VerticalAlignment="Center" />
                 <TextBox x:Name="Description"
-                         Width="113" />
+                         TextWrapping="Wrap"
+                         MaxLength="100"
+                         Width="400"
+                         AcceptsReturn="True"
+                         VerticalScrollBarVisibility="Auto" />
             </StackPanel>
             <StackPanel Orientation="Horizontal"
                         Margin="10">

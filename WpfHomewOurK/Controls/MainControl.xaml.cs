@@ -148,7 +148,7 @@ namespace WpfHomewOurK
 							HomeworkControl homeworkControl = new HomeworkControl(homeworks.ElementAt(i), this);
 							if (i == homeworks.Count() - 1)
 							{
-								homeworkControl.ButtomLine.Visibility = Visibility.Collapsed;
+								homeworkControl.BorderButtom.BorderThickness = new Thickness(0);
 							}
 							homeworkControl.Category = 0;
 							groupSubjStack.Children.Add(homeworkControl);
@@ -204,12 +204,35 @@ namespace WpfHomewOurK
 					.Where(h => !h.Done && h.Deadline != null)
 					.OrderBy(h => h.Deadline).ToList();
 
-				foreach (Homework homework in homeworks)
+				var groupSubjBorder = new Border
 				{
-					HomeworkControl homeworkControl = new HomeworkControl(homework, this);
+					Background = new SolidColorBrush(Color.FromArgb(127, 255, 255, 255)),
+					CornerRadius = new CornerRadius(10),
+					Effect = new DropShadowEffect()
+					{
+						BlurRadius = 4,
+						ShadowDepth = 3,
+						Direction = 315,
+						Opacity = 0.3,
+						Color = Color.FromRgb(0, 0, 0)
+					}
+				};
+
+				var subjStack = new StackPanel();
+
+				for (int i = 0; i < homeworks.Count(); i++)
+				{
+					HomeworkControl homeworkControl = new HomeworkControl(homeworks.ElementAt(i), this);
+					if (i == homeworks.Count() - 1)
+					{
+						homeworkControl.BorderButtom.BorderThickness = new Thickness(0);
+					}
 					homeworkControl.Category = 1;
-					urgentPage.HomeworksStackPanel.Children.Add(homeworkControl);
+					subjStack.Children.Add(homeworkControl);
 				}
+
+				groupSubjBorder.Child = subjStack;
+				urgentPage.HomeworksStackPanel.Children.Add(groupSubjBorder);
 			}
 
 			MainFrame.Navigate(urgentPage);
@@ -230,12 +253,35 @@ namespace WpfHomewOurK
 				List<Homework> homeworks = context.Homeworks
 					.Where(h => !h.Done && h.Importance == Importance.Important).ToList();
 
-				foreach (Homework homework in homeworks)
+				var groupSubjBorder = new Border
 				{
-					HomeworkControl homeworkControl = new HomeworkControl(homework, this);
+					Background = new SolidColorBrush(Color.FromArgb(127, 255, 255, 255)),
+					CornerRadius = new CornerRadius(10),
+					Effect = new DropShadowEffect()
+					{
+						BlurRadius = 4,
+						ShadowDepth = 3,
+						Direction = 315,
+						Opacity = 0.3,
+						Color = Color.FromRgb(0, 0, 0)
+					}
+				};
+
+				var subjStack = new StackPanel();
+
+				for (int i = 0; i < homeworks.Count(); i++)
+				{
+					HomeworkControl homeworkControl = new HomeworkControl(homeworks.ElementAt(i), this);
+					if (i == homeworks.Count() - 1)
+					{
+						homeworkControl.BorderButtom.BorderThickness = new Thickness(0);
+					}
 					homeworkControl.Category = 2;
-					importantPage.HomeworksStackPanel.Children.Add(homeworkControl);
+					subjStack.Children.Add(homeworkControl);
 				}
+
+				groupSubjBorder.Child = subjStack;
+				importantPage.HomeworksStackPanel.Children.Add(groupSubjBorder);
 			}
 
 			MainFrame.Navigate(importantPage);
@@ -255,13 +301,35 @@ namespace WpfHomewOurK
 			{
 				List<Homework> homeworks = context.Homeworks
 					.Where(h => !h.Done && h.Importance == Importance.Written).ToList();
-
-				foreach (Homework homework in homeworks)
+				var groupSubjBorder = new Border
 				{
-					HomeworkControl homeworkControl = new HomeworkControl(homework, this);
+					Background = new SolidColorBrush(Color.FromArgb(127, 255, 255, 255)),
+					CornerRadius = new CornerRadius(10),
+					Effect = new DropShadowEffect()
+					{
+						BlurRadius = 4,
+						ShadowDepth = 3,
+						Direction = 315,
+						Opacity = 0.3,
+						Color = Color.FromRgb(0, 0, 0)
+					}
+				};
+
+				var subjStack = new StackPanel();
+
+				for (int i = 0; i < homeworks.Count(); i++)
+				{
+					HomeworkControl homeworkControl = new HomeworkControl(homeworks.ElementAt(i), this);
+					if (i == homeworks.Count() - 1)
+					{
+						homeworkControl.BorderButtom.BorderThickness = new Thickness(0);
+					}
 					homeworkControl.Category = 3;
-					writtenPage.HomeworksStackPanel.Children.Add(homeworkControl);
+					subjStack.Children.Add(homeworkControl);
 				}
+
+				groupSubjBorder.Child = subjStack;
+				writtenPage.HomeworksStackPanel.Children.Add(groupSubjBorder);
 			}
 
 			MainFrame.Navigate(writtenPage);
@@ -281,13 +349,35 @@ namespace WpfHomewOurK
 			{
 				List<Homework> homeworks = context.Homeworks
 					.Where(h => !h.Done && h.Importance == Importance.Oral).ToList();
-
-				foreach (Homework homework in homeworks)
+				var groupSubjBorder = new Border
 				{
-					HomeworkControl homeworkControl = new HomeworkControl(homework, this);
+					Background = new SolidColorBrush(Color.FromArgb(127, 255, 255, 255)),
+					CornerRadius = new CornerRadius(10),
+					Effect = new DropShadowEffect()
+					{
+						BlurRadius = 4,
+						ShadowDepth = 3,
+						Direction = 315,
+						Opacity = 0.3,
+						Color = Color.FromRgb(0, 0, 0)
+					}
+				};
+
+				var subjStack = new StackPanel();
+
+				for (int i = 0; i < homeworks.Count(); i++)
+				{
+					HomeworkControl homeworkControl = new HomeworkControl(homeworks.ElementAt(i), this);
+					if (i == homeworks.Count() - 1)
+					{
+						homeworkControl.BorderButtom.BorderThickness = new Thickness(0);
+					}
 					homeworkControl.Category = 4;
-					oralPage.HomeworksStackPanel.Children.Add(homeworkControl);
+					subjStack.Children.Add(homeworkControl);
 				}
+
+				groupSubjBorder.Child = subjStack;
+				oralPage.HomeworksStackPanel.Children.Add(groupSubjBorder);
 			}
 
 			MainFrame.Navigate(oralPage);

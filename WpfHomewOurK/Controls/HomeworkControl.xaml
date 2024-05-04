@@ -8,29 +8,87 @@
              d:DesignHeight="450"
              d:DesignWidth="800">
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <StackPanel  x:Name="HeaderStackPanel"
-                         Orientation="Horizontal"
-                         Margin="10 0">
+        <Border BorderThickness="0 0 0 1"
+                x:Name="BorderButtom"
+                Margin="10 0"
+                BorderBrush="#565656">
+            <DockPanel Margin="-10 5">
+
+                <StackPanel  DockPanel.Dock="Right"
+                             x:Name="HeaderStackPanel"
+                             Orientation="Horizontal"
+                             HorizontalAlignment="Right"
+                             Margin="0 0 10 0">
+
+                    <TextBlock x:Name="Deadline"
+                               VerticalAlignment="Center" />
+                    <Button x:Name="DoneButton"
+                            Margin="0"
+                            VerticalAlignment="Center"
+                            Click="DoneButton_Click">
+                        <Button.Content>
+                            <Image>
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                <GeometryDrawing Brush="#FF565656"
+                                                                 Geometry="F1 M24,24z M0,0z M4.5,21.75C3.90326,21.75 3.33097,21.5129 2.90901,21.091 2.48705,20.669 2.25,20.0967 2.25,19.5L2.25,4.5C2.25,3.90326 2.48705,3.33097 2.90901,2.90901 3.33097,2.48705 3.90326,2.25 4.5,2.25L16.5,2.25C16.6989,2.25 16.8897,2.32902 17.0303,2.46967 17.171,2.61032 17.25,2.80109 17.25,3 17.25,3.19891 17.171,3.38968 17.0303,3.53033 16.8897,3.67098 16.6989,3.75 16.5,3.75L4.5,3.75C4.30109,3.75 4.11032,3.82902 3.96967,3.96967 3.82902,4.11032 3.75,4.30109 3.75,4.5L3.75,19.5C3.75,19.6989 3.82902,19.8897 3.96967,20.0303 4.11032,20.171 4.30109,20.25 4.5,20.25L19.5,20.25C19.6989,20.25 19.8897,20.171 20.0303,20.0303 20.171,19.8897 20.25,19.6989 20.25,19.5L20.25,12C20.25,11.8011 20.329,11.6103 20.4697,11.4697 20.6103,11.329 20.8011,11.25 21,11.25 21.1989,11.25 21.3897,11.329 21.5303,11.4697 21.671,11.6103 21.75,11.8011 21.75,12L21.75,19.5C21.75,20.0967 21.5129,20.669 21.091,21.091 20.669,21.5129 20.0967,21.75 19.5,21.75L4.5,21.75z" />
+                                                <GeometryDrawing Brush="#FF565656"
+                                                                 Geometry="F1 M24,24z M0,0z M12.531,15.531L23.031,5.03097C23.1007,4.96124 23.156,4.87846 23.1938,4.78735 23.2315,4.69624 23.2509,4.59859 23.2509,4.49997 23.2509,4.40135 23.2315,4.3037 23.1938,4.2126 23.156,4.12149 23.1007,4.0387 23.031,3.96897 22.9613,3.89924 22.8785,3.84392 22.7874,3.80619 22.6963,3.76845 22.5986,3.74902 22.5,3.74902 22.4014,3.74902 22.3037,3.76845 22.2126,3.80619 22.1215,3.84392 22.0387,3.89924 21.969,3.96897L12,13.9395 8.031,9.96897C7.96127,9.89924 7.87849,9.84392 7.78738,9.80619 7.69627,9.76845 7.59862,9.74902 7.5,9.74902 7.40139,9.74902 7.30374,9.76845 7.21263,9.80619 7.12152,9.84392 7.03873,9.89924 6.969,9.96897 6.89927,10.0387 6.84396,10.1215 6.80622,10.2126 6.76848,10.3037 6.74905,10.4014 6.74905,10.5 6.74905,10.5986 6.76848,10.6962 6.80622,10.7873 6.84396,10.8785 6.89927,10.9612 6.969,11.031L11.469,15.531C11.5387,15.6008 11.6214,15.6562 11.7126,15.694 11.8037,15.7318 11.9014,15.7513 12,15.7513 12.0987,15.7513 12.1963,15.7318 12.2875,15.694 12.3786,15.6562 12.4613,15.6008 12.531,15.531z" />
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                        </Button.Content>
+                    </Button>
+                    <Button x:Name="ChangeButton"
+                            Margin="0"
+                            VerticalAlignment="Center"
+                            Click="ChangeButton_Click">
+                        <Button.Content>
+                            <Image>
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                <DrawingGroup.Transform>
+                                                    <TranslateTransform X="0"
+                                                                        Y="0.0013427699450403452" />
+                                                </DrawingGroup.Transform>
+                                                <DrawingGroup Opacity="1">
+                                                    <DrawingGroup.ClipGeometry>
+                                                        <RectangleGeometry RadiusX="0"
+                                                                           RadiusY="0"
+                                                                           Rect="0,0,24,24" />
+                                                    </DrawingGroup.ClipGeometry>
+                                                    <GeometryDrawing Brush="#FF565656"
+                                                                     Geometry="F1 M24,24z M0,0z M18.219,0.218998C18.2887,0.149153 18.3714,0.0937388 18.4626,0.0559291 18.5537,0.0181194 18.6514,-0.00134277 18.75,-0.00134277 18.8487,-0.00134277 18.9463,0.0181194 19.0375,0.0559291 19.1286,0.0937388 19.2113,0.149153 19.281,0.218998L23.781,4.719C23.8509,4.78867 23.9063,4.87143 23.9441,4.96255 23.9819,5.05367 24.0014,5.15135 24.0014,5.25 24.0014,5.34865 23.9819,5.44633 23.9441,5.53745 23.9063,5.62857 23.8509,5.71133 23.781,5.781L8.78101,20.781C8.70904,20.8525,8.62331,20.9086,8.52901,20.946L1.02901,23.946C0.892718,24.0006 0.743408,24.0139 0.599594,23.9844 0.455779,23.9549 0.323785,23.8838 0.219975,23.78 0.116166,23.6762 0.0451054,23.5442 0.0156042,23.4004 -0.013897,23.2566 -0.000541715,23.1073 0.0540143,22.971L3.05401,15.471C3.09141,15.3767,3.14754,15.291,3.21901,15.219L18.219,0.218998z M16.8105,3.75L20.25,7.1895 22.1895,5.25 18.75,1.8105 16.8105,3.75z M19.1895,8.25L15.75,4.8105 6.00001,14.5605 6.00001,15 6.75001,15C6.94893,15 7.13969,15.079 7.28034,15.2197 7.421,15.3603 7.50001,15.5511 7.50001,15.75L7.50001,16.5 8.25001,16.5C8.44893,16.5 8.63969,16.579 8.78034,16.7197 8.921,16.8603 9.00001,17.0511 9.00001,17.25L9.00001,18 9.43951,18 19.1895,8.25z M4.54801,16.0125L4.38901,16.1715 2.09701,21.903 7.82851,19.611 7.98751,19.452C7.84444,19.3985 7.7211,19.3027 7.63399,19.1772 7.54687,19.0518 7.50013,18.9027 7.50001,18.75L7.50001,18 6.75001,18C6.5511,18 6.36034,17.921 6.21968,17.7803 6.07903,17.6397 6.00001,17.4489 6.00001,17.25L6.00001,16.5 5.25001,16.5C5.09728,16.4999 4.94823,16.4531 4.82278,16.366 4.69733,16.2789 4.60147,16.1556 4.54801,16.0125z" />
+                                                </DrawingGroup>
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
                 <TextBlock x:Name="HomeworkDescription"
+                           DockPanel.Dock="Left"
+                           Margin="10 0 0 0"
+                           Width="Auto"
+                           TextWrapping="Wrap"
                            VerticalAlignment="Center" />
-                <TextBlock x:Name="Deadline"
-                           VerticalAlignment="Center" />
-                <Button x:Name="DoneButton"
-                        Content="Сделано"
-                        VerticalAlignment="Center"
-                        Click="DoneButton_Click" />
-                <Button x:Name="ChangeButton"
-                        Content="Редактировать"
-                        VerticalAlignment="Center"
-                        Click="ChangeButton_Click" />
-            </StackPanel>
-            <Line X1="10"
-                  X2="{Binding ActualWidth, ElementName=HeaderStackPanel}"
-                  StrokeThickness="1"
-                  Stroke="#565656" 
-                  Margin="0 0 0 -10"
-                  x:Name="ButtomLine"/>
-        </StackPanel>
+                <Line X1="10"
+                      Visibility="Collapsed"
+                      X2="{Binding ActualWidth, ElementName=HeaderStackPanel}"
+                      DockPanel.Dock="Bottom"
+                      StrokeThickness="1"
+                      Stroke="#565656"
+                      Margin="0 0 0 -10"
+                      x:Name="ButtomLine" />
+            </DockPanel>
+        </Border>
     </Grid>
 </UserControl>
