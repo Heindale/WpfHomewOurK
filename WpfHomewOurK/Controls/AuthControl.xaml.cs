@@ -55,5 +55,10 @@ namespace WpfHomewOurK
 		{
 			_mainWindow.MainContent.Content = new RegControl(_mainWindow);
 		}
+
+		private void GoOut_Click(object sender, RoutedEventArgs e)
+		{
+			_mainWindow.Close();
+		}
 	}
 }

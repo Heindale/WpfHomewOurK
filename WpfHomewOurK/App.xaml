@@ -24,6 +24,10 @@
                         Value="#565656" />
             </Style>
 
+            <Style TargetType="PasswordBox" BasedOn="{StaticResource MaterialDesignFloatingHintPasswordBox}">
+                
+            </Style>
+
             <Style TargetType="TextBlock"
                    BasedOn="{StaticResource MaterialDesignTextBlock}">
                 <Setter Property="FontFamily"

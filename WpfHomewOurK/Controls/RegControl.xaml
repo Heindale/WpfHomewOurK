@@ -5,49 +5,103 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WpfHomewOurK"
              mc:Ignorable="d"
-             Background="White"
              d:DesignHeight="450"
              d:DesignWidth="800">
-    <Grid>
-        <StackPanel HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-            <Label>Создайте новый аккаунт!</Label>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Электронная почта" />
-                <TextBox x:Name="Login"
-                         Width="200" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Никнейм" />
-                <TextBox x:Name="Username"
-                         Width="200" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Имя" />
-                <TextBox x:Name="Firstname"
-                         Width="200" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Фамилия" />
-                <TextBox x:Name="Surname"
-                         Width="200" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Пароль" />
-                <PasswordBox x:Name="Password"
-                             Width="200" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Подтвердите пароль" />
-                <PasswordBox x:Name="ConfirmPassword"
-                             Width="200" />
-            </StackPanel>
-            <Button Content="Зарегистрироваться"
-                    x:Name="RegisterButton"
-                    Click="RegisterButton_Click" />
-            <Button Content="Войти в существующий аккаунт"
-                    x:Name="LoginButton"
-                    Click="LoginButton_Click" />
+    <UserControl.Background>
+        <ImageBrush ImageSource="/Images/Background.bmp" />
+    </UserControl.Background>
+    <Grid Width="360"
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center">
+        <StackPanel>
+            <TextBlock Text="Создайте новый аккаунт!"
+                       HorizontalAlignment="Center"
+                       Padding="10">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock"
+                           BasedOn="{StaticResource MaterialDesignTextBlock}">
+                        <Setter Property="FontFamily"
+                                Value="Verdana" />
+                        <Setter Property="Foreground"
+                                Value="#7FFFFFFF" />
+                        <Setter Property="FontSize"
+                                Value="25" />
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <Border Background="#7FFFFFFF"
+                    CornerRadius="10">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="3"
+                                      BlurRadius="4"
+                                      Direction="315"
+                                      Opacity="0.3" />
+                </Border.Effect>
+                <StackPanel HorizontalAlignment="Center"
+                            Margin="5"
+                            VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 5 0 0">
+                        <Label Content="Электронная почта" />
+                        <TextBox x:Name="Login"
+                                 Width="198" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Никнейм" />
+                        <TextBox x:Name="Username"
+                                 Width="269" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Имя" />
+                        <TextBox x:Name="Firstname"
+                                 Width="302" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Фамилия" />
+                        <TextBox x:Name="Surname"
+                                 Width="269" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 -5 0 0">
+                        <Label Content="Пароль"
+                               VerticalAlignment="Bottom" />
+                        <PasswordBox x:Name="Password"
+                                     Width="280" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 -5 0 0">
+                        <Label VerticalAlignment="Bottom"
+                               Content="Подтвердите пароль" />
+                        <PasswordBox x:Name="ConfirmPassword"
+                                     Width="191" />
+                    </StackPanel>
+                    <Button x:Name="RegisterButton"
+                            Margin="0 10 0 5"
+                            Click="RegisterButton_Click">
+                        <Button.Style>
+                            <Style TargetType="Button"
+                                   BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                            </Style>
+                        </Button.Style>
+                        <Button.Content>
+                            <TextBlock Text="Зарегистрироваться"
+                                       Foreground="LightGray" />
+                        </Button.Content>
+                    </Button>
+                    <Button Content="Войти в существующий аккаунт"
+                            Margin="0 0 0 5"
+                            x:Name="LoginButton"
+                            Click="LoginButton_Click" />
+                    <Button x:Name="GoOut"
+                            Margin="0 0 0 5"
+                            Click="GoOut_Click">
+                        <Button.Content>
+                            <TextBlock Text="Выйти"
+                                       Foreground="#9b0000" />
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+            </Border>
         </StackPanel>
     </Grid>
 </UserControl>

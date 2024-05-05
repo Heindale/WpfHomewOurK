@@ -53,5 +53,10 @@ namespace WpfHomewOurK
 				_mainWindow.MainContent.Content = authControl;
 			}
 		}
+
+		private void GoOut_Click(object sender, RoutedEventArgs e)
+		{
+			_mainWindow.Close();
+		}
 	}
 }
