@@ -56,6 +56,7 @@
                                  Text="Ваша почта" />
                     </StackPanel>
                     <Button x:Name="Edit"
+                            Margin="0 5"
                             Click="Edit_Click">
                         <Button.Style>
                             <Style TargetType="Button"
@@ -68,9 +69,11 @@
                         </Button.Content>
                     </Button>
                     <Button x:Name="Logout"
+                            Margin="0"
                             Content="Выйти"
                             Click="Logout_Click" />
                     <Button x:Name="Delete"
+                            Margin="0"
                             Click="Delete_Click">
                         <Button.Content>
                             <TextBlock Text="Удалить аккаунт"

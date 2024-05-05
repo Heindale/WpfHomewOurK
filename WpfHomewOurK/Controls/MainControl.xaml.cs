@@ -169,6 +169,7 @@ namespace WpfHomewOurK
 			PaintActiveButton(AddHomework);
 			Group selectedObject = (Group)Groups.SelectedItem;
 			var addHomeworkPage = new EditAddHomeworkPage(_mainWindow, this, selectedObject.Id);
+			addHomeworkPage.newHomeworkTitle.Visibility = Visibility.Visible;
 			addHomeworkPage.Update.Visibility = Visibility.Collapsed;
 			addHomeworkPage.Goback.Visibility = Visibility.Collapsed;
 			MainFrame.Navigate(addHomeworkPage);
@@ -178,6 +179,7 @@ namespace WpfHomewOurK
 		{
 			Group selectedObject = (Group)Groups.SelectedItem;
 			var editPage = new EditAddHomeworkPage(_mainWindow, this, selectedObject.Id);
+			editPage.newHomeworkTitle.Text = "Редактирование";
 			editPage.Create.Visibility = Visibility.Collapsed;
 			editPage.Category = category;
 			editPage.Edit(homework);
@@ -427,6 +429,7 @@ namespace WpfHomewOurK
 					SubjectControl subjectControl = new SubjectControl(subject, this);
 					subjectsPage.SubjectsStackPanel.Children.Add(subjectControl);
 				}
+				
 				context.SaveChanges();
 			}
 

@@ -33,13 +33,14 @@
                                       Direction="315"
                                       Opacity="0.3" />
                 </Border.Effect>
-                <StackPanel Margin="5">
+                <StackPanel Margin="5 0 5 5">
                     <StackPanel x:Name="SubjectsStackPanel" />
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal"
+                                Margin="10 0">
                         <TextBox x:Name="SubjectName"
-                                 MinWidth="50" />
+                                 MinWidth="100" />
                         <Button x:Name="NewSubjectButton"
-                                Content="Добавить"
+                                Content="Добавить новый предмет"
                                 Click="NewSubjectButton_Click" />
                     </StackPanel>
                 </StackPanel>

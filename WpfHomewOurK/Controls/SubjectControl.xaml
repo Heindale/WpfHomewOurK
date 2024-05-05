@@ -1,21 +1,69 @@
 ﻿<UserControl x:Class="WpfHomewOurK.Controls.SubjectControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WpfHomewOurK.Controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
     <Grid>
-        <StackPanel Orientation="Horizontal">
-            <TextBox x:Name="SubjectName"
-                     SelectionChanged="SubjectName_SelectionChanged" />
-            <Button x:Name="ChangeButton"
-                    Content="Сохранить"
-                    Click="ChangeButton_Click" />
-            <Button x:Name="DeleteButton"
-                    Content="Удалить"
-                    Click="DeleteButton_Click" />
-        </StackPanel>
+        <Border BorderThickness="0 0 0 1"
+                x:Name="BorderButtom"
+                Margin="10 0"
+                BorderBrush="#565656">
+            <DockPanel>
+                <TextBox x:Name="SubjectName"
+                         SelectionChanged="SubjectName_SelectionChanged" />
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                    <Button x:Name="ChangeButton"
+                            Click="ChangeButton_Click">
+                        <Button.Content>
+                            <Image>
+                                <Image.Source>
+                                    <DrawingImage>
+                                            <DrawingImage.Drawing>
+                                                <DrawingGroup ClipGeometry="M0,0 V96 H96 V0 H0 Z">
+                                                    <DrawingGroup Opacity="1"
+                                                                  Transform="0.1,0,0,-0.1,0,96">
+                                                    <GeometryDrawing Brush="#FF565656"
+                                                                         Geometry="F1 M96,96z M0,0z M96,864C82,851 80,802 80,480 80,158 82,109 96,96 109,82 158,80 480,80 802,80 851,82 864,96 878,109 880,152 880,413L880,715 797,798 715,880 413,880C152,880,109,878,96,864z M230,718C230,619 233,593 247,578 262,562 282,560 468,560 645,560 676,562 692,577 708,591 710,610 710,714L710,834 775,770 840,706 840,413 840,120 785,120 730,120 730,268C730,476 751,460 483,460 296,460 264,458 248,443 232,429 230,409 230,273L230,120 175,120 120,120 120,480 120,840 175,840 230,840 230,718z M670,720L670,600 470,600 270,600 270,720 270,840 470,840 670,840 670,720z M690,270L690,120 480,120 270,120 270,270 270,420 480,420 690,420 690,270z" />
+                                                    <GeometryDrawing Brush="#FF565656"
+                                                                         Geometry="F1 M96,96z M0,0z M152,173C157,147 190,144 190,169 190,184 184,190 169,190 155,190 150,185 152,173z" />
+                                                    <GeometryDrawing Brush="#FF565656"
+                                                                         Geometry="F1 M96,96z M0,0z M770,169C770,144 803,147 808,173 810,185 805,190 791,190 776,190 770,184 770,169z" />
+                                                    <GeometryDrawing Brush="#FF565656"
+                                                                         Geometry="F1 M96,96z M0,0z M544,797C541,789,540,750,542,709L545,635 585,635 625,635 625,720 625,805 587,808C562,810,548,807,544,797z M600,720C600,699 596,678 590,675 584,671 580,688 580,720 580,752 584,769 590,765 596,762 600,741 600,720z" />
+                                                    </DrawingGroup>
+                                                </DrawingGroup>
+                                            </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                        </Button.Content>
+                    </Button>
+                    <Button x:Name="DeleteButton"
+                            Click="DeleteButton_Click">
+                        <Button.Content>
+                            <Image>
+                                <Image.Source>
+                                    <DrawingImage>
+                                        <DrawingImage.Drawing>
+                                            <DrawingGroup ClipGeometry="M0,0 V24 H24 V0 H0 Z">
+                                                <GeometryDrawing Brush="#FF565656"
+                                                                 Geometry="F1 M24,24z M0,0z M8.25,8.25C8.44891,8.25 8.63968,8.32902 8.78033,8.46967 8.92098,8.61032 9,8.80109 9,9L9,18C9,18.1989 8.92098,18.3897 8.78033,18.5303 8.63968,18.671 8.44891,18.75 8.25,18.75 8.05109,18.75 7.86032,18.671 7.71967,18.5303 7.57902,18.3897 7.5,18.1989 7.5,18L7.5,9C7.5,8.80109 7.57902,8.61032 7.71967,8.46967 7.86032,8.32902 8.05109,8.25 8.25,8.25z M12,8.25C12.1989,8.25 12.3897,8.32902 12.5303,8.46967 12.671,8.61032 12.75,8.80109 12.75,9L12.75,18C12.75,18.1989 12.671,18.3897 12.5303,18.5303 12.3897,18.671 12.1989,18.75 12,18.75 11.8011,18.75 11.6103,18.671 11.4697,18.5303 11.329,18.3897 11.25,18.1989 11.25,18L11.25,9C11.25,8.80109 11.329,8.61032 11.4697,8.46967 11.6103,8.32902 11.8011,8.25 12,8.25z M16.5,9C16.5,8.80109 16.421,8.61032 16.2803,8.46967 16.1397,8.32902 15.9489,8.25 15.75,8.25 15.5511,8.25 15.3603,8.32902 15.2197,8.46967 15.079,8.61032 15,8.80109 15,9L15,18C15,18.1989 15.079,18.3897 15.2197,18.5303 15.3603,18.671 15.5511,18.75 15.75,18.75 15.9489,18.75 16.1397,18.671 16.2803,18.5303 16.421,18.3897 16.5,18.1989 16.5,18L16.5,9z" />
+                                                <GeometryDrawing Brush="#FF565656"
+                                                                 Geometry="F1 M24,24z M0,0z M21.75,4.5C21.75,4.89782 21.592,5.27936 21.3107,5.56066 21.0294,5.84196 20.6478,6 20.25,6L19.5,6 19.5,19.5C19.5,20.2956 19.1839,21.0587 18.6213,21.6213 18.0587,22.1839 17.2956,22.5 16.5,22.5L7.5,22.5C6.70435,22.5 5.94129,22.1839 5.37868,21.6213 4.81607,21.0587 4.5,20.2956 4.5,19.5L4.5,6 3.75,6C3.35218,6 2.97064,5.84196 2.68934,5.56066 2.40804,5.27936 2.25,4.89782 2.25,4.5L2.25,3C2.25,2.60218 2.40804,2.22064 2.68934,1.93934 2.97064,1.65804 3.35218,1.5 3.75,1.5L9,1.5C9,1.10218 9.15804,0.720644 9.43934,0.43934 9.72064,0.158035 10.1022,0 10.5,0L13.5,0C13.8978,0 14.2794,0.158035 14.5607,0.43934 14.842,0.720644 15,1.10218 15,1.5L20.25,1.5C20.6478,1.5 21.0294,1.65804 21.3107,1.93934 21.592,2.22064 21.75,2.60218 21.75,3L21.75,4.5z M6.177,6L6,6.0885 6,19.5C6,19.8978 6.15804,20.2794 6.43934,20.5607 6.72064,20.842 7.10218,21 7.5,21L16.5,21C16.8978,21 17.2794,20.842 17.5607,20.5607 17.842,20.2794 18,19.8978 18,19.5L18,6.0885 17.823,6 6.177,6z M3.75,4.5L20.25,4.5 20.25,3 3.75,3 3.75,4.5z" />
+                                            </DrawingGroup>
+                                        </DrawingImage.Drawing>
+                                    </DrawingImage>
+                                </Image.Source>
+                            </Image>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+        </Border>
     </Grid>
 </UserControl>
