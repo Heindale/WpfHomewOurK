@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="WpfHomewOurK.Controls.ProposalControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WpfHomewOurK.Controls"
+             mc:Ignorable="d"
+             Width="Auto">
+    <Grid>
+        <Border Background="#7FFFFFFF"
+                x:Name="CornerBorder"
+                CornerRadius="10"
+                Margin="0 10 0 0">
+            <DockPanel>
+                <TextBlock x:Name="Description"
+                           Margin="10"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left" />
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right">
+                    <Button x:Name="Agree">
+                        <Button.Style>
+                            <Style TargetType="Button"
+                                   BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                            </Style>
+                        </Button.Style>
+                        <TextBlock Text="Добавить"
+                                   Foreground="LightGray"/>
+                    </Button>
+                    <Button x:Name="Disagree">
+                        <TextBlock Text="Отклонить"
+                                   VerticalAlignment="Bottom"
+                                   Foreground="#9b0000" />
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -419,14 +419,15 @@ namespace WpfHomewOurK
 			{
 				List<Subject> subjects = context.Subjects.ToList();
 				context.Subjects.RemoveRange(subjects);
-				HttpHelper<List<Subject>> httpHelper = new HttpHelper<List<Subject>>(_mainWindow, "api/Subjects/GetSubjects?groupId=" + selectedObject.Id);
+				HttpHelper<List<Subject>> httpHelper = new HttpHelper<List<Subject>>
+					(_mainWindow, "api/Subjects/GetSubjects?groupId=" + selectedObject.Id);
 				var subjectsHttp = await httpHelper.GetReqAsync();
 				if (subjectsHttp != null)
 					context.AddRange(subjectsHttp);
 				subjects = context.Subjects.ToList();
 				foreach (Subject subject in subjects)
 				{
-					SubjectControl subjectControl = new SubjectControl(subject, this);
+					SubjectControl subjectControl = new SubjectControl(subject, this, _mainWindow);
 					subjectsPage.SubjectsStackPanel.Children.Add(subjectControl);
 				}
 				

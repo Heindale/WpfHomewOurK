@@ -49,9 +49,10 @@
                         <TextBox x:Name="GroupType" />
                     </StackPanel>
                     <Label x:Name="MembersCount"
-                        Content="Всего участников: " />
+                           Content="Всего участников: " />
 
-                    <Button x:Name="SaveChanges">
+                    <Button x:Name="SaveChanges"
+                            Margin="0 5">
                         <Button.Style>
                             <Style TargetType="Button"
                                    BasedOn="{StaticResource MaterialDesignRaisedButton}">
@@ -62,8 +63,17 @@
                                        Foreground="LightGray" />
                         </Button.Content>
                     </Button>
+                    <Button x:Name="Delete"
+                            Margin="0"
+                            Click="Delete_Click">
+                        <Button.Content>
+                            <TextBlock Text="Удалить группу"
+                                       Foreground="#9b0000" />
+                        </Button.Content>
+                    </Button>
                 </StackPanel>
             </Border>
+            <StackPanel x:Name="Proposals"/>
             <TextBlock Text="Участники"
                        Padding="5">
                 <TextBlock.Style>

@@ -26,14 +26,35 @@ namespace WpfHomewOurK.Pages
 		private MainControl _mainControl;
 		private const string _getUserUrl = "api/Users/GetUsers?groupId=";
 		private const string _getGroupUrl = "api/Groups/GetGroup?groupId=";
+		private const string _getProposalsUrl = "api/Proposals?groupId=";
 
 		public GroupPage(MainControl mainControl, MainWindow mainWindow)
 		{
 			InitializeComponent();
 			_mainControl = mainControl;
 			_mainWindow = mainWindow;
+			LoadProposalsAsync();
 			LoadMembersAsync();
 			LoadGroupDataAsync();
+		}
+
+		private async void LoadProposalsAsync()
+		{
+			var selectedObject = (Group)_mainControl.Groups.SelectedItem;
+			if (selectedObject != null)
+			{
+				HttpHelper<List<Proposal>> httpHelper = new HttpHelper<List<Proposal>>(_mainWindow, _getProposalsUrl + selectedObject.Id);
+				var propsalsTask = httpHelper.GetReqAsync();
+
+				var proposals = await propsalsTask;
+				if (proposals != null)
+				{
+					foreach (Proposal proposal in proposals)
+					{
+						Proposals.Children.Add(new ProposalControl(proposal, _mainWindow));
+					}
+				}
+			}
 		}
 
 		private async void LoadGroupDataAsync()
@@ -81,6 +102,29 @@ namespace WpfHomewOurK.Pages
 					}
 				}
 			}
+		}
+
+		private void Delete_Click(object sender, RoutedEventArgs e)
+		{
+			DeleteGroupAsync(sender, e);
+		}
+
+
+
+		private async void DeleteGroupAsync(object sender, RoutedEventArgs e)
+		{
+			MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить группу?\nОтменить данное действие будет невозможно.", "Удаление группы", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+			//if (result == MessageBoxResult.Yes)
+			//{
+			//	HttpHelper<User> httpHelper = new HttpHelper<User>(_mainWindow, _baseUsersUrl);
+			//	var response = await httpHelper.DeleteReqAsync();
+			//	if (response != null)
+			//	{
+			//		MessageBox.Show("Аккаунт удален", "Удаление аккаунта", MessageBoxButton.OK, MessageBoxImage.Information);
+			//	}
+			//	else
+			//		MessageBox.Show("Аккаунт не был удален", "Удаление аккаунта", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+			//}
 		}
 	}
 }

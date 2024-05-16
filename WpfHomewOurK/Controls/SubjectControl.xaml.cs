@@ -23,13 +23,15 @@ namespace WpfHomewOurK.Controls
 	{
 		Subject Subject { get; set; }
 		private MainControl _mainControl;
+		private MainWindow _mainWindow;
 
-		public SubjectControl(Subject subject, MainControl mainControl)
+		public SubjectControl(Subject subject, MainControl mainControl, MainWindow mainWindow)
 		{
 			InitializeComponent();
 
 			Subject = subject;
 			_mainControl = mainControl;
+			_mainWindow = mainWindow;
 
 			SubjectName.Text = Subject.Name;
 			ChangeButton.Visibility = Visibility.Collapsed;
@@ -38,13 +40,36 @@ namespace WpfHomewOurK.Controls
 		private void ChangeButton_Click(object sender, RoutedEventArgs e)
 		{
 			ChangeButton.Visibility = Visibility.Collapsed;
+			Subject.Name = SubjectName.Text;
+			UpdateSubject(Subject);
+		}
 
+		private async void UpdateSubject(Subject subject)
+		{
+			var httpHelper = new HttpHelper<Subject>(_mainWindow, "api/Subjects");
+			await httpHelper.PatchReqAsync(subject);
+
+			LoadDataFromDb loadDataFromDb = new LoadDataFromDb(_mainWindow);
+			await loadDataFromDb.LoadDataAsync(_mainWindow.paths);
 		}
 
 		private void DeleteButton_Click(object sender, RoutedEventArgs e)
 		{
-
+			DeleteSubject(Subject);
 		}
+
+
+		private async void DeleteSubject(Subject subject)
+		{
+			var httpHelper = new HttpHelper<Subject>(_mainWindow, $"api/Subjects?subjectId={subject.Id}&groupId={subject.GroupId}");
+			await httpHelper.DeleteReqAsync();
+
+			LoadDataFromDb loadDataFromDb = new LoadDataFromDb(_mainWindow);
+			await loadDataFromDb.LoadDataAsync(_mainWindow.paths);
+
+			Visibility = Visibility.Collapsed;
+		}
+
 
 		private void SubjectName_SelectionChanged(object sender, RoutedEventArgs e)
 		{
