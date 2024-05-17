@@ -150,5 +150,10 @@ namespace WpfHomewOurK.Pages
 				});
 			}
 		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			_mainControl.MainFrame.Navigate(new SearchGroupPage(_mainWindow));
+		}
 	}
 }

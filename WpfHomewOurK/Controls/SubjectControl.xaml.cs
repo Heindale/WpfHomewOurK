@@ -75,5 +75,10 @@ namespace WpfHomewOurK.Controls
 		{
 			ChangeButton.Visibility = Visibility.Visible;
 		}
+
+		private void SubjectName_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			ChangeButton.Visibility = Visibility.Visible;
+		}
 	}
 }

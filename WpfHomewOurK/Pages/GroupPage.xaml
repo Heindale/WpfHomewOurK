@@ -27,7 +27,8 @@
                     </TextBlock.Style>
                 </TextBlock>
                 <Button HorizontalAlignment="Right"
-                        Margin="5">
+                        Margin="5"
+                        Click="Button_Click">
                     <Button.Style>
                         <Style TargetType="Button"
                                BasedOn="{StaticResource MaterialDesignRaisedButton}">

@@ -14,7 +14,7 @@
                 BorderBrush="#565656">
             <DockPanel>
                 <TextBox x:Name="SubjectName"
-                         SelectionChanged="SubjectName_SelectionChanged" />
+                         TextChanged="SubjectName_TextChanged" />
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Right">
                     <Button x:Name="ChangeButton"

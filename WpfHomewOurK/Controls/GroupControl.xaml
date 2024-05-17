@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="WpfHomewOurK.Controls.GroupControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WpfHomewOurK.Controls"
+             mc:Ignorable="d"
+             Width="Auto">
+    <Grid>
+        <StackPanel>
+            <TextBlock x:Name="UniqGroupName">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock"
+                           BasedOn="{StaticResource MaterialDesignTextBlock}">
+                        <Setter Property="FontFamily"
+                                Value="Verdana" />
+                        <Setter Property="Foreground"
+                                Value="#7FFFFFFF" />
+                        <Setter Property="FontSize"
+                                Value="20" />
+                    </Style>
+                </TextBlock.Style></TextBlock>
+            <Border Background="#7FFFFFFF"
+                    x:Name="CornerBorder"
+                    CornerRadius="10">
+                <DockPanel>
+                    <TextBlock x:Name="GroupName"
+                               Margin="10"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left" />
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Right">
+                        <Button x:Name="Agree"
+                                Margin="10">
+                            <Button.Style>
+                                <Style TargetType="Button"
+                                       BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                                </Style>
+                            </Button.Style>
+                            <TextBlock Text="Подать заявку"
+                                       Foreground="LightGray" />
+                        </Button>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+        </StackPanel>
+    </Grid>
+</UserControl>
