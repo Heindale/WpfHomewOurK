@@ -26,6 +26,7 @@ namespace WpfHomewOurK.Pages
 		private MainControl _mainControl;
 		private const string _getUserUrl = "api/Users/GetUsers?groupId=";
 		private const string _getGroupUrl = "api/Groups/GetGroup?groupId=";
+		private const string _GroupsUrl = "api/Groups";
 		private const string _getProposalsUrl = "api/Proposals?groupId=";
 
 		public GroupPage(MainControl mainControl, MainWindow mainWindow)
@@ -69,6 +70,7 @@ namespace WpfHomewOurK.Pages
 				if (group != null)
 				{
 					GroupName.Text = group.Name;
+					UniqGroupName.Text = group.UniqGroupName;
 					var grade = group.Grade;
 					var type = group.GroupType;
 					if (grade != null)
@@ -125,6 +127,28 @@ namespace WpfHomewOurK.Pages
 			//	else
 			//		MessageBox.Show("Аккаунт не был удален", "Удаление аккаунта", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 			//}
+		}
+
+		private void SaveChanges_Click(object sender, RoutedEventArgs e)
+		{
+			UpdateGroupAsync();
+		}
+
+		private async void UpdateGroupAsync()
+		{
+			var selectedObject = (Group)_mainControl.Groups.SelectedItem;
+			if (selectedObject != null)
+			{
+				HttpHelper<Group> httpHelper = new HttpHelper<Group>(_mainWindow, _GroupsUrl);
+				await httpHelper.PatchReqAsync(new Group
+				{
+					Id = selectedObject.Id,
+					Grade = int.Parse(GroupGrade.Text),
+					GroupType = GroupType.Text,
+					Name = GroupName.Text,
+					UniqGroupName = UniqGroupName.Text
+				});
+			}
 		}
 	}
 }

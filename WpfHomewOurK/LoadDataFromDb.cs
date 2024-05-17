@@ -23,13 +23,9 @@ namespace WpfHomewOurK
 		{
 			User? user;
 
-			using (ApplicationContext context = new ApplicationContext())
-			{
-				HttpHelper<User> httpUserHelper = new HttpHelper<User>(_mainWindow, paths[0]);
-				var userTask = httpUserHelper.GetReqAsync();
-				user = await userTask;
-
-			}
+			HttpHelper<User> httpUserHelper = new HttpHelper<User>(_mainWindow, paths[0]);
+			var userTask = httpUserHelper.GetReqAsync();
+			user = await userTask;
 
 			if (user != null)
 			{

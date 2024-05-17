@@ -19,7 +19,8 @@
                 <StackPanel Orientation="Horizontal"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Right">
-                    <Button x:Name="Agree">
+                    <Button x:Name="Agree"
+                            Click="Agree_Click">
                         <Button.Style>
                             <Style TargetType="Button"
                                    BasedOn="{StaticResource MaterialDesignRaisedButton}">
@@ -28,7 +29,8 @@
                         <TextBlock Text="Добавить"
                                    Foreground="LightGray"/>
                     </Button>
-                    <Button x:Name="Disagree">
+                    <Button x:Name="Disagree"
+                            Click="Disagree_Click">
                         <TextBlock Text="Отклонить"
                                    VerticalAlignment="Bottom"
                                    Foreground="#9b0000" />

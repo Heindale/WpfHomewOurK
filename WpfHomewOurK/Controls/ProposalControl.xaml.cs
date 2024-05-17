@@ -1,7 +1,10 @@
-﻿using HomewOurK.Domain.Entities;
+﻿using HomewOurK.Domain.Common.Interfaces;
+using HomewOurK.Domain.Entities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -100,6 +103,42 @@ namespace WpfHomewOurK.Controls
 						rRevers = true;
 				}
 			}
+		}
+
+		private void Disagree_Click(object sender, RoutedEventArgs e)
+		{
+			DisagreeAsync();
+		}
+
+		private async void DisagreeAsync()
+		{
+			HttpHelper<Proposal> proposalHttpHelper = new HttpHelper<Proposal>(_mainWindow, $"api/Proposals?id={_proposal.Id}");
+			var deleteResponse = await proposalHttpHelper.DeleteReqAsync();
+
+			if (deleteResponse != null && deleteResponse.IsSuccessStatusCode)
+				Visibility = Visibility.Collapsed;
+		}
+
+		private void Agree_Click(object sender, RoutedEventArgs e)
+		{
+			AgreeAsync();
+		}
+
+		private async void AgreeAsync()
+		{
+			HttpHelper<GroupsUsers> httpHelper = new HttpHelper<GroupsUsers>(_mainWindow, $"api/UsersGroups");
+			var postResponse = await httpHelper.PostReqAuthAsync(new GroupsUsers
+			{
+				GroupId = _proposal.GroupId,
+				UserId = _proposal.UserId
+			});
+
+			HttpHelper<Proposal> proposalHttpHelper = new HttpHelper<Proposal>(_mainWindow, $"api/Proposals?id={_proposal.Id}");
+			var deleteResponse = await proposalHttpHelper.DeleteReqAsync();
+
+			if (postResponse != null && deleteResponse != null &&
+				postResponse.IsSuccessStatusCode && deleteResponse.IsSuccessStatusCode)
+				Visibility = Visibility.Collapsed;
 		}
 	}
 }

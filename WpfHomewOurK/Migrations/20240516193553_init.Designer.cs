@@ -11,29 +11,14 @@ using WpfHomewOurK;
 namespace WpfHomewOurK.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20240317063140_init")]
+    [Migration("20240516193553_init")]
     partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
-
-            modelBuilder.Entity("GroupUser", b =>
-                {
-                    b.Property<int>("GroupsId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("GroupsId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("GroupUser");
-                });
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.5");
 
             modelBuilder.Entity("HomewOurK.Domain.Entities.Attachment", b =>
                 {
@@ -84,36 +69,14 @@ namespace WpfHomewOurK.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("UniqGroupName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("Groups");
-                });
-
-            modelBuilder.Entity("HomewOurK.Domain.Entities.GroupsUsers", b =>
-                {
-                    b.Property<int>("GroupId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CompletedHomeworksCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CreatedHomeworksCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UserExperience")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UserLevel")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("GroupId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("GroupsUsers");
                 });
 
             modelBuilder.Entity("HomewOurK.Domain.Entities.Homework", b =>
@@ -199,46 +162,6 @@ namespace WpfHomewOurK.Migrations
                     b.ToTable("Teachers");
                 });
 
-            modelBuilder.Entity("HomewOurK.Domain.Entities.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Firstname")
-                        .HasMaxLength(25)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("GroupsCount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateOnly>("RegistrationDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Surname")
-                        .HasMaxLength(25)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("User");
-                });
-
             modelBuilder.Entity("SubjectTeacher", b =>
                 {
                     b.Property<int>("SubjectsId")
@@ -260,21 +183,6 @@ namespace WpfHomewOurK.Migrations
                     b.ToTable("SubjectTeacher");
                 });
 
-            modelBuilder.Entity("GroupUser", b =>
-                {
-                    b.HasOne("HomewOurK.Domain.Entities.Group", null)
-                        .WithMany()
-                        .HasForeignKey("GroupsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HomewOurK.Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("HomewOurK.Domain.Entities.Attachment", b =>
                 {
                     b.HasOne("HomewOurK.Domain.Entities.Group", "Group")
@@ -290,25 +198,6 @@ namespace WpfHomewOurK.Migrations
                     b.Navigation("Group");
 
                     b.Navigation("Subject");
-                });
-
-            modelBuilder.Entity("HomewOurK.Domain.Entities.GroupsUsers", b =>
-                {
-                    b.HasOne("HomewOurK.Domain.Entities.Group", "Group")
-                        .WithMany("GroupsUsers")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HomewOurK.Domain.Entities.User", "User")
-                        .WithMany("GroupsUsers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Group");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HomewOurK.Domain.Entities.Homework", b =>
@@ -363,16 +252,6 @@ namespace WpfHomewOurK.Migrations
                         .HasForeignKey("TeachersId", "TeachersGroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("HomewOurK.Domain.Entities.Group", b =>
-                {
-                    b.Navigation("GroupsUsers");
-                });
-
-            modelBuilder.Entity("HomewOurK.Domain.Entities.User", b =>
-                {
-                    b.Navigation("GroupsUsers");
                 });
 #pragma warning restore 612, 618
         }

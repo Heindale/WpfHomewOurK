@@ -15,7 +15,7 @@ namespace WpfHomewOurK.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.5");
 
             modelBuilder.Entity("HomewOurK.Domain.Entities.Attachment", b =>
                 {
@@ -46,7 +46,7 @@ namespace WpfHomewOurK.Migrations
 
                     b.HasIndex("SubjectId", "SubjectGroupId");
 
-                    b.ToTable("Attachments", (string)null);
+                    b.ToTable("Attachments");
                 });
 
             modelBuilder.Entity("HomewOurK.Domain.Entities.Group", b =>
@@ -66,9 +66,14 @@ namespace WpfHomewOurK.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("UniqGroupName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Groups", (string)null);
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("HomewOurK.Domain.Entities.Homework", b =>
@@ -111,7 +116,7 @@ namespace WpfHomewOurK.Migrations
 
                     b.HasIndex("SubjectId", "SubjectGroupId");
 
-                    b.ToTable("Homeworks", (string)null);
+                    b.ToTable("Homeworks");
                 });
 
             modelBuilder.Entity("HomewOurK.Domain.Entities.Subject", b =>
@@ -131,7 +136,7 @@ namespace WpfHomewOurK.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("Subjects", (string)null);
+                    b.ToTable("Subjects");
                 });
 
             modelBuilder.Entity("HomewOurK.Domain.Entities.Teacher", b =>
@@ -151,7 +156,7 @@ namespace WpfHomewOurK.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("Teachers", (string)null);
+                    b.ToTable("Teachers");
                 });
 
             modelBuilder.Entity("SubjectTeacher", b =>
@@ -172,7 +177,7 @@ namespace WpfHomewOurK.Migrations
 
                     b.HasIndex("TeachersId", "TeachersGroupId");
 
-                    b.ToTable("SubjectTeacher", (string)null);
+                    b.ToTable("SubjectTeacher");
                 });
 
             modelBuilder.Entity("HomewOurK.Domain.Entities.Attachment", b =>

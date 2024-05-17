@@ -27,7 +27,7 @@ namespace WpfHomewOurK
 			_urlPath = urlPath;
 		}
 
-		public async Task<HttpResponseMessage?> PostReqAsync(T entity)
+		public async Task<HttpResponseMessage?> PostReqAsync(T? entity)
 		{
 			try
 			{
@@ -86,7 +86,7 @@ namespace WpfHomewOurK
 				}
 				else
 				{
-					MessageBox.Show($"Error: {response}");
+						MessageBox.Show($"Error: {response}");
 					return response;
 				}
 			}
@@ -206,7 +206,8 @@ namespace WpfHomewOurK
 				}
 				else
 				{
-					MessageBox.Show($"Error: {response}");
+					if (!_urlPath.Contains("Proposals"))
+						MessageBox.Show($"Error: {response}");
 					return _entity;
 				}
 			}
