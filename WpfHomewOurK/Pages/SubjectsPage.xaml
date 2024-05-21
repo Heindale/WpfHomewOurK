@@ -36,6 +36,7 @@
                 <StackPanel Margin="5 0 5 5">
                     <StackPanel x:Name="SubjectsStackPanel" />
                     <StackPanel Orientation="Horizontal"
+                                x:Name="newSubject"
                                 Margin="10 0">
                         <TextBox x:Name="SubjectName"
                                  MinWidth="100" />

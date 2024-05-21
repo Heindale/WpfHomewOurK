@@ -35,6 +35,16 @@ namespace WpfHomewOurK.Controls
 
 			SubjectName.Text = Subject.Name;
 			ChangeButton.Visibility = Visibility.Collapsed;
+			RoleVerification();
+		}
+
+		private void RoleVerification()
+		{
+			if (CurrentUser.GetRole(_mainWindow) == Role.None)
+			{
+				SubjectName.IsReadOnly = true;
+				DeleteButton.Visibility = Visibility.Collapsed;
+			}
 		}
 
 		private void ChangeButton_Click(object sender, RoutedEventArgs e)

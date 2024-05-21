@@ -29,14 +29,29 @@ namespace WpfHomewOurK.Pages
 		private const string _GroupsUrl = "api/Groups";
 		private const string _getProposalsUrl = "api/Proposals?groupId=";
 
-		public GroupPage(MainControl mainControl, MainWindow mainWindow)
+		public GroupPage(MainControl mainControl, MainWindow mainWindow, Role? role = null)
 		{
 			InitializeComponent();
 			_mainControl = mainControl;
 			_mainWindow = mainWindow;
 			LoadProposalsAsync();
-			LoadMembersAsync();
+			LoadMembersAsync(role);
 			LoadGroupDataAsync();
+			RoleVerification();
+		}
+
+		private void RoleVerification()
+		{
+			if ((CurrentUser.GetRole(_mainWindow)) != Role.GroupCreator)
+			{
+				SaveChanges.Visibility = Visibility.Collapsed;
+				Delete.Visibility = Visibility.Collapsed;
+				Proposals.Visibility = Visibility.Collapsed;
+				GroupName.IsReadOnly = true;
+				UniqGroupName.IsReadOnly = true;
+				GroupGrade.IsReadOnly = true;
+				GroupType.IsReadOnly = true;
+			}
 		}
 
 		private async void LoadProposalsAsync()
@@ -81,7 +96,7 @@ namespace WpfHomewOurK.Pages
 			}
 		}
 
-		private async void LoadMembersAsync()
+		private async void LoadMembersAsync(Role? role)
 		{
 			var selectedObject = (Group)_mainControl.Groups.SelectedItem;
 			if (selectedObject != null)
@@ -97,7 +112,7 @@ namespace WpfHomewOurK.Pages
 					MembersCount.Content = "Всего участников: " + users.Count.ToString();
 					for (int i = 0; i < users.Count; i++)
 					{
-						var member = new MemberControl(users.ElementAt(i));
+						var member = new MemberControl(users.ElementAt(i), _mainWindow, role);
 						if (i == users.Count - 1)
 							member.ButtomLine.Visibility = Visibility.Collapsed;
 						Members.Children.Add(member);
@@ -115,18 +130,22 @@ namespace WpfHomewOurK.Pages
 
 		private async void DeleteGroupAsync(object sender, RoutedEventArgs e)
 		{
-			MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить группу?\nОтменить данное действие будет невозможно.", "Удаление группы", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
-			//if (result == MessageBoxResult.Yes)
-			//{
-			//	HttpHelper<User> httpHelper = new HttpHelper<User>(_mainWindow, _baseUsersUrl);
-			//	var response = await httpHelper.DeleteReqAsync();
-			//	if (response != null)
-			//	{
-			//		MessageBox.Show("Аккаунт удален", "Удаление аккаунта", MessageBoxButton.OK, MessageBoxImage.Information);
-			//	}
-			//	else
-			//		MessageBox.Show("Аккаунт не был удален", "Удаление аккаунта", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-			//}
+			var selectedObject = (Group)_mainControl.Groups.SelectedItem;
+			if (selectedObject != null)
+			{
+				MessageBoxResult result = MessageBox.Show("Вы уверены, что хотите удалить группу?\nОтменить данное действие будет невозможно.", "Удаление группы", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+				if (result == MessageBoxResult.Yes)
+				{
+					HttpHelper<Group> httpHelper = new HttpHelper<Group>(_mainWindow, _GroupsUrl + "?groupId=" + selectedObject.Id);
+					var response = await httpHelper.DeleteReqAsync();
+					if (response != null && response.IsSuccessStatusCode)
+					{
+						MessageBox.Show("Группа удалена", "Удаление группы", MessageBoxButton.OK, MessageBoxImage.Information);
+					}
+					else
+						MessageBox.Show("Группа не была удалена", "Удаление группы", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+				}
+			}
 		}
 
 		private void SaveChanges_Click(object sender, RoutedEventArgs e)
@@ -155,5 +174,15 @@ namespace WpfHomewOurK.Pages
 		{
 			_mainControl.MainFrame.Navigate(new SearchGroupPage(_mainWindow));
 		}
-	}
+
+		private void Button_Click_1(object sender, RoutedEventArgs e)
+		{
+			_mainControl.MainFrame.Navigate(new CreateGroupPage(_mainWindow));
+		}
+
+		private void Button_Click_2(object sender, RoutedEventArgs e)
+		{
+			_mainControl.MainFrame.Navigate(new GroupPage(_mainControl, _mainWindow));
+		}
+    }
 }

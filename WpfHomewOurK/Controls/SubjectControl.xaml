@@ -16,6 +16,7 @@
                 <TextBox x:Name="SubjectName"
                          TextChanged="SubjectName_TextChanged" />
                 <StackPanel Orientation="Horizontal"
+                            Height="40"
                             HorizontalAlignment="Right">
                     <Button x:Name="ChangeButton"
                             Click="ChangeButton_Click">

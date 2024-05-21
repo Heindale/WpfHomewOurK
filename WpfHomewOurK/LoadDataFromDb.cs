@@ -35,8 +35,8 @@ namespace WpfHomewOurK
 					foreach (var groupId in GroupsId)
 					{
 						LoadGroupElementEntityAsync<Teacher>(paths[2], groupId.ToString());
-						LoadGroupElementEntityAsync<Subject>(paths[3], groupId.ToString());
 						LoadGroupElementEntityAsync<Attachment>(paths[4], groupId.ToString());
+						AsyncHelper.RunSync(() => LoadGroupElementEntityAsyncTask<Subject>(paths[3], groupId.ToString()));
 						using (ApplicationContext context = new ApplicationContext())
 						{
 							foreach (var subject in context.Subjects)
@@ -100,6 +100,31 @@ namespace WpfHomewOurK
 			}
 		}
 
+		public async Task LoadGroupElementEntityAsyncTask<T>(string getEntityUrl, string groupId) where T : GroupElementEntity
+		{
+			using (var context = new ApplicationContext())
+			{
+				var httpHelper = new HttpHelper<List<T>>(_mainWindow, getEntityUrl + groupId);
+				var entitiesTask = httpHelper.GetReqAsync();
+				List<T>? entities = await entitiesTask;
+
+				if (entities != null)
+				{
+					var localGroups = context.Set<T>().ToList();
+
+					foreach (var entity in entities)
+					{
+						if (localGroups.FirstOrDefault(g => g.Id == entity.Id && g.GroupId == entity.GroupId) == null)
+						{
+							context.Set<T>().Add(entity);
+						}
+					}
+
+					context.SaveChanges();
+				}
+			}
+		}
+
 		public async void LoadSubjectElementEntityAsync<T>(string getEntityUrl, string groupId, string subjectId) where T : SubjectElementEntity
 		{
 			using (var context = new ApplicationContext())
@@ -124,5 +149,28 @@ namespace WpfHomewOurK
 				}
 			}
 		}
+	}
+
+	public static class AsyncHelper
+	{
+		private static readonly TaskFactory _taskFactory = new
+			TaskFactory(CancellationToken.None,
+						TaskCreationOptions.None,
+						TaskContinuationOptions.None,
+						TaskScheduler.Default);
+
+		public static TResult RunSync<TResult>(Func<Task<TResult>> func)
+			=> _taskFactory
+				.StartNew(func)
+				.Unwrap()
+				.GetAwaiter()
+				.GetResult();
+
+		public static void RunSync(Func<Task> func)
+			=> _taskFactory
+				.StartNew(func)
+				.Unwrap()
+				.GetAwaiter()
+				.GetResult();
 	}
 }

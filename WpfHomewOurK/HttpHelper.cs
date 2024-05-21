@@ -10,11 +10,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using WpfHomewOurK.Authorization;
 using System.IO;
+using System.Security.Policy;
 
 namespace WpfHomewOurK
 {
 	public class HttpHelper<T>
 	{
+		private const bool msgBoxes = false;
 		private readonly MainWindow _mainWindow;
 
 		private T? _entity;
@@ -46,7 +48,8 @@ namespace WpfHomewOurK
 				}
 				else
 				{
-					MessageBox.Show($"Error: {response}");
+					if (msgBoxes)
+						MessageBox.Show($"Error: {response} \n{url}");
 					return response;
 				}
 			}
@@ -86,7 +89,8 @@ namespace WpfHomewOurK
 				}
 				else
 				{
-						MessageBox.Show($"Error: {response}");
+					if (msgBoxes)
+						MessageBox.Show($"Error: {response} \n{url}");
 					return response;
 				}
 			}
@@ -126,7 +130,8 @@ namespace WpfHomewOurK
 				}
 				else
 				{
-					MessageBox.Show($"Error: {response}");
+					if (msgBoxes)
+						MessageBox.Show($"Error: {response} \n{url}");
 					return response;
 				}
 			}
@@ -164,7 +169,8 @@ namespace WpfHomewOurK
 				}
 				else
 				{
-					MessageBox.Show($"Error: {response}");
+					if (msgBoxes)
+						MessageBox.Show($"Error: {response} \n{url}");
 					return response;
 				}
 			}
@@ -206,8 +212,9 @@ namespace WpfHomewOurK
 				}
 				else
 				{
-					if (!_urlPath.Contains("Proposals"))
-						MessageBox.Show($"Error: {response}");
+					//if (!_urlPath.Contains("Proposals"))
+					if (msgBoxes)
+						MessageBox.Show($"Error: {response} \n{_mainWindow.url}{_urlPath}");
 					return _entity;
 				}
 			}

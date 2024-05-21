@@ -15,7 +15,8 @@
                            VerticalAlignment="Center" />
                 <TextBlock x:Name="Name"
                            VerticalAlignment="Center" />
-                <Button x:Name="Info"/>
+                <Button x:Name="Info"
+                        Click="Info_Click" />
             </StackPanel>
             <Line X1="10"
                   X2="{Binding ActualWidth, ElementName=HeaderStackPanel}"

@@ -26,16 +26,38 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
-                <Button HorizontalAlignment="Right"
-                        Margin="5"
-                        Click="Button_Click">
-                    <Button.Style>
-                        <Style TargetType="Button"
-                               BasedOn="{StaticResource MaterialDesignRaisedButton}">
-                        </Style>
-                    </Button.Style>
-                    <TextBlock Foreground="LightGray">Поиск новой группы</TextBlock>
-                </Button>
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                    <Button Margin="5"
+                            Click="Button_Click">
+                        <Button.Style>
+                            <Style TargetType="Button"
+                                   BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                            </Style>
+                        </Button.Style>
+                        <TextBlock Foreground="LightGray">Поиск группы</TextBlock>
+                    </Button>
+                    <Button HorizontalAlignment="Right"
+                            Margin="5"
+                            Click="Button_Click_1">
+                        <Button.Style>
+                            <Style TargetType="Button"
+                                   BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                            </Style>
+                        </Button.Style>
+                        <TextBlock Foreground="LightGray">Создать группу</TextBlock>
+                    </Button>
+                    <Button HorizontalAlignment="Right"
+                            Margin="5"
+                            Click="Button_Click_2">
+                        <Button.Style>
+                            <Style TargetType="Button"
+                                   BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                            </Style>
+                        </Button.Style>
+                        <TextBlock Foreground="LightGray">Обновить страницу</TextBlock>
+                    </Button>
+                </StackPanel>
             </DockPanel>
             <Border Background="#7FFFFFFF"
                     CornerRadius="10">

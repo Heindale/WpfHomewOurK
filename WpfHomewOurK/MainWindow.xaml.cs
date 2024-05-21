@@ -109,13 +109,12 @@ namespace WpfHomewOurK
 
 		private async Task UserIsAuthorized(AuthHelper authHelper, User user)
 		{
-
 			LoadDataFromDb loadDataFromDb = new LoadDataFromDb(this);
 			await loadDataFromDb.LoadDataAsync(paths);
 			string jsonText1 = File.ReadAllText(path);
 			AuthUser? desUser = JsonConvert.DeserializeObject<AuthUser>(jsonText1);
 			await authHelper.AuthUserAsync(user);
-			var mainControl = new MainControl(this);
+			var mainControl = new MainControl(this, desUser != null ? desUser.Role : Role.None);
 			MainContent.Content = mainControl;
 			if (desUser != null && desUser.LastGroupId > 0)
 			{

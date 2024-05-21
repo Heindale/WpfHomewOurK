@@ -87,6 +87,7 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="2">
             <Button x:Name="Info"
+                    Margin="5 0"
                     Background="Transparent"
                     BorderBrush="Transparent"
                     Click="Info_Click">
@@ -128,6 +129,7 @@
                 </Button.Content>
             </Button>
             <Button x:Name="Settings"
+                    Visibility="Collapsed"
                     BorderBrush="Transparent"
                     Background="Transparent"
                     Margin="10 0"

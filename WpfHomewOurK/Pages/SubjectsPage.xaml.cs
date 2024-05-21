@@ -31,6 +31,15 @@ namespace WpfHomewOurK.Pages
 			_groupId = groupId;
 			_mainWindow = mainWindow;
 			_mainControl = mainControl;
+			RoleVerification();
+		}
+
+		private void RoleVerification()
+		{
+			if (CurrentUser.GetRole(_mainWindow) == Role.None)
+			{
+				newSubject.Visibility = Visibility.Collapsed;
+			}
 		}
 
 		private void NewSubjectButton_Click(object sender, RoutedEventArgs e)

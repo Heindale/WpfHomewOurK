@@ -16,19 +16,51 @@ using System.Windows.Shapes;
 
 namespace WpfHomewOurK.Controls
 {
-    /// <summary>
-    /// Логика взаимодействия для MemberControl.xaml
-    /// </summary>
-    public partial class MemberControl : UserControl
-    {
-        public User Member { get; set; }
+	/// <summary>
+	/// Логика взаимодействия для MemberControl.xaml
+	/// </summary>
+	public partial class MemberControl : UserControl
+	{
+		public User Member { get; set; }
+		private MainWindow _mainWindow;
 
-        public MemberControl(User member)
-        {
-            InitializeComponent();
-            Member = member;
-            Info.Content = "@" + member.Username;
-            Name.Text = member.Surname + " " + member.Firstname;
-        }
-    }
+		public MemberControl(User member, MainWindow mainWindow, Role? role)
+		{
+			InitializeComponent();
+			_mainWindow = mainWindow;
+			Member = member;
+			Info.Content = "@" + member.Username;
+			Name.Text = member.Surname + " " + member.Firstname;
+			RoleVerification(role);
+		}
+
+		private void RoleVerification(Role? role)
+		{
+			var currentRole = role ?? CurrentUser.GetRole(_mainWindow);
+			if (currentRole != Role.GroupCreator)
+			{
+				Info.IsEnabled = false;
+			}
+		}
+
+		private void Info_Click(object sender, RoutedEventArgs e)
+		{
+			var memberWindow = new MemberWindow(Member);
+			memberWindow.Show();
+			WaitingAsync(memberWindow);
+		}
+
+		private async void WaitingAsync(MemberWindow memberWindow)
+		{
+			while (memberWindow.isOpen)
+			{
+				if (memberWindow.isExclude)
+				{
+					Visibility = Visibility.Collapsed;
+					return;
+				}
+				await Task.Delay(100);
+			}
+		}
+	}
 }

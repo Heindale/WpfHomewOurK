@@ -20,11 +20,12 @@ namespace WpfHomewOurK
 	/// </summary>
 	public partial class MainControl : UserControl
 	{
-		private readonly MainWindow _mainWindow;
+		public readonly MainWindow _mainWindow;
 
 		public List<Group> _groups;
+		public PagesEnum currentPage = PagesEnum.Main;
 
-		public MainControl(MainWindow mainWindow)
+		public MainControl(MainWindow mainWindow, Role role = Role.None)
 		{
 			InitializeComponent();
 			_mainWindow = mainWindow;
@@ -44,12 +45,21 @@ namespace WpfHomewOurK
 
 			LoadMainPage();
 			RestyleLeftMenu();
+			RoleVerification(role);
+		}
+
+		private void RoleVerification(Role role)
+		{
+			if (role == Role.None)
+				AddHomework.Visibility = Visibility.Collapsed;
+			else
+				AddHomework.Visibility = Visibility.Visible;
 		}
 
 		private void RestyleLeftMenu()
 		{
 			bool firstBtn = true;
-			foreach (var menuBtn in LeftMenu.Children )
+			foreach (var menuBtn in LeftMenu.Children)
 			{
 				var btn = menuBtn as Button;
 				btn.Margin = new Thickness(5, 0, 5, 0);
@@ -57,6 +67,30 @@ namespace WpfHomewOurK
 					btn.Margin = new Thickness(5, 5, 5, 0);
 				firstBtn = false;
 			}
+		}
+
+		private async void GetUser(AuthUser desUser)
+		{
+			Group selectedObject = (Group)Groups.SelectedItem;
+
+			var httpUser = new HttpHelper<User>(_mainWindow, "api/Users/GetUser");
+			var user = await httpUser.GetReqAsync();
+			desUser.LastGroupId = selectedObject.Id;
+			if (user != null)
+			{
+				desUser.Id = user.Id;
+				var httpHelper = new HttpHelper<GroupsUsers>(_mainWindow, $"api/UsersGroups/GetGroupsUsers?groupId={desUser.LastGroupId}&userId={user.Id}");
+				var groupsUsers = await httpHelper.GetReqAsync();
+				if (groupsUsers != null)
+				{
+					desUser.Role = groupsUsers.Role;
+					RoleVerification(desUser.Role);
+				}
+			}
+
+			var jsonUser = JsonConvert.SerializeObject(desUser);
+			using var sw = new StreamWriter(_mainWindow.path);
+			sw.Write(jsonUser);
 		}
 
 		private void Groups_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -68,31 +102,53 @@ namespace WpfHomewOurK
 
 				if (desUser != null)
 				{
+					GetUser(desUser);
+
 					Group selectedObject = (Group)Groups.SelectedItem;
 
-					desUser.LastGroupId = selectedObject.Id;
+					switch (currentPage)
+					{
+						case PagesEnum.Main:
+							LoadMainPage(selectedObject.Id);
+							break;
+						case PagesEnum.Urgent:
+							LoadUrgentPage(selectedObject.Id);
+							break;
+						case PagesEnum.Important:
+							LoadImportantPage(selectedObject.Id);
+							break;
+						case PagesEnum.Written:
+							LoadWrittenPage(selectedObject.Id);
+							break;
+						case PagesEnum.Oral:
+							LoadOralPage(selectedObject.Id);
+							break;
+						case PagesEnum.Subjects:
+							LoadSubjectsPage(selectedObject.Id);
+							break;
+						default:
+							break;
+					}
 				}
-
-				var jsonUser = JsonConvert.SerializeObject(desUser);
-				using var sw = new StreamWriter(_mainWindow.path);
-				sw.Write(jsonUser);
 			}
 		}
 
 		private void Main_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
+			currentPage = PagesEnum.Main;
 			LoadMainPage();
 		}
 
-		public void LoadMainPage()
+		public void LoadMainPage(int? groupId = null)
 		{
 			PaintActiveButton(Main);
 			MainPage mainPage = new MainPage();
 
 			using (ApplicationContext context = new ApplicationContext())
 			{
+				var currentGroupId = groupId ?? CurrentUser.GetGroupId(_mainWindow);
 				var contextHomeworks = context.Homeworks
-					.Where(h => !h.Done).OrderByDescending(h => h.CreationDate);
+					.Where(h => !h.Done && h.GroupId == currentGroupId).OrderByDescending(h => h.CreationDate);
 				var groupingHomeworks = contextHomeworks
 					.GroupBy(h => h.SubjectId)
 					.ToList() // Выполняем запрос и получаем список групп
@@ -164,8 +220,9 @@ namespace WpfHomewOurK
 			MainFrame.Navigate(mainPage);
 		}
 
-		private void AddHomework_Click(object sender, System.Windows.RoutedEventArgs e)
+		private void AddHomework_Click(object sender, RoutedEventArgs e)
 		{
+			currentPage = PagesEnum.NewHomework;
 			PaintActiveButton(AddHomework);
 			Group selectedObject = (Group)Groups.SelectedItem;
 			var addHomeworkPage = new EditAddHomeworkPage(_mainWindow, this, selectedObject.Id);
@@ -177,6 +234,7 @@ namespace WpfHomewOurK
 
 		public void EditHomework(Homework homework, int category)
 		{
+			currentPage = PagesEnum.None;
 			Group selectedObject = (Group)Groups.SelectedItem;
 			var editPage = new EditAddHomeworkPage(_mainWindow, this, selectedObject.Id);
 			editPage.newHomeworkTitle.Text = "Редактирование";
@@ -188,24 +246,27 @@ namespace WpfHomewOurK
 
 		private void Profile_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
+			currentPage = PagesEnum.None;
 			PaintAllButtonsToWhite();
 			MainFrame.Navigate(new ProfilePage(_mainWindow));
 		}
 
 		private void Urgent_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
+			currentPage = PagesEnum.Urgent;
 			LoadUrgentPage();
 		}
 
-		public void LoadUrgentPage()
+		public void LoadUrgentPage(int? groupId = null)
 		{
 			PaintActiveButton(Urgent);
 			UrgentPage urgentPage = new UrgentPage();
 
 			using (ApplicationContext context = new ApplicationContext())
 			{
+				var currentGroupId = groupId ?? CurrentUser.GetGroupId(_mainWindow);
 				List<Homework> homeworks = context.Homeworks
-					.Where(h => !h.Done && h.Deadline != null)
+					.Where(h => !h.Done && h.Deadline != null && h.GroupId == currentGroupId)
 					.OrderBy(h => h.Deadline).ToList();
 
 				var groupSubjBorder = new Border
@@ -244,18 +305,21 @@ namespace WpfHomewOurK
 
 		private void Important_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
+			currentPage = PagesEnum.Important;
 			LoadImportantPage();
 		}
 
-		public void LoadImportantPage()
+		public void LoadImportantPage(int? groupId = null)
 		{
 			PaintActiveButton(Important);
 			ImportantPage importantPage = new ImportantPage();
 
 			using (ApplicationContext context = new ApplicationContext())
 			{
+				var currentGroupId = groupId ?? CurrentUser.GetGroupId(_mainWindow);
 				List<Homework> homeworks = context.Homeworks
-					.Where(h => !h.Done && h.Importance == Importance.Important).ToList();
+					.Where(h => !h.Done && h.Importance == Importance.Important &&
+					h.GroupId == currentGroupId).ToList();
 
 				var groupSubjBorder = new Border
 				{
@@ -293,18 +357,21 @@ namespace WpfHomewOurK
 
 		private void Written_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
+			currentPage = PagesEnum.Written;
 			LoadWrittenPage();
 		}
 
-		public void LoadWrittenPage()
+		public void LoadWrittenPage(int? groupId = null)
 		{
 			PaintActiveButton(Written);
 			WrittenPage writtenPage = new WrittenPage();
 
 			using (ApplicationContext context = new ApplicationContext())
 			{
+				var currentGroupId = groupId ?? CurrentUser.GetGroupId(_mainWindow);
 				List<Homework> homeworks = context.Homeworks
-					.Where(h => !h.Done && h.Importance == Importance.Written).ToList();
+					.Where(h => !h.Done && h.Importance == Importance.Written &&
+					h.GroupId == currentGroupId).ToList();
 				var groupSubjBorder = new Border
 				{
 					Background = new SolidColorBrush(Color.FromArgb(127, 255, 255, 255)),
@@ -341,18 +408,21 @@ namespace WpfHomewOurK
 
 		private void Oral_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
+			currentPage = PagesEnum.Oral;
 			LoadOralPage();
 		}
 
-		public void LoadOralPage()
+		public void LoadOralPage(int? groupId = null)
 		{
 			PaintActiveButton(Oral);
 			OralPage oralPage = new OralPage();
 
 			using (ApplicationContext context = new ApplicationContext())
 			{
+				var currentGroupId = groupId ?? CurrentUser.GetGroupId(_mainWindow);
 				List<Homework> homeworks = context.Homeworks
-					.Where(h => !h.Done && h.Importance == Importance.Oral).ToList();
+					.Where(h => !h.Done && h.Importance == Importance.Oral &&
+					h.GroupId == currentGroupId).ToList();
 				var groupSubjBorder = new Border
 				{
 					Background = new SolidColorBrush(Color.FromArgb(127, 255, 255, 255)),
@@ -395,21 +465,24 @@ namespace WpfHomewOurK
 
 		private void Info_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
+			currentPage = PagesEnum.None;
 			PaintAllButtonsToWhite();
 			MainFrame.Navigate(new InfoPage());
 		}
 
 		private void Settings_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
+			currentPage = PagesEnum.None;
 			PaintAllButtonsToWhite();
 			MainFrame.Navigate(new SettingsPage());
 		}
 
 		private void Subjects_Click(object sender, RoutedEventArgs e)
 		{
+			currentPage = PagesEnum.Subjects;
 			LoadSubjectsPage();
 		}
-		public async void LoadSubjectsPage()
+		public async void LoadSubjectsPage(int? groupId = null)
 		{
 			PaintActiveButton(Subjects);
 			Group selectedObject = (Group)Groups.SelectedItem;
@@ -417,20 +490,21 @@ namespace WpfHomewOurK
 
 			using (ApplicationContext context = new ApplicationContext())
 			{
-				List<Subject> subjects = context.Subjects.ToList();
+				var currentGroupId = groupId ?? CurrentUser.GetGroupId(_mainWindow);
+				List<Subject> subjects = context.Subjects.Where(s => s.GroupId == currentGroupId).ToList();
 				context.Subjects.RemoveRange(subjects);
 				HttpHelper<List<Subject>> httpHelper = new HttpHelper<List<Subject>>
 					(_mainWindow, "api/Subjects/GetSubjects?groupId=" + selectedObject.Id);
 				var subjectsHttp = await httpHelper.GetReqAsync();
 				if (subjectsHttp != null)
 					context.AddRange(subjectsHttp);
-				subjects = context.Subjects.ToList();
+				subjects = context.Subjects.Where(s => s.GroupId == currentGroupId).ToList();
 				foreach (Subject subject in subjects)
 				{
 					SubjectControl subjectControl = new SubjectControl(subject, this, _mainWindow);
 					subjectsPage.SubjectsStackPanel.Children.Add(subjectControl);
 				}
-				
+
 				context.SaveChanges();
 			}
 
@@ -462,6 +536,12 @@ namespace WpfHomewOurK
 		private void Group_Click(object sender, RoutedEventArgs e)
 		{
 			PaintActiveButton(Group);
+			currentPage = PagesEnum.None;
+			LoadGroup();
+		}
+
+		public async void LoadGroup()
+		{
 			MainFrame.Navigate(new GroupPage(this, _mainWindow));
 		}
 
@@ -494,5 +574,17 @@ namespace WpfHomewOurK
 			Maximize.Visibility = Visibility.Visible;
 			Minimize.Visibility = Visibility.Collapsed;
 		}
+	}
+
+	public enum PagesEnum
+	{
+		None,
+		Main,
+		Urgent,
+		Important,
+		Written,
+		Oral,
+		Subjects,
+		NewHomework
 	}
 }

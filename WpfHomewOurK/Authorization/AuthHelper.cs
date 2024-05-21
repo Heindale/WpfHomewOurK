@@ -111,8 +111,13 @@ namespace WpfHomewOurK.Authorization
 
 				int lastGroupId = desUser != null ? desUser.LastGroupId : 0;
 
+				var httpHelper = new HttpHelper<GroupsUsers>(_mainWindow, $"api/UsersGroups/GetGroupsUsers?groupId={lastGroupId}&userId={user.Id}");
+				var groupsUsers = await httpHelper.GetReqAsync();
+
 				var authUser = new AuthUser
 				{
+					Id = user.Id,
+					Role = groupsUsers != null ? groupsUsers.Role : Role.None,
 					Authorize = IsAuthorize,
 					Email = user.Email,
 					Password = user.Password,
@@ -131,10 +136,12 @@ namespace WpfHomewOurK.Authorization
 
 	public class AuthUser
 	{
+		public int Id { get; set; }
 		public string? Email { get; set; }
 		public string? Password { get; set; }
 		public string? Cookie { get; set; }
 		public bool Authorize { get; set; }
 		public int LastGroupId { get; set; }
+		public Role Role { get; set; }
 	}
 }

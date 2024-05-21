@@ -51,15 +51,22 @@ namespace WpfHomewOurK.Controls
 			if (subjName != null)
 				SubjName = subjName;
 			SubjectName.Text = SubjName;
+			RoleVerification();
+		}
+
+		private void RoleVerification()
+		{
+			if (CurrentUser.GetRole(_mainControl._mainWindow) == Role.None)
+				ChangeButton.Visibility = Visibility.Collapsed;
 		}
 
 		private string? GetSubjName(int id)
 		{
 			using (var context = new ApplicationContext())
 			{
-				var subjects = context.Subjects;
-				if (subjects != null)
-					return subjects.FirstOrDefault(x => x.Id == id).Name;
+				var subject = context.Subjects.FirstOrDefault(s => s.Id == id);
+				if (subject != null)
+					return subject.Name;
 				return null;
 			}
 		}

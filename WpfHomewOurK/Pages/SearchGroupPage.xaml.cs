@@ -47,7 +47,7 @@ namespace WpfHomewOurK.Pages
 
 			foreach (var group in groups)
 			{
-				controls.Add(new GroupControl(group));
+				controls.Add(new GroupControl(group, _mainWindow));
 			}
 		}
 
