@@ -45,7 +45,7 @@ namespace WpfHomewOurK.Pages
 
 			using (var context = new ApplicationContext())
 			{
-				subjects = context.Subjects.ToList();
+				subjects = context.Subjects.Where(s => s.GroupId == groupId).ToList();
 			}
 			Subjects.ItemsSource = subjects;
 
@@ -113,8 +113,8 @@ namespace WpfHomewOurK.Pages
 		{
 			var httpHelper = new HttpHelper<Homework>(_mainWindow, "api/Homeworks");
 			await httpHelper.PostReqAuthAsync(homework);
-			_mainWindow.UpdateDataFromLocalDb(_mainWindow);
-			_mainControl.LoadMainPage();
+			await _mainWindow.UpdateDataFromLocalDb(_mainWindow);
+			_mainControl.LoadMainPage(_groupId);
 		}
 
 		private void Update_Click(object sender, RoutedEventArgs e)

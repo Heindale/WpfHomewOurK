@@ -29,7 +29,7 @@ namespace WpfHomewOurK.Controls
 		private bool expired = false;
 		public int Category { get; set; }
 
-		public HomeworkControl(Homework homework, MainControl mainControl)
+		public HomeworkControl(Homework homework, MainControl mainControl, bool isMainPage = false)
 		{
 			InitializeComponent();
 
@@ -47,7 +47,25 @@ namespace WpfHomewOurK.Controls
 			if (expired)
 				Deadline.Foreground = new SolidColorBrush(Color.FromRgb(155, 0, 0));
 
-			var subjName = GetSubjName(homework.SubjectId);
+			if (isMainPage)
+				switch (Homework.Importance)
+				{
+					case Importance.Undefined:
+						break;
+					case Importance.Oral:
+						oralImage.Visibility = Visibility.Visible;
+						break;
+					case Importance.Written:
+						writtenImage.Visibility = Visibility.Visible;
+						break;
+					case Importance.Important:
+						importantImage.Visibility = Visibility.Visible;
+						break;
+					default:
+						break;
+				}
+
+			var subjName = GetSubjName(homework.SubjectId, homework.GroupId);
 			if (subjName != null)
 				SubjName = subjName;
 			SubjectName.Text = SubjName;
@@ -58,13 +76,15 @@ namespace WpfHomewOurK.Controls
 		{
 			if (CurrentUser.GetRole(_mainControl._mainWindow) == Role.None)
 				ChangeButton.Visibility = Visibility.Collapsed;
+			else
+				ChangeButton.Visibility = Visibility.Visible;
 		}
 
-		private string? GetSubjName(int id)
+		private string? GetSubjName(int id, int groupId)
 		{
 			using (var context = new ApplicationContext())
 			{
-				var subject = context.Subjects.FirstOrDefault(s => s.Id == id);
+				var subject = context.Subjects.FirstOrDefault(s => s.Id == id && s.GroupId == groupId);
 				if (subject != null)
 					return subject.Name;
 				return null;

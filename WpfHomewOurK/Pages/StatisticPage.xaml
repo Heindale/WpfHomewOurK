@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:WpfHomewOurK.Pages"
+      xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
       mc:Ignorable="d"
       d:DesignHeight="450"
       d:DesignWidth="800"
@@ -38,6 +39,60 @@
                             Orientation="Vertical">
                     <TextBlock x:Name="AllHomeworks"/>
                 </StackPanel>
+            </Border>
+            <TextBlock Text="Соотношение домашних заданий по категориям"
+                       Padding="5">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock"
+                           BasedOn="{StaticResource MaterialDesignTextBlock}">
+                        <Setter Property="FontFamily"
+                                Value="Verdana" />
+                        <Setter Property="Foreground"
+                                Value="#7FFFFFFF" />
+                        <Setter Property="FontSize"
+                                Value="20" />
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <Border Background="#7FFFFFFF"
+                    CornerRadius="10">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="3"
+                                      BlurRadius="4"
+                                      Direction="315"
+                                      Opacity="0.3" />
+                </Border.Effect>
+                <ScottPlot:WpfPlot x:Name="WpfPlot"
+                                   Background="Transparent"
+                                   Height="350"
+                                   IsEnabled="False" />
+            </Border>
+            <TextBlock Text="Количество домашних заданий по предметам"
+                       Padding="5">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock"
+                           BasedOn="{StaticResource MaterialDesignTextBlock}">
+                        <Setter Property="FontFamily"
+                                Value="Verdana" />
+                        <Setter Property="Foreground"
+                                Value="#7FFFFFFF" />
+                        <Setter Property="FontSize"
+                                Value="20" />
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <Border Background="#7FFFFFFF"
+                    CornerRadius="10">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="3"
+                                      BlurRadius="4"
+                                      Direction="315"
+                                      Opacity="0.3" />
+                </Border.Effect>
+                <ScottPlot:WpfPlot x:Name="WpfPlot1"
+                                   Background="Transparent"
+                                   Height="500"
+                                   IsEnabled="False" />
             </Border>
         </StackPanel>
     </Grid>

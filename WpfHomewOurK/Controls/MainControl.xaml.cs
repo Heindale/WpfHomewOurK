@@ -164,7 +164,7 @@ namespace WpfHomewOurK
 					{
 						var homeworks = ghomeworks.OrderByDescending(h => h.CreationDate);
 						var subject = context.Subjects
-							.FirstOrDefault(s => s.Id == homeworks.First().SubjectId);
+							.FirstOrDefault(s => s.Id == homeworks.First().SubjectId && s.GroupId == homeworks.First().GroupId);
 
 						var subjText = new TextBlock
 						{
@@ -206,7 +206,7 @@ namespace WpfHomewOurK
 
 						for (int i = 0; i < homeworks.Count(); i++)
 						{
-							HomeworkControl homeworkControl = new HomeworkControl(homeworks.ElementAt(i), this);
+							HomeworkControl homeworkControl = new HomeworkControl(homeworks.ElementAt(i), this, true);
 							if (i == homeworks.Count() - 1)
 							{
 								homeworkControl.BorderButtom.BorderThickness = new Thickness(0);
