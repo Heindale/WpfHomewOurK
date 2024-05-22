@@ -126,6 +126,10 @@ namespace WpfHomewOurK
 						case PagesEnum.Subjects:
 							LoadSubjectsPage(selectedObject.Id);
 							break;
+						case PagesEnum.Statistics:
+							PaintActiveButton(Statistic);
+							MainFrame.Navigate(new StatisticPage(selectedObject.Id)); 
+							break;
 						default:
 							break;
 					}
@@ -460,7 +464,9 @@ namespace WpfHomewOurK
 		private void Statistic_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
 			PaintActiveButton(Statistic);
-			MainFrame.Navigate(new StatisticPage());
+			currentPage = PagesEnum.Statistics;
+			Group selectedObject = (Group)Groups.SelectedItem;
+			MainFrame.Navigate(new StatisticPage(selectedObject.Id));
 		}
 
 		private void Info_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -501,7 +507,16 @@ namespace WpfHomewOurK
 				subjects = context.Subjects.Where(s => s.GroupId == currentGroupId).ToList();
 				foreach (Subject subject in subjects)
 				{
-					SubjectControl subjectControl = new SubjectControl(subject, this, _mainWindow);
+					HttpHelper<List<Attachment>> attachmentsHttpHelper = new HttpHelper<List<Attachment>>
+						(_mainWindow, "api/Attachments/GetAttachments?groupId=" + selectedObject.Id);
+					var attachments = await attachmentsHttpHelper.GetReqAsync();
+					attachments ??= [];
+
+					SubjectControl subjectControl = new SubjectControl
+						(subject, this, _mainWindow, attachments
+						.Where(a => a.GroupId == subject.GroupId &&
+						a.SubjectId == subject.Id).ToList());
+
 					subjectsPage.SubjectsStackPanel.Children.Add(subjectControl);
 				}
 
@@ -585,6 +600,7 @@ namespace WpfHomewOurK
 		Written,
 		Oral,
 		Subjects,
+		Statistics,
 		NewHomework
 	}
 }

@@ -22,16 +22,30 @@ namespace WpfHomewOurK.Controls
 	public partial class SubjectControl : UserControl
 	{
 		Subject Subject { get; set; }
+		List<Attachment> Attachments { get; set; }
+		Attachment CurrentAttachment { get; set; }
 		private MainControl _mainControl;
 		private MainWindow _mainWindow;
 
-		public SubjectControl(Subject subject, MainControl mainControl, MainWindow mainWindow)
+		public SubjectControl(Subject subject, MainControl mainControl, MainWindow mainWindow, List<Attachment> attachments)
 		{
 			InitializeComponent();
 
 			Subject = subject;
+			Attachments = attachments;
 			_mainControl = mainControl;
 			_mainWindow = mainWindow;
+			AttachmentsComboBox.ItemsSource = Attachments;
+			if (Attachments.Count != 0)
+			{
+				AttachmentsComboBox.SelectedItem = Attachments.First();
+				AddTitle.Visibility = Visibility.Collapsed;
+			}
+			else
+			{
+				AttachmentsComboBox.Visibility = Visibility.Collapsed;
+				AttachmentsLink.Visibility = Visibility.Collapsed;
+			}
 
 			SubjectName.Text = Subject.Name;
 			ChangeButton.Visibility = Visibility.Collapsed;
@@ -89,6 +103,20 @@ namespace WpfHomewOurK.Controls
 		private void SubjectName_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			ChangeButton.Visibility = Visibility.Visible;
+		}
+
+		private void AttachmentsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			Edit.Visibility = Visibility.Visible;
+			AddTitle.Visibility = Visibility.Collapsed;
+			CurrentAttachment = (Attachment)AttachmentsComboBox.SelectedItem;
+			AttachmentsLink.Text = CurrentAttachment.Link;
+		}
+
+		private void AttachmentsLink_MouseDown(object sender, MouseButtonEventArgs e)
+		{
+			Clipboard.SetText(AttachmentsLink.Text);
+			MessageBox.Show("Ссылка скопирована в буфер обмена");
 		}
 	}
 }
