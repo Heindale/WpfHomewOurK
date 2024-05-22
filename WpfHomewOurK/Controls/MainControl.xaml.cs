@@ -170,7 +170,8 @@ namespace WpfHomewOurK
 						{
 							Text = subject != null ? subject.Name : "",
 							FontSize = 25,
-							Padding = new Thickness(5)
+							Padding = new Thickness(5),
+							TextWrapping = TextWrapping.Wrap
 						};
 
 						// Создаем стиль для TextBlock
@@ -240,7 +241,7 @@ namespace WpfHomewOurK
 		{
 			currentPage = PagesEnum.None;
 			Group selectedObject = (Group)Groups.SelectedItem;
-			var editPage = new EditAddHomeworkPage(_mainWindow, this, selectedObject.Id);
+			var editPage = new EditAddHomeworkPage(_mainWindow, this, selectedObject.Id, true);
 			editPage.newHomeworkTitle.Text = "Редактирование";
 			editPage.Create.Visibility = Visibility.Collapsed;
 			editPage.Category = category;

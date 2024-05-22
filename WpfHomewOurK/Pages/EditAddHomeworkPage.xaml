@@ -45,7 +45,7 @@
                                   Height="30"
                                   Margin="10 0"
                                   SelectionChanged="Subjects_SelectionChanged"
-                                  Width="160">
+                                  MinWidth="115">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Name}" />
@@ -61,7 +61,7 @@
                                   Margin="10 0"
                                   Height="30"
                                   SelectionChanged="Importances_SelectionChanged"
-                                  Width="160">
+                                  Width="115">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding}" />
@@ -69,7 +69,7 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal"
+                    <DockPanel
                                 Margin="5">
                         <TextBlock Text="Задание"
                                    VerticalAlignment="Center" />
@@ -78,10 +78,9 @@
                                  TextWrapping="Wrap"
                                  MaxLength="100"
                                  MinHeight="30"
-                                 Width="500"
                                  AcceptsReturn="True"
                                  VerticalScrollBarVisibility="Auto" />
-                    </StackPanel>
+                    </DockPanel>
                     <StackPanel Orientation="Horizontal"
                                 Margin="5 5 5 15">
                         <TextBlock Text="Конечная дата"

@@ -39,6 +39,7 @@
                                 x:Name="newSubject"
                                 Margin="10 0">
                         <TextBox x:Name="SubjectName"
+                                 MaxLength="50"
                                  MinWidth="100" />
                         <Button x:Name="NewSubjectButton"
                                 Content="Добавить новый предмет"

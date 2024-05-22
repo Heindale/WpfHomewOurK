@@ -184,5 +184,5 @@ namespace WpfHomewOurK.Pages
 		{
 			_mainControl.MainFrame.Navigate(new GroupPage(_mainControl, _mainWindow));
 		}
-    }
+	}
 }

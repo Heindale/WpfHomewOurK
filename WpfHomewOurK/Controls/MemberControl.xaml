@@ -11,6 +11,8 @@
             <StackPanel  x:Name="HeaderStackPanel"
                          Orientation="Horizontal"
                          Margin="10 0">
+                <TextBlock x:Name="RoleName"
+                           VerticalAlignment="Center" />
                 <TextBlock x:Name="Username"
                            VerticalAlignment="Center" />
                 <TextBlock x:Name="Name"

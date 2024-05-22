@@ -36,7 +36,7 @@ namespace WpfHomewOurK.Pages
 		private DateTime? _deadline;
 		public int Category { get; set; }
 
-		public EditAddHomeworkPage(MainWindow mainWindow, MainControl mainControl, int groupId)
+		public EditAddHomeworkPage(MainWindow mainWindow, MainControl mainControl, int groupId, bool isEdit = false)
 		{
 			InitializeComponent();
 			_groupId = groupId;
@@ -56,6 +56,9 @@ namespace WpfHomewOurK.Pages
 				{"Письменное", Importance.Written },
 				{"Важное", Importance.Important }
 			};
+
+			if (isEdit)
+				Subjects.IsEnabled = false;
 
 			Importances.ItemsSource = importances.Keys;
 			_groupId = groupId;
@@ -134,7 +137,10 @@ namespace WpfHomewOurK.Pages
 		private async void UpdateHomework(Homework homework)
 		{
 			var httpHelper = new HttpHelper<Homework>(_mainWindow, "api/Homeworks");
-			await httpHelper.PatchReqAsync(homework);
+			var response = await httpHelper.PatchReqAsync(homework);
+			if (response == null || response != null && !response.IsSuccessStatusCode)
+				return;
+			
 			using (var context = new ApplicationContext())
 			{
 				context.Homeworks.Remove(homework);
