@@ -37,7 +37,8 @@
                 <StackPanel x:Name="StatisticsPanel"
                             Margin="5"
                             Orientation="Vertical">
-                    <TextBlock x:Name="AllHomeworks"/>
+                    <TextBlock x:Name="AllHomeworks"
+                               Padding="5"/>
                 </StackPanel>
             </Border>
             <TextBlock Text="Соотношение домашних заданий по категориям"

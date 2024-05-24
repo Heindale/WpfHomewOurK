@@ -16,6 +16,7 @@
                 <DockPanel>
                     <TextBox x:Name="SubjectName"
                              HorizontalAlignment="Center"
+                             MaxLength="50"
                              TextChanged="SubjectName_TextChanged" />
                     <StackPanel Orientation="Horizontal"
                                 Height="40"
@@ -72,7 +73,7 @@
                 <DockPanel x:Name="AttachmentsPanel">
                     <ComboBox VerticalAlignment="Bottom"
                               x:Name="AttachmentsComboBox"
-                              MinWidth="100"
+                              MinWidth="50"
                               SelectionChanged="AttachmentsComboBox_SelectionChanged">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -122,7 +123,8 @@
                                 HorizontalAlignment="Right">
                         <Button x:Name="Edit"
                                 Visibility="Collapsed"
-                                Margin="0 5">
+                                Margin="0 5"
+                                Click="Edit_Click">
                             <Button.Content>
                                 <Image>
                                     <Image.Source>
@@ -150,7 +152,8 @@
                             </Button.Content>
                         </Button>
                         <Button x:Name="Add"
-                                Margin="0 5">
+                                Margin="0 5"
+                                Click="Add_Click">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock x:Name="AddTitle"

@@ -48,6 +48,7 @@
                                 Margin="5">
                         <Label Content="Логин" />
                         <TextBox x:Name="Login"
+                                 MaxLength="50"
                                  Width="258" />
                     </StackPanel>
                     <StackPanel Margin="5 -10 5 5"

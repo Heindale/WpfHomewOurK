@@ -34,24 +34,32 @@
                                       Opacity="0.3" />
                 </Border.Effect>
                 <StackPanel Margin="5">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 0 0 10">
                         <Label Content="Имя" />
                         <TextBox x:Name="Firstname"
+                                 MaxLength="25"
                                  Text="Ваше имя" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 0 0 10">
                         <Label Content="Фамилия" />
                         <TextBox x:Name="Surname"
+                                 MaxLength="25"
                                  Text="Ваша фамилия" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 0 0 10">
                         <Label Content="Никнейм" />
                         <TextBox x:Name="Username"
+                                 MaxLength="25"
                                  Text="Ваш ник" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 0 0 15">
                         <Label Content="Электронная почта" />
                         <TextBox x:Name="Email"
+                                 MaxLength="50"
                                  IsReadOnly="True"
                                  Text="Ваша почта" />
                     </StackPanel>

@@ -44,21 +44,25 @@
                                 Margin="0 5 0 0">
                         <Label Content="Электронная почта" />
                         <TextBox x:Name="Login"
+                                 MaxLength="50"
                                  Width="198" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Никнейм" />
                         <TextBox x:Name="Username"
+                                 MaxLength="25"
                                  Width="269" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Имя" />
                         <TextBox x:Name="Firstname"
+                                 MaxLength="25"
                                  Width="302" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Фамилия" />
                         <TextBox x:Name="Surname"
+                                 MaxLength="25"
                                  Width="269" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"

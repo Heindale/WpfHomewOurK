@@ -66,6 +66,7 @@ namespace WpfHomewOurK.Pages
 
 			LoadDataFromDb loadDataFromDb = new LoadDataFromDb(_mainWindow);
 			await loadDataFromDb.LoadDataAsync(_mainWindow.paths);
+			_mainControl.LoadSubjectsPage(_groupId);
 		}
 
 		private void Gobck()

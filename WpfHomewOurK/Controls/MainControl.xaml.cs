@@ -301,6 +301,9 @@ namespace WpfHomewOurK
 					subjStack.Children.Add(homeworkControl);
 				}
 
+				if (homeworks.Count == 0)
+					urgentPage.Header.Text = "Ура! Срочных заданий нет :)";
+
 				groupSubjBorder.Child = subjStack;
 				urgentPage.HomeworksStackPanel.Children.Add(groupSubjBorder);
 			}
@@ -353,6 +356,9 @@ namespace WpfHomewOurK
 					subjStack.Children.Add(homeworkControl);
 				}
 
+				if (homeworks.Count == 0)
+					importantPage.Header.Text = "Ура! Важных заданий нет :)";
+
 				groupSubjBorder.Child = subjStack;
 				importantPage.HomeworksStackPanel.Children.Add(groupSubjBorder);
 			}
@@ -403,6 +409,9 @@ namespace WpfHomewOurK
 					homeworkControl.Category = 3;
 					subjStack.Children.Add(homeworkControl);
 				}
+
+				if (homeworks.Count == 0)
+					writtenPage.Header.Text = "Ура! Письменных заданий нет :)";
 
 				groupSubjBorder.Child = subjStack;
 				writtenPage.HomeworksStackPanel.Children.Add(groupSubjBorder);
@@ -455,6 +464,9 @@ namespace WpfHomewOurK
 					subjStack.Children.Add(homeworkControl);
 				}
 
+				if (homeworks.Count == 0)
+					oralPage.Header.Text = "Ура! Устных заданий нет :)";
+
 				groupSubjBorder.Child = subjStack;
 				oralPage.HomeworksStackPanel.Children.Add(groupSubjBorder);
 			}
@@ -467,7 +479,8 @@ namespace WpfHomewOurK
 			PaintActiveButton(Statistic);
 			currentPage = PagesEnum.Statistics;
 			Group selectedObject = (Group)Groups.SelectedItem;
-			MainFrame.Navigate(new StatisticPage(selectedObject.Id));
+			if (selectedObject != null)
+				MainFrame.Navigate(new StatisticPage(selectedObject.Id));
 		}
 
 		private void Info_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -493,6 +506,8 @@ namespace WpfHomewOurK
 		{
 			PaintActiveButton(Subjects);
 			Group selectedObject = (Group)Groups.SelectedItem;
+			if (selectedObject == null)
+				return;
 			SubjectsPage subjectsPage = new SubjectsPage(_mainWindow, this, selectedObject.Id);
 
 			using (ApplicationContext context = new ApplicationContext())

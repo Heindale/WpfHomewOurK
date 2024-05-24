@@ -49,23 +49,27 @@
                             Orientation="Vertical">
                     <DockPanel>
                         <Label Content="Название" />
-                        <TextBox x:Name="GroupName" />
+                        <TextBox x:Name="GroupName" 
+                                 MaxLength="25"/>
                     </DockPanel>
                     <DockPanel>
                         <Label Content="Уникальное название" />
-                        <TextBox x:Name="UniqGroupName" />
+                        <TextBox x:Name="UniqGroupName"
+                                 MaxLength="50"/>
                     </DockPanel>
                     <DockPanel>
                         <Label Content="Курс/Класс" />
-                        <TextBox x:Name="GroupGrade" />
+                        <TextBox x:Name="GroupGrade"
+                                 MaxLength="2"/>
                     </DockPanel>
                     <DockPanel>
                         <Label Content="Тип группы" />
-                        <TextBox x:Name="GroupType" />
+                        <TextBox x:Name="GroupType"
+                                 MaxLength="25"/>
                     </DockPanel>
 
                     <Button x:Name="CreateGroup"
-                            Margin="0 5"
+                            Margin="0 15 5 0"
                             Click="CreateGroup_Click">
                         <Button.Style>
                             <Style TargetType="Button"

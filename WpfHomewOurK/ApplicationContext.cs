@@ -20,6 +20,7 @@ namespace WpfHomewOurK
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
 			string filePath = Path.GetFullPath("../../../homewourk.db");
+			//string filePath = Path.GetFullPath("homewourk.db");
 
 			optionsBuilder.UseSqlite($"Data Source={filePath}");
 		}

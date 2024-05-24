@@ -70,6 +70,7 @@
                     Grid.Column="1">
             <Label Content="Текущая группа" />
             <ComboBox x:Name="Groups"
+                      MinWidth="100"
                       SelectionChanged="Groups_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>

@@ -28,6 +28,7 @@ namespace WpfHomewOurK.Pages
 		private const string _getGroupUrl = "api/Groups/GetGroup?groupId=";
 		private const string _GroupsUrl = "api/Groups";
 		private const string _getProposalsUrl = "api/Proposals?groupId=";
+		private string _groupGradeString;
 
 		public GroupPage(MainControl mainControl, MainWindow mainWindow, Role? role = null)
 		{
@@ -38,6 +39,7 @@ namespace WpfHomewOurK.Pages
 			LoadMembersAsync(role);
 			LoadGroupDataAsync();
 			RoleVerification();
+			_groupGradeString = GroupGrade.Text;
 		}
 
 		private void RoleVerification()
@@ -59,6 +61,9 @@ namespace WpfHomewOurK.Pages
 			var selectedObject = (Group)_mainControl.Groups.SelectedItem;
 			if (selectedObject != null)
 			{
+				AllElements.Visibility = Visibility.Visible;
+				GroupHeader.Visibility = Visibility.Visible;
+				MembersHeader.Visibility = Visibility.Visible;
 				HttpHelper<List<Proposal>> httpHelper = new HttpHelper<List<Proposal>>(_mainWindow, _getProposalsUrl + selectedObject.Id);
 				var propsalsTask = httpHelper.GetReqAsync();
 
@@ -71,6 +76,12 @@ namespace WpfHomewOurK.Pages
 					}
 				}
 			}
+			else
+			{
+				AllElements.Visibility = Visibility.Collapsed;
+				GroupHeader.Visibility = Visibility.Collapsed;
+				MembersHeader.Visibility = Visibility.Collapsed;
+			}	
 		}
 
 		private async void LoadGroupDataAsync()
@@ -183,6 +194,26 @@ namespace WpfHomewOurK.Pages
 		private void Button_Click_2(object sender, RoutedEventArgs e)
 		{
 			_mainControl.MainFrame.Navigate(new GroupPage(_mainControl, _mainWindow));
+		}
+
+		private void GroupGrade_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			try
+			{
+				if (GroupGrade.Text.Length > 2)
+					GroupGrade.Text = _groupGradeString;
+				GroupGrade.Text = GroupGrade.Text.Trim();
+				var inputValue = Convert.ToInt32(GroupGrade.Text);
+			}
+			catch (Exception)
+			{
+				GroupGrade.Text = "";
+			}
+			finally
+			{
+				_groupGradeString = GroupGrade.Text;
+				GroupGrade.Select(GroupGrade.Text.Length, 0);
+			}
 		}
 	}
 }

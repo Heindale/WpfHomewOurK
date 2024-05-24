@@ -1,0 +1,92 @@
+﻿<Page x:Class="WpfHomewOurK.Pages.EditAddAttachmentPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfHomewOurK.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="EditAddAttachmentPage">
+
+    <Grid>
+        <StackPanel>
+            <TextBlock x:Name="newHomeworkTitle"
+                       Text="Новое вложение"
+                       Padding="5">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock"
+                           BasedOn="{StaticResource MaterialDesignTextBlock}">
+                        <Setter Property="FontFamily"
+                                Value="Verdana" />
+                        <Setter Property="Foreground"
+                                Value="#7FFFFFFF" />
+                        <Setter Property="FontSize"
+                                Value="25" />
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <Border Background="#7FFFFFFF"
+                    CornerRadius="10">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="3"
+                                      BlurRadius="4"
+                                      Direction="315"
+                                      Opacity="0.3" />
+                </Border.Effect>
+
+                <StackPanel Orientation="Vertical"
+                            Margin="5 0 5 5">
+                    <DockPanel Margin="5">
+                        <TextBlock Text="Вложение"
+                                   VerticalAlignment="Center" />
+                        <TextBox x:Name="Description"
+                                 Margin="10 0"
+                                 TextWrapping="Wrap"
+                                 MaxLength="100"
+                                 MinHeight="30"
+                                 AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto" />
+                    </DockPanel>
+                    <DockPanel Margin="5">
+                        <TextBlock Text="Ссылка"
+                                   VerticalAlignment="Center" />
+                        <TextBox x:Name="Link"
+                                 Margin="10 0"
+                                 TextWrapping="Wrap"
+                                 MinHeight="30"
+                                 AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto" />
+                    </DockPanel>
+                    <Button x:Name="Create"
+                            Click="Create_Click">
+                        <Button.Style>
+                            <Style TargetType="Button"
+                                   BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                            </Style>
+                        </Button.Style>
+                        <Button.Content>
+                            <TextBlock Text="Создать"
+                                       Foreground="LightGray" />
+                        </Button.Content>
+                    </Button>
+                    <Button x:Name="Update"
+                            Click="Update_Click">
+                        <Button.Style>
+                            <Style TargetType="Button"
+                                   BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                            </Style>
+                        </Button.Style>
+                        <Button.Content>
+                            <TextBlock Text="Сохранить изменения"
+                                       Foreground="LightGray" />
+                        </Button.Content>
+                    </Button>
+                    <Button x:Name="Goback"
+                            Content="Вернуться назад"
+                            Click="Goback_Click">
+                    </Button>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Page>

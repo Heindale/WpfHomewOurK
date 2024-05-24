@@ -12,6 +12,7 @@
     <Grid>
         <StackPanel x:Name="HomeworksStackPanel">
             <TextBlock Text="Устное"
+                       x:Name="Header"
                        Padding="5">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock"

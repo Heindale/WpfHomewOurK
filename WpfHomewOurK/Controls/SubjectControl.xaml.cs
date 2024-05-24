@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfHomewOurK.Pages;
 
 namespace WpfHomewOurK.Controls
 {
@@ -85,9 +86,19 @@ namespace WpfHomewOurK.Controls
 
 		private async void DeleteSubject(Subject subject)
 		{
+			var httpHelper2 = new HttpHelper<List<Homework>>(_mainWindow, $"api/Homeworks/GetHomeworks?groupId={subject.GroupId}");
+			var homeworks = await httpHelper2.GetReqAsync();
+			if (homeworks != null)
+			{
+				homeworks = homeworks.Where(h => h.SubjectId == subject.Id).ToList();
+				var httpHelper3 = new HttpHelper<Homework>(_mainWindow, $"api/Homeworks");
+				foreach (var homework in homeworks)
+				{
+					await httpHelper3.DeleteReqAsync(homework);
+				}
+			}
 			var httpHelper = new HttpHelper<Subject>(_mainWindow, $"api/Subjects?subjectId={subject.Id}&groupId={subject.GroupId}");
 			await httpHelper.DeleteReqAsync();
-
 			LoadDataFromDb loadDataFromDb = new LoadDataFromDb(_mainWindow);
 			await loadDataFromDb.LoadDataAsync(_mainWindow.paths);
 
@@ -117,6 +128,22 @@ namespace WpfHomewOurK.Controls
 		{
 			Clipboard.SetText(AttachmentsLink.Text);
 			MessageBox.Show("Ссылка скопирована в буфер обмена");
+		}
+
+		private void Add_Click(object sender, RoutedEventArgs e)
+		{
+			var groupId = CurrentUser.GetGroupId(_mainWindow);
+			if (groupId != null)
+			{
+				var editPage = new EditAddAttachmentPage(new Attachment(), _mainWindow, _mainControl, Subject, (int)groupId);
+				_mainControl.MainFrame.Navigate(editPage);
+			}
+		}
+
+		private void Edit_Click(object sender, RoutedEventArgs e)
+		{
+			var editPage = new EditAddAttachmentPage(CurrentAttachment, _mainWindow, _mainControl, Subject, CurrentAttachment.GroupId, true);
+			_mainControl.MainFrame.Navigate(editPage);
 		}
 	}
 }

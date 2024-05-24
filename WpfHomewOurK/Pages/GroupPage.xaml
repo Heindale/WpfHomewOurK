@@ -13,6 +13,7 @@
         <StackPanel Orientation="Vertical">
             <DockPanel>
                 <TextBlock Text="О группе"
+                           x:Name="GroupHeader"
                            Padding="5">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock"
@@ -60,6 +61,7 @@
                 </StackPanel>
             </DockPanel>
             <Border Background="#7FFFFFFF"
+                    x:Name="AllElements"
                     CornerRadius="10">
                 <Border.Effect>
                     <DropShadowEffect ShadowDepth="3"
@@ -70,21 +72,30 @@
                 <StackPanel x:Name="AboutGroup"
                             Margin="5"
                             Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 0 0 10">
                         <Label Content="Название" />
-                        <TextBox x:Name="GroupName" />
+                        <TextBox x:Name="GroupName" 
+                                 MaxLength="25"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 0 0 10">
                         <Label Content="Уникальное название" />
-                        <TextBox x:Name="UniqGroupName" />
+                        <TextBox x:Name="UniqGroupName" 
+                                 MaxLength="50"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 0 0 10">
                         <Label Content="Курс/Класс" />
-                        <TextBox x:Name="GroupGrade" />
+                        <TextBox x:Name="GroupGrade"
+                                 Width="20"
+                                 TextChanged="GroupGrade_TextChanged" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 0 0 10">
                         <Label Content="Тип группы" />
-                        <TextBox x:Name="GroupType" />
+                        <TextBox x:Name="GroupType" 
+                                 MaxLength="25"/>
                     </StackPanel>
                     <Label x:Name="MembersCount"
                            Content="Всего участников: " />
@@ -114,6 +125,7 @@
             </Border>
             <StackPanel x:Name="Proposals" />
             <TextBlock Text="Участники"
+                       x:Name="MembersHeader"
                        Padding="5">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock"

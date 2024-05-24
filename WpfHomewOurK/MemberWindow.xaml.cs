@@ -26,6 +26,7 @@ namespace WpfHomewOurK
 		Role _role;
 		User _user;
 		MainWindow _mainWindow;
+		GroupsUsers _groupsUsers;
 
 		public MemberWindow(User user, MainWindow mainWindow)
 		{
@@ -46,6 +47,7 @@ namespace WpfHomewOurK
 			if (groupsUsers != null)
 			{
 				_role = groupsUsers.Role;
+				_groupsUsers = groupsUsers;
 
 				if (_role == Role.HomeworkCreator)
 					DeleteRole.Visibility = Visibility.Visible;
@@ -80,12 +82,31 @@ namespace WpfHomewOurK
 
 		private void DeleteRole_Click(object sender, RoutedEventArgs e)
 		{
-
+			DeleteRoleAsync();
+		}
+		private async void DeleteRoleAsync()
+		{
+			HttpHelper<GroupsUsers> httpHelper = new(_mainWindow,
+				$"api/UsersGroups");
+			var newGroupsUsers = _groupsUsers;
+			newGroupsUsers.Role = Role.None;
+			await httpHelper.PatchReqAsync(newGroupsUsers);
+			Close();
 		}
 
 		private void AddRole_Click(object sender, RoutedEventArgs e)
 		{
+			AddRoleAsync();
+		}
 
+		private async void AddRoleAsync()
+		{
+			HttpHelper<GroupsUsers> httpHelper = new(_mainWindow,
+				$"api/UsersGroups");
+			var newGroupsUsers = _groupsUsers;
+			newGroupsUsers.Role = Role.HomeworkCreator;
+			await httpHelper.PatchReqAsync(newGroupsUsers);
+			Close();
 		}
 	}
 }
